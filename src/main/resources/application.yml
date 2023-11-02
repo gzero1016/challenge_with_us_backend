@@ -1,1 +1,11 @@
+spring:
+  profiles.include:
+    - secret
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://db1.clcqifuhnugv.ap-northeast-2.rds.amazonaws.com:3306/challenge_with_us
+    username: admin
 
+mybatis:
+  mapper-locations:
+    - /mappers/*.xml
