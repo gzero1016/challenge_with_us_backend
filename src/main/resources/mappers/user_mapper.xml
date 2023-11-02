@@ -10,6 +10,14 @@
         set
             password = #{password}
         where
-            email = #{email}
+            userId = #{userId}s
+    </update>
+
+    <update id="updateNickname">
+        update user_tb
+        set
+            nickname = #{nickname}
+        where
+            userId = #{userId}
     </update>
 </mapper>
