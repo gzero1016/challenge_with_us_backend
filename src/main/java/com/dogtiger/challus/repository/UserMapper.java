@@ -10,4 +10,7 @@ public interface UserMapper {
     public int updateNickname(User user);
     public User findUserByEmail(String email);
     public User findUserByOauth2Id(String oauth2Id);
+    public int saveIntro(User user);
+    public int updateIntro(User user);
+    public String getIntro(User user);
 }

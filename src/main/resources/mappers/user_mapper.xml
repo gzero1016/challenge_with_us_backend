@@ -5,12 +5,29 @@
 
 <mapper namespace="com.dogtiger.challus.repository.UserMapper">
 
+    <insert id="saveIntro">
+        insert into user_tb
+        values(
+            0,
+            #{email},
+            #{name},
+            #{phone},
+            #{nickname},
+            #{password},
+            #{point},
+            #{intro},
+            #{membership},
+            #{isAdmin},
+            #{oauth2Id}
+        );
+    </insert>
+
     <update id="updatePassword" parameterType="com.dogtiger.challus.entity.User">
         update user_tb
         set
             password = #{password}
         where
-            userId = #{userId}s
+            user_id = #{userId}s
     </update>
 
     <update id="updateNickname">
@@ -18,9 +35,17 @@
         set
             nickname = #{nickname}
         where
-            userId = #{userId}
+            user_id = #{userId}
     </update>
-  
+
+    <update id="updateIntro">
+        update user_tb
+        set
+            intro = #{intro}
+        where
+            user_id = #{userId}
+    </update>
+
     <select id="findUserByEmail" resultType="com.dogtiger.challus.entity.User">
         select
             user_id,
@@ -35,11 +60,11 @@
             is_admin,
             oauth2_id
         from
-             user_tb
+            user_tb
         where
-             email = #{email}
+            email = #{email}
     </select>
-      
+
     <select id="findUserByOauth2Id" resultType="com.dogtiger.challus.entity.User">
         select
             user_id,
@@ -58,4 +83,14 @@
         where
             oauth2_id = #{oauth2Id}
     </select>
+
+    <select id="getIntro" resultType="java.lang.String">
+        select
+            intro
+        from
+            user_tb
+        where
+            user_id = #{userId}
+    </select>
+
 </mapper>
