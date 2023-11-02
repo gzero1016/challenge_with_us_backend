@@ -20,7 +20,26 @@
         where
             userId = #{userId}
     </update>
-
+  
+    <select id="findUserByEmail" resultType="com.dogtiger.challus.entity.User">
+        select
+            user_id,
+            email,
+            name,
+            phone,
+            nickname,
+            password,
+            point,
+            intro,
+            membership,
+            is_admin,
+            oauth2_id
+        from
+             user_tb
+        where
+             email = #{email}
+    </select>
+      
     <select id="findUserByOauth2Id" resultType="com.dogtiger.challus.entity.User">
         select
             user_id,

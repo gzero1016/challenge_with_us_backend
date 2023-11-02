@@ -2,12 +2,14 @@ package com.dogtiger.challus.service;
 
 import com.dogtiger.challus.dto.UpdateNicknameReqDto;
 import com.dogtiger.challus.dto.UpdatePasswordReqDto;
-import com.dogtiger.challus.entity.User;
 import com.dogtiger.challus.jwt.JwtProvider;
 import com.dogtiger.challus.repository.UserMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -29,4 +31,10 @@ public class AccountService {
 
         return userMapper.updateNickname(updateNicknameReqDto.toUserEntity()) > 0;
     }
+
+    public boolean checkEmailDuplicate(String email){
+        return userMapper.findUserByEmail(email) != null;
+
+    }
+
 }
