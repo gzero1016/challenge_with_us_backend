@@ -1,5 +1,6 @@
 package com.dogtiger.challus.service;
 
+import com.dogtiger.challus.dto.UpdateNicknameReqDto;
 import com.dogtiger.challus.dto.UpdatePasswordReqDto;
 import com.dogtiger.challus.entity.User;
 import com.dogtiger.challus.jwt.JwtProvider;
@@ -21,6 +22,11 @@ public class AccountService {
 //        User user;
 //
 //        user.setPassword(updatePasswordReqDto.getNewPassword());
-        return userMapper.updatePassword(null) > 0;
+        return userMapper.updatePassword(updatePasswordReqDto.toUserEntity()) > 0;
+    }
+
+    public boolean updateNickname(UpdateNicknameReqDto updateNicknameReqDto) {
+
+        return userMapper.updateNickname(updateNicknameReqDto.toUserEntity()) > 0;
     }
 }
