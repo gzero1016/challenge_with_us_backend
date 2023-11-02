@@ -14,6 +14,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 @Configuration
 @RequiredArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+
     private final PrincipalUserDetailsService principalUserDetailsService;
     private final OAuth2SuccessHandler oAuth2SuccessHandler;
 
@@ -22,14 +23,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.cors();
         http.csrf().disable();
         http.authorizeRequests()
-                .anyRequest()
-                .permitAll()
-                .and()
-                .oauth2Login()
-                .loginPage("http://localhost:3000/auth/signin")
-                .successHandler(oAuth2SuccessHandler)
-                .userInfoEndpoint()
-                .userService(principalUserDetailsService);
+                .antMatchers("/account/**")
+                .permitAll();
+//                .anyRequest()
+//                .authenticated()
+//                .and()
+//                .oauth2Login()
+//                .loginPage("http://localhost:3000/auth/signin")
+//                .successHandler(oAuth2SuccessHandler)
+//                .userInfoEndpoint()
+//                .userService(principalUserDetailsService);
     }
 
     @Bean
