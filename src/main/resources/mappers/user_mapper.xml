@@ -23,102 +23,102 @@
     <insert id="saveUser" parameterType="com.dogtiger.challus.entity.User">
         insert into user_tb
         values(
-        0,
-        #{email},
-        #{name},
-        #{phone},
-        #{nickname},
-        #{password},
-        0,
-        '',
-        '브론즈',
-        0,
-        #{oauth2Id},
-        #{profileUrl}
+            0,
+            #{email},
+            #{name},
+            #{phone},
+            #{nickname},
+            #{password},
+            0,
+            '',
+            '브론즈',
+            0,
+            #{oauth2Id},
+            #{profileUrl}
         );
     </insert>
 
     <insert id="saveIntro">
         insert into user_tb
         values(
-        0,
-        #{email},
-        #{name},
-        #{phone},
-        #{nickname},
-        #{password},
-        #{point},
-        #{intro},
-        #{membership},
-        #{isAdmin},
-        #{oauth2Id},
-        #{profileUrl}
+            0,
+            #{email},
+            #{name},
+            #{phone},
+            #{nickname},
+            #{password},
+            #{point},
+            #{intro},
+            #{membership},
+            #{isAdmin},
+            #{oauth2Id},
+            #{profileUrl}
         );
     </insert>
 
     <update id="updateNickname">
         update user_tb
         set
-        nickname = #{nickname}
+            nickname = #{nickname}
         where
-        user_id = #{userId}
+            user_id = #{userId}
     </update>
 
     <update id="updateIntro">
         update user_tb
         set
-        intro = #{intro}
+            intro = #{intro}
         where
-        nickname = #{nickname}
+            nickname = #{nickname}
     </update>
 
     <select id="findUserByEmail" resultMap="userMap">
         select
-        user_id,
-        email,
-        name,
-        phone,
-        nickname,
-        password,
-        point,
-        intro,
-        membership,
-        is_admin,
-        oauth2_id,
-        profile_url
+            user_id,
+            email,
+            name,
+            phone,
+            nickname,
+            password,
+            point,
+            intro,
+            membership,
+            is_admin,
+            oauth2_id,
+            profile_url
         from
-        user_tb
+            user_tb
         where
-        email = #{email}
+            email = #{email}
     </select>
 
     <select id="findUserByOauth2Id" resultType="com.dogtiger.challus.entity.User">
         select
-        user_id,
-        email,
-        name,
-        phone,
-        nickname,
-        password,
-        point,
-        intro,
-        membership,
-        is_admin,
-        oauth2_id,
-        profile_url
+            user_id,
+            email,
+            name,
+            phone,
+            nickname,
+            password,
+            point,
+            intro,
+            membership,
+            is_admin,
+            oauth2_id,
+            profile_url
         from
-        user_tb
+            user_tb
         where
-        oauth2_id = #{oauth2Id}
+            oauth2_id = #{oauth2Id}
     </select>
 
     <select id="getIntro" resultType="java.lang.String">
         select
-        intro
+            intro
         from
-        user_tb
+            user_tb
         where
-        nickname = #{nickname}
+            nickname = #{nickname}
     </select>
 
 </mapper>
