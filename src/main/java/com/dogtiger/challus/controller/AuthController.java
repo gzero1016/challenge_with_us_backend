@@ -33,7 +33,7 @@ public class AuthController {
         return ResponseEntity.ok(authService.signup(signupReqDto));
     }
 
-    @PostMapping("/auth/signin")
+    @PostMapping("/auth/sign-in")
     public ResponseEntity<?> signin(@RequestBody SigninReqDto signinReqDto) {
         return ResponseEntity.ok(authService.signin(signinReqDto));
     }
