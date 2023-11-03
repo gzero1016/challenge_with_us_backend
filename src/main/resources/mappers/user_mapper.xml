@@ -63,6 +63,13 @@
         where
             user_id = #{user_id}
     </update>
+    <delete id="deleteUser" parameterType="integer">
+        delete
+        from
+            user_tb
+        where
+            user_id = #{userId}
+    </delete>
 
     <select id="findUserByEmail" resultType="com.dogtiger.challus.entity.User">
         select

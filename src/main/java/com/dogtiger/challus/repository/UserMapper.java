@@ -8,6 +8,7 @@ public interface UserMapper {
 
     public int updateNickname(User user);
     public int updateProfileUrl(User user);
+    public int deleteUser(int userId);
     public User findUserByEmail(String email);
     public User findUserByOauth2Id(String oauth2Id);
     public int saveIntro(User user);
