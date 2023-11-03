@@ -1,6 +1,7 @@
 package com.dogtiger.challus.controller;
 
 
+import com.dogtiger.challus.dto.SigninReqDto;
 import com.dogtiger.challus.dto.SignupReqDto;
 import com.dogtiger.challus.service.AccountService;
 import com.dogtiger.challus.service.AuthService;
@@ -30,5 +31,10 @@ public class AuthController {
     @PostMapping("/api/auth/sign-up")
     public ResponseEntity<?> signUp(@RequestBody SignupReqDto signupReqDto, BindingResult bindingResult) {
         return ResponseEntity.ok(authService.signup(signupReqDto));
+    }
+
+    @PostMapping("/auth/signin")
+    public ResponseEntity<?> signin(@RequestBody SigninReqDto signinReqDto) {
+        return ResponseEntity.ok(authService.signin(signinReqDto));
     }
 }
