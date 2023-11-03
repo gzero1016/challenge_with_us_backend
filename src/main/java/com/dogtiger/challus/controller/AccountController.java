@@ -38,6 +38,11 @@ public class AccountController {
         return ResponseEntity.ok(accountService.updateProfileImg(updateProfileImgReqDto));
     }
 
+    @DeleteMapping("/api/account/{userId}")
+    public ResponseEntity<?> deleteUser(@PathVariable int userId) {
+        return ResponseEntity.ok(accountService.deleteUser(userId));
+    }
+
     @GetMapping("/api/account/intro")
     public ResponseEntity<?> getIntro(IntroReqDto introReqDto) {
         System.out.println(introReqDto);

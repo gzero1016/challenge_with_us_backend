@@ -27,6 +27,10 @@ public class AccountService {
                             .build()) > 0;
     }
 
+    public boolean deleteUser(int userId) {
+        return userMapper.deleteUser(userId) > 0;
+    }
+
     public boolean checkEmailDuplicate(String email){
         return userMapper.findUserByEmail(email) != null;
     }
