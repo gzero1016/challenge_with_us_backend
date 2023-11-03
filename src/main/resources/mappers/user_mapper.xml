@@ -18,7 +18,8 @@
             '',
             '브론즈',
             0,
-            #{oauth2Id}
+            #{oauth2Id},
+            #{profileUrl}
         );
     </insert>
 
@@ -35,7 +36,8 @@
             #{intro},
             #{membership},
             #{isAdmin},
-            #{oauth2Id}
+            #{oauth2Id},
+            #{profileUrl}
         );
     </insert>
 
@@ -67,7 +69,9 @@
             intro,
             membership,
             is_admin,
-            oauth2_id
+            oauth2_id,
+            profile_url
+
         from
             user_tb
         where
@@ -86,7 +90,8 @@
             intro,
             membership,
             is_admin,
-            oauth2_id
+            oauth2_id,
+            profile_url
         from
             user_tb
         where

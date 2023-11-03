@@ -21,4 +21,5 @@ public class User {
     private String membership;
     private int isAdmin;
     private String oauth2Id;
+    private String profileUrl;
 }

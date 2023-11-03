@@ -25,6 +25,7 @@ public class SignupReqDto {
     @Pattern(regexp = "^[\\d]{11}+$", message = "전화번호를 입력하세요.")
     private String phone;
     private String oauth2Id;
+    private String profileUrl;
 
     public User toUserEntity(BCryptPasswordEncoder passwordEncoder) {
         return User.builder()
