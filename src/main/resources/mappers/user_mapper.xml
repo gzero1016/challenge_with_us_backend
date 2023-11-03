@@ -63,7 +63,7 @@
         where
             user_id = #{user_id}
     </update>
-    <delete id="deleteUser" parameterType="integer">
+    <delete id="deleteUser">
         delete
         from
             user_tb

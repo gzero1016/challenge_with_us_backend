@@ -9,6 +9,7 @@ import com.dogtiger.challus.repository.UserMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -27,6 +28,7 @@ public class AccountService {
                             .build()) > 0;
     }
 
+    @Transactional(rollbackFor = Exception.class)
     public boolean deleteUser(int userId) {
         return userMapper.deleteUser(userId) > 0;
     }
