@@ -1,7 +1,12 @@
 package com.dogtiger.challus.service;
 
+import com.dogtiger.challus.entity.User;
 import com.dogtiger.challus.repository.UserMapper;
+import com.dogtiger.challus.security.PrincipalUser;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
@@ -15,9 +20,20 @@ import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
-public class PrincipalUserDetailsService implements OAuth2UserService {
+public class PrincipalUserDetailsService implements UserDetailsService, OAuth2UserService {
 
     private final UserMapper userMapper;
+
+    @Override
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        User user = userMapper.findUserByEmail(email);
+
+        if(user == null) {
+            throw new UsernameNotFoundException("UsernameNotFound");
+        }
+
+        return new PrincipalUser(user);
+    }
 
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
