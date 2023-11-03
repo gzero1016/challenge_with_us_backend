@@ -56,6 +56,13 @@
         where
             user_id = #{userId}
     </update>
+    <update id="updateProfileUrl">
+        update user_tb
+        set
+            profileUrl
+        where
+            user_id = #{user_id}
+    </update>
 
     <select id="findUserByEmail" resultType="com.dogtiger.challus.entity.User">
         select
