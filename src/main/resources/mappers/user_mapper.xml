@@ -54,7 +54,7 @@
         set
             intro = #{intro}
         where
-            user_id = #{userId}
+            nickname = #{nickname}
     </update>
 
     <select id="findUserByEmail" resultType="com.dogtiger.challus.entity.User">
