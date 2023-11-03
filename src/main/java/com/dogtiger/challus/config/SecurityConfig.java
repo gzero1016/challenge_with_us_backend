@@ -23,10 +23,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.cors();
         http.csrf().disable();
         http.authorizeRequests()
-                .antMatchers("/*")
+                .antMatchers("/**")
                 .permitAll();
 //                .anyRequest()
-//                .authenticated()
+//                .authenticated();
 //                .and()
 //                .oauth2Login()
 //                .loginPage("http://localhost:3000/auth/signin")

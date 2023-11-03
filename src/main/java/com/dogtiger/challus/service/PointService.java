@@ -13,4 +13,8 @@ public class PointService {
     public boolean savepoint(PointReqDto pointReqDto) {
         return pointMapper.savePoint(pointReqDto.toPointEntity()) > 0;
     }
+
+    public boolean challengeCreatePoint(PointReqDto pointReqDto) {
+        return pointMapper.challengeCreatePoint(pointReqDto.toPointEntity()) > 0;
+    }
 }

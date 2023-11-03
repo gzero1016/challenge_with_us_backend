@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.dogtiger.challus.repository.ChallengeMapper">
+
+    <insert id="saveChallenge" parameterType="com.dogtiger.challus.entity.Challenge">
+        insert into challenge_tb (user_id, challenge_name, is_open, is_applicable, start_date, end_date)
+        values (
+        #{userId}, #{challengeName},
+        <choose>
+            <when test="isOpen.equals('true')">
+                1
+            </when>
+            <otherwise>
+                0
+            </otherwise>
+        </choose>,
+        <choose>
+            <when test="isApplicable.equals('true')">
+                1
+            </when>
+            <otherwise>
+                0
+            </otherwise>
+        </choose>,
+        #{startDate}, #{endDate}
+        )
+    </insert>
+
+</mapper>
