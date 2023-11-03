@@ -4,121 +4,121 @@
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.dogtiger.challus.repository.UserMapper">
+    <resultMap id="userMap" type="com.dogtiger.challus.entity.User">
+        <id property="userId" column="user_id" />
+        <result property="email" column="email" />
+        <result property="name" column="name" />
+        <result property="phone" column="phone" />
+        <result property="nickname" column="nickname" />
+        <result property="password" column="password" />
+        <result property="point" column="point" />
+        <result property="intro" column="intro" />
+        <result property="membership" column="membership" />
+        <result property="isAdmin" column="is_admin" />
+        <result property="oauth2Id" column="oauth2_id" />
+        <result property="profileUrl" column="profile_url" />
+    </resultMap>
+
 
     <insert id="saveUser" parameterType="com.dogtiger.challus.entity.User">
         insert into user_tb
         values(
-            0,
-            #{email},
-            #{name},
-            #{phone},
-            #{nickname},
-            #{password},
-            0,
-            '',
-            '브론즈',
-            0,
-            #{oauth2Id},
-            #{profileUrl}
+        0,
+        #{email},
+        #{name},
+        #{phone},
+        #{nickname},
+        #{password},
+        0,
+        '',
+        '브론즈',
+        0,
+        #{oauth2Id},
+        #{profileUrl}
         );
     </insert>
 
     <insert id="saveIntro">
         insert into user_tb
         values(
-            0,
-            #{email},
-            #{name},
-            #{phone},
-            #{nickname},
-            #{password},
-            #{point},
-            #{intro},
-            #{membership},
-            #{isAdmin},
-            #{oauth2Id},
-            #{profileUrl}
+        0,
+        #{email},
+        #{name},
+        #{phone},
+        #{nickname},
+        #{password},
+        #{point},
+        #{intro},
+        #{membership},
+        #{isAdmin},
+        #{oauth2Id},
+        #{profileUrl}
         );
     </insert>
 
     <update id="updateNickname">
         update user_tb
         set
-            nickname = #{nickname}
+        nickname = #{nickname}
         where
-            user_id = #{userId}
+        user_id = #{userId}
     </update>
 
     <update id="updateIntro">
         update user_tb
         set
-            intro = #{intro}
+        intro = #{intro}
         where
-            nickname = #{nickname}
+        nickname = #{nickname}
     </update>
-    <update id="updateProfileUrl">
-        update user_tb
-        set
-            profileUrl
-        where
-            user_id = #{user_id}
-    </update>
-    <delete id="deleteUser" parameterType="integer">
-        delete
-        from
-            user_tb
-        where
-            user_id = #{userId}
-    </delete>
 
-    <select id="findUserByEmail" resultType="com.dogtiger.challus.entity.User">
+    <select id="findUserByEmail" resultMap="userMap">
         select
-            user_id,
-            email,
-            name,
-            phone,
-            nickname,
-            password,
-            point,
-            intro,
-            membership,
-            is_admin,
-            oauth2_id,
-            profile_url
-
+        user_id,
+        email,
+        name,
+        phone,
+        nickname,
+        password,
+        point,
+        intro,
+        membership,
+        is_admin,
+        oauth2_id,
+        profile_url
         from
-            user_tb
+        user_tb
         where
-            email = #{email}
+        email = #{email}
     </select>
 
     <select id="findUserByOauth2Id" resultType="com.dogtiger.challus.entity.User">
         select
-            user_id,
-            email,
-            name,
-            phone,
-            nickname,
-            password,
-            point,
-            intro,
-            membership,
-            is_admin,
-            oauth2_id,
-            profile_url
+        user_id,
+        email,
+        name,
+        phone,
+        nickname,
+        password,
+        point,
+        intro,
+        membership,
+        is_admin,
+        oauth2_id,
+        profile_url
         from
-            user_tb
+        user_tb
         where
-            oauth2_id = #{oauth2Id}
+        oauth2_id = #{oauth2Id}
     </select>
 
     <select id="getIntro" resultType="java.lang.String">
         select
-            intro
+        intro
         from
-            user_tb
+        user_tb
         where
-            nickname = #{nickname}
+        nickname = #{nickname}
     </select>
 
 </mapper>
