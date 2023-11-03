@@ -1,13 +1,11 @@
 package com.dogtiger.challus.service;
 
 import com.dogtiger.challus.dto.IntroReqDto;
-import com.dogtiger.challus.dto.UpdateNicknameReqDto;
-import com.dogtiger.challus.dto.UpdateProfileImgReqDto;
+import com.dogtiger.challus.dto.UpdateProfileDetailReqDto;
 import com.dogtiger.challus.entity.User;
 import com.dogtiger.challus.jwt.JwtProvider;
 import com.dogtiger.challus.repository.UserMapper;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,14 +16,8 @@ public class AccountService {
     private final UserMapper userMapper;
     private final JwtProvider jwtProvider;
 
-    public boolean updateNickname(UpdateNicknameReqDto updateNicknameReqDto) {
-        return userMapper.updateNickname(updateNicknameReqDto.toUserEntity()) > 0;
-    }
-
-    public boolean updateProfileImg(UpdateProfileImgReqDto updateProfileImgReqDto) {
-        return userMapper.updateProfileUrl(User.builder()
-                            .profileUrl(updateProfileImgReqDto.getProfileUrl())
-                            .build()) > 0;
+    public boolean updateMypageDetail(UpdateProfileDetailReqDto updateProfileDetailReqDto) {
+        return userMapper.updateMypageDetail(updateProfileDetailReqDto.toUserEntity()) > 0;
     }
 
     @Transactional(rollbackFor = Exception.class)

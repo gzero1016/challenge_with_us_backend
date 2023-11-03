@@ -2,14 +2,12 @@ package com.dogtiger.challus.controller;
 
 import com.dogtiger.challus.dto.IntroReqDto;
 import com.dogtiger.challus.dto.PrincipalResDto;
-import com.dogtiger.challus.dto.UpdateNicknameReqDto;
-import com.dogtiger.challus.dto.UpdateProfileImgReqDto;
+import com.dogtiger.challus.dto.UpdateProfileDetailReqDto;
 import com.dogtiger.challus.entity.User;
 import com.dogtiger.challus.repository.UserMapper;
 import com.dogtiger.challus.service.AccountService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -25,17 +23,12 @@ public class AccountController {
         return ResponseEntity.ok(principalResDto);
     }
 
-    @PutMapping("/api/account/nickname/{userId}")
-    public ResponseEntity<?> updateNickname(@PathVariable int userId,
-                                            @RequestBody UpdateNicknameReqDto updateNicknameReqDto) {
-        updateNicknameReqDto.setUserId(userId);
-
-        return ResponseEntity.ok(accountService.updateNickname(updateNicknameReqDto));
-    }
-
-    @PutMapping("/api/account/profile/img/{userId}")
-    public ResponseEntity<?> updateProfileImg(@RequestBody UpdateProfileImgReqDto updateProfileImgReqDto) {
-        return ResponseEntity.ok(accountService.updateProfileImg(updateProfileImgReqDto));
+    @PutMapping("/api/account/mypage/{userId}")
+    public ResponseEntity<?> updateMypageDetail(@PathVariable int userId,
+                                            @RequestBody UpdateProfileDetailReqDto updateProfileDetailReqDto) {
+        updateProfileDetailReqDto.setUserId(userId);
+        System.out.println(updateProfileDetailReqDto);
+        return ResponseEntity.ok(accountService.updateMypageDetail(updateProfileDetailReqDto));
     }
 
     @DeleteMapping("/api/account/{userId}")
