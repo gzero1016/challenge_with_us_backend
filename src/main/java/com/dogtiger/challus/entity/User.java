@@ -1,5 +1,6 @@
 package com.dogtiger.challus.entity;
 
+import com.dogtiger.challus.dto.PrincipalResDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -22,4 +23,21 @@ public class User {
     private int isAdmin;
     private String oauth2Id;
     private String profileUrl;
+
+    public PrincipalResDto toPrincipalResDto() {
+        return PrincipalResDto.builder()
+                .userId(userId)
+                .email(email)
+                .name(name)
+                .phone(phone)
+                .nickname(nickname)
+                .point(point)
+                .intro(intro)
+                .membership(membership)
+                .isAdmin(isAdmin)
+                .oauth2Id(oauth2Id)
+                .profileUrl(profileUrl)
+                .build();
+    }
+
 }
