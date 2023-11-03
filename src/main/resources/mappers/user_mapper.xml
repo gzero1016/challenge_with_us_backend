@@ -71,6 +71,20 @@
         where
             nickname = #{nickname}
     </update>
+    <update id="updateProfileUrl">
+        update user_tb
+        set
+            profileUrl
+        where
+            user_id = #{user_id}
+    </update>
+    <delete id="deleteUser">
+        delete
+        from
+            user_tb
+        where
+            user_id = #{userId}
+    </delete>
 
     <select id="findUserByEmail" resultMap="userMap">
         select

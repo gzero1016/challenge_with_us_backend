@@ -40,6 +40,7 @@ public class AccountController {
 
     @DeleteMapping("/api/account/{userId}")
     public ResponseEntity<?> deleteUser(@PathVariable int userId) {
+        System.out.println(userId);
         return ResponseEntity.ok(accountService.deleteUser(userId));
     }
 
