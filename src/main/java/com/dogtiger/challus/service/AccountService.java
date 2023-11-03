@@ -2,6 +2,8 @@ package com.dogtiger.challus.service;
 
 import com.dogtiger.challus.dto.IntroReqDto;
 import com.dogtiger.challus.dto.UpdateNicknameReqDto;
+import com.dogtiger.challus.dto.UpdateProfileImgReqDto;
+import com.dogtiger.challus.entity.User;
 import com.dogtiger.challus.jwt.JwtProvider;
 import com.dogtiger.challus.repository.UserMapper;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +19,12 @@ public class AccountService {
 
     public boolean updateNickname(UpdateNicknameReqDto updateNicknameReqDto) {
         return userMapper.updateNickname(updateNicknameReqDto.toUserEntity()) > 0;
+    }
+
+    public boolean updateProfileImg(UpdateProfileImgReqDto updateProfileImgReqDto) {
+        return userMapper.updateProfileUrl(User.builder()
+                            .profileUrl(updateProfileImgReqDto.getProfileUrl())
+                            .build()) > 0;
     }
 
     public boolean checkEmailDuplicate(String email){

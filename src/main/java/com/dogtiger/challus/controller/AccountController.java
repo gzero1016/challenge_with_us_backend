@@ -3,6 +3,7 @@ package com.dogtiger.challus.controller;
 import com.dogtiger.challus.dto.IntroReqDto;
 import com.dogtiger.challus.dto.PrincipalResDto;
 import com.dogtiger.challus.dto.UpdateNicknameReqDto;
+import com.dogtiger.challus.dto.UpdateProfileImgReqDto;
 import com.dogtiger.challus.entity.User;
 import com.dogtiger.challus.repository.UserMapper;
 import com.dogtiger.challus.service.AccountService;
@@ -30,6 +31,11 @@ public class AccountController {
         updateNicknameReqDto.setUserId(userId);
 
         return ResponseEntity.ok(accountService.updateNickname(updateNicknameReqDto));
+    }
+
+    @PutMapping("/api/account/profile/img/{userId}")
+    public ResponseEntity<?> updateProfileImg(@RequestBody UpdateProfileImgReqDto updateProfileImgReqDto) {
+        return ResponseEntity.ok(accountService.updateProfileImg(updateProfileImgReqDto));
     }
 
     @GetMapping("/api/account/intro")
