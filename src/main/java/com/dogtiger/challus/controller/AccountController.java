@@ -34,24 +34,21 @@ public class AccountController {
         return ResponseEntity.ok(accountService.updateNickname(updateNicknameReqDto));
     }
 
-    @GetMapping("/api/account/{userId}")
-    public ResponseEntity<?> getIntro(@RequestBody IntroReqDto introReqDto,
-                                         @PathVariable int userId) {
-        introReqDto.setUserId(userId);
+    @GetMapping("/api/account/intro")
+    public ResponseEntity<?> getIntro(IntroReqDto introReqDto) {
+        System.out.println(introReqDto);
         return ResponseEntity.ok(accountService.getIntro(introReqDto));
     }
 
-    @PostMapping("/api/account/{userId}")
-    public ResponseEntity<?> saveIntro(@RequestBody IntroReqDto introReqDto,
-                                       @PathVariable int userId) {
-        introReqDto.setUserId(userId);
+    @PostMapping("/api/account/intro")
+    public ResponseEntity<?> saveIntro(@RequestBody IntroReqDto introReqDto) {
+        System.out.println(introReqDto);
         return ResponseEntity.ok(accountService.saveIntro(introReqDto));
     }
 
-    @PutMapping("/api/account/{userId}")
-    public ResponseEntity<?> UpdateIntro(@RequestBody IntroReqDto introReqDto,
-                                      @PathVariable int userId) {
-        introReqDto.setUserId(userId);
+    @PutMapping("/api/account/intro")
+    public ResponseEntity<?> UpdateIntro(@RequestBody IntroReqDto introReqDto) {
+        System.out.println(introReqDto);
         return ResponseEntity.ok(accountService.updateIntro(introReqDto));
     }
 }
