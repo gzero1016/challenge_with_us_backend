@@ -6,7 +6,6 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface UserMapper {
 
-    public int updatePassword(User user);
     public int updateNickname(User user);
     public User findUserByEmail(String email);
     public User findUserByOauth2Id(String oauth2Id);

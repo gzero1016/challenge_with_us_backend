@@ -22,14 +22,6 @@
         );
     </insert>
 
-    <update id="updatePassword" parameterType="com.dogtiger.challus.entity.User">
-        update user_tb
-        set
-            password = #{password}
-        where
-            user_id = #{userId}s
-    </update>
-
     <update id="updateNickname">
         update user_tb
         set
