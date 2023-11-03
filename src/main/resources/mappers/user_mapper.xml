@@ -5,6 +5,23 @@
 
 <mapper namespace="com.dogtiger.challus.repository.UserMapper">
 
+    <insert id="saveUser" parameterType="com.dogtiger.challus.entity.User">
+        insert into user_tb
+        values(
+            0,
+            #{email},
+            #{name},
+            #{phone},
+            #{nickname},
+            #{password},
+            0,
+            '',
+            '브론즈',
+            0,
+            #{oauth2Id}
+        );
+    </insert>
+
     <insert id="saveIntro">
         insert into user_tb
         values(
