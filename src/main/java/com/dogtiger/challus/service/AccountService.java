@@ -33,7 +33,6 @@ public class AccountService {
 
     public boolean checkEmailDuplicate(String email){
         return userMapper.findUserByEmail(email) != null;
-
     }
 
     public boolean updateIntro(IntroReqDto introReqDto) {

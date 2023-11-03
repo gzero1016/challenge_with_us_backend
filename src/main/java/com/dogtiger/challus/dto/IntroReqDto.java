@@ -5,8 +5,8 @@ import lombok.Data;
 
 @Data
 public class IntroReqDto {
-    private int userId;
     private String intro;
+    private int userId;
 
     public User toUserEntity() {
         return User.builder()
