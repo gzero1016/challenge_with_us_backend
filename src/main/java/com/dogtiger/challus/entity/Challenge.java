@@ -12,9 +12,11 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Challenge {
+    private int challengeId;
     private int userId;
     private String challengeName;
-    private String challengeContent;
+    private int layout;
+    private String introduction;
     private String isOpen;
     private String isApplicable;
     private LocalDate startDate;

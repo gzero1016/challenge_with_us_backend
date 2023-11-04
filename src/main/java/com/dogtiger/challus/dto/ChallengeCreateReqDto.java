@@ -7,20 +7,26 @@ import java.time.LocalDate;
 
 @Data
 public class ChallengeCreateReqDto {
-    private String title;
-    private String isPrivate;
+    private String challengeName;
+    private String introduction;
+    private String isOpen;
     private String isApplicable;
     private LocalDate startDate;
     private LocalDate endDate;
+    private int layout;
     private int userId;
+    private String categoryName;
 
     public Challenge toChallengeEntity() {
         return Challenge.builder()
-                .challengeName(title)
-                .isOpen(isPrivate)
+                .challengeName(challengeName)
+                .introduction(introduction)
+                .isOpen(isOpen)
                 .isApplicable(isApplicable)
                 .startDate(startDate)
                 .endDate(endDate)
+                .layout(layout)
+                .categoryName(categoryName)
                 .build();
     }
 }

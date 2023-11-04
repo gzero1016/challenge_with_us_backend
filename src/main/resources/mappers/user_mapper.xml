@@ -19,7 +19,6 @@
         <result property="profileUrl" column="profile_url" />
     </resultMap>
 
-
     <insert id="saveUser" parameterType="com.dogtiger.challus.entity.User">
         insert into user_tb
         values(

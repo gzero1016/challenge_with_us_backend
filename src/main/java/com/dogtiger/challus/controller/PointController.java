@@ -18,10 +18,8 @@ public class PointController {
         return ResponseEntity.ok(pointService.savepoint(pointReqDto));
     }
 
-    @PostMapping("/api/challenge/create/{userId}/point")
-    public ResponseEntity<?> challengeCreatePoint(@PathVariable int userId,
-                                       @RequestBody PointReqDto pointReqDto){
-        pointReqDto.setUserId(userId);
+    @PostMapping("/api/challenge/create/point")
+    public ResponseEntity<?> challengeCreatePoint(@RequestBody PointReqDto pointReqDto){
         System.out.println(pointReqDto);
         return ResponseEntity.ok().body(pointService.challengeCreatePoint(pointReqDto));
     }
