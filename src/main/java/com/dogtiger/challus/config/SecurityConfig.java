@@ -24,14 +24,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable();
         http.authorizeRequests()
                 .antMatchers("/*")
-                .permitAll();
-//                .anyRequest()
-//                .authenticated()
-//                .and()
-//                .oauth2Login()
-//                .loginPage("http://localhost:3000/auth/signin")
-//                .successHandler(oAuth2SuccessHandler)
-//                .userInfoEndpoint()
-//                .userService(principalUserDetailsService);
+                .permitAll()
+                .and()
+                .oauth2Login()
+                .loginPage("http://localhost:3000/auth/signin")
+                .successHandler(oAuth2SuccessHandler)
+                .userInfoEndpoint()
+                .userService(principalUserDetailsService);
+    }
+
+    @Bean
+    public BCryptPasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
     }
 }
