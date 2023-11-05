@@ -22,9 +22,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.cors();
         http.csrf().disable();
-        http.authorizeRequests()
-                .antMatchers("/*")
-                .permitAll()
+        http.authorizeRequests(
+                .antMatchers("/**")
+                .permitAll();
+//                .anyRequest()
+//                .authenticated();
                 .and()
                 .oauth2Login()
                 .loginPage("http://localhost:3000/auth/signin")
@@ -37,4 +39,5 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
+
 }
