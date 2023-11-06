@@ -9,6 +9,7 @@ import com.dogtiger.challus.security.PrincipalUser;
 import com.dogtiger.challus.service.AccountService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
