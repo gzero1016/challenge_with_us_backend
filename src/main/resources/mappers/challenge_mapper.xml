@@ -40,4 +40,23 @@
         )
     </insert>
 
+    <select id="getChallengeByChallengeId" resultMap="challengeMap">
+        select
+            ct.challenge_id,
+            ct.user_id,
+            ct.challenge_name,
+            ct.challenge_introduction,
+            ct.is_open,
+            ct.is_applicable,
+            ct.start_date,
+            ct.end_date,
+            ct.category_name,
+            ut.name
+        from
+            challenge_tb ct
+            left outer join user_tb ut on(ut.user_id = ct.user_id)
+        where
+            ct.challenge_id = #{challengeId}
+    </select>
+
 </mapper>

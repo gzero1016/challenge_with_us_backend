@@ -6,4 +6,5 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface ChallengeMapper {
     public int saveChallenge(Challenge challenge);
+    public Challenge getChallengeByChallengeId(int challengeId);
 }

@@ -17,4 +17,9 @@ public class ChallengeController {
         return ResponseEntity.ok().body(challengeService.saveChallenge(challengeCreateReqDto));
     }
 
+    @GetMapping("/api/challenge/{challengeId}")
+    public ResponseEntity<?> getChallenge(@PathVariable int challengeId) {
+        return ResponseEntity.ok(challengeService.getChallenge(challengeId));
+    }
+
 }
