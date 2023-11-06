@@ -35,6 +35,7 @@ public class SignupReqDto {
                 .nickname(nickname)
                 .phone(phone)
                 .oauth2Id(oauth2Id)
+                .profileUrl(profileUrl)
                 .build();
     }
 }
