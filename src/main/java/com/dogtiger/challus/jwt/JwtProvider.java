@@ -2,6 +2,7 @@ package com.dogtiger.challus.jwt;
 
 import com.dogtiger.challus.entity.User;
 import com.dogtiger.challus.repository.UserMapper;
+import com.dogtiger.challus.security.PrincipalUser;
 import org.springframework.stereotype.Component;
 
 import io.jsonwebtoken.Claims;
@@ -38,5 +39,42 @@ public class JwtProvider {
                 .claim("email", email)
                 .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
+    }
+
+    public String removeBearer(String bearerToken) {
+        if(!StringUtils.hasText(bearerToken)) {
+            return null;
+        }
+        return bearerToken.substring("Bearer".length());
+    }
+
+    public Authentication getAuthentication(String token) {
+        Claims claims = getClaims(token);
+        if(claims == null) {
+            return null;
+        }
+
+        User user = userMapper.findUserByEmail(claims.get("email").toString());
+        if(user == null) {
+            return null;
+        }
+        System.out.println("user는");
+        System.out.println(user);
+        PrincipalUser principalUser = new PrincipalUser(user);
+        return new UsernamePasswordAuthenticationToken(principalUser, null, principalUser.getAuthorities());
+    }
+
+    private Claims getClaims(String token) {
+        Claims claims = null;
+        try {
+            return Jwts.parserBuilder()
+                    .setSigningKey(key)
+                    .build()
+                    .parseClaimsJws(token)
+                    .getBody();
+        }catch (Exception e) {
+            System.out.println(e.getClass() + ": " + e.getMessage());
+        }
+        return claims;
     }
 }
