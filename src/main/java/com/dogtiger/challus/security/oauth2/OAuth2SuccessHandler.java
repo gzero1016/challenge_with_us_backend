@@ -42,7 +42,7 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(principalUser, null, principalUser.getAuthorities());
 
         String accessToken = jwtProvider.generateToken(authenticationToken);
-        response.sendRedirect("http://localhost:3000/" +
+        response.sendRedirect("http://localhost:3000/auth/oauth2/login" +
                 "?token=" + URLEncoder.encode(accessToken, "UTF-8"));
     }
 }
