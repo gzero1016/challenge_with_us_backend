@@ -8,10 +8,7 @@ import com.dogtiger.challus.service.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -20,12 +17,12 @@ public class AuthController {
     private final AccountService accountService;
     private final AuthService authService;
 
-    @PostMapping("/api/auth/duplicate/{email}")
+    @GetMapping("/api/auth/duplicate/{email}")
     public ResponseEntity<?> checkEmailDuplicate(@PathVariable String email){
 
         boolean isDuplicate = accountService.checkEmailDuplicate(email);
 
-            return ResponseEntity.ok().body(isDuplicate);
+        return ResponseEntity.ok().body(isDuplicate);
     }
 
     @PostMapping("/api/auth/sign-up")
