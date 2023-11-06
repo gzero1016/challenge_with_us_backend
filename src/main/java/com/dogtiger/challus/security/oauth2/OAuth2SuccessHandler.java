@@ -35,7 +35,6 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
             //회원가입이 안되었을 때 OAuth2 계정 회원가입 페이지로 이동
             response.sendRedirect("http://localhost:3000/auth/signup" +
                     "?oauth2Id=" + oauth2Id);
-
             return;
         }
 
