@@ -59,4 +59,28 @@
             ct.challenge_id = #{challengeId}
     </select>
 
+    <select id="getLikeState" resultType="java.lang.Integer">
+        select
+            count(*)
+        from
+            challenge_like_tb
+        where
+            challenge_id = #{challengeId}
+        and user_id = #{userId}
+    </select>
+
+    <update id="insertLike" parameterType="hashmap">
+        insert into challenge_like_tb
+        values(0, #{challengeId}, #{userId})
+    </update>
+
+    <delete id="cancelLike" parameterType="hashmap">
+        delete
+        from
+            challenge_like_tb
+        where
+            challenge_id = #{challengeId}
+        and user_id = #{userId}
+    </delete>
+
 </mapper>

@@ -22,4 +22,18 @@ public class ChallengeController {
         return ResponseEntity.ok(challengeService.getChallenge(challengeId));
     }
 
+    @GetMapping("/api/challenge/{challengeId}/like")
+    public ResponseEntity<?> getLikeState(@PathVariable int challengeId) {
+        return ResponseEntity.ok(challengeService.getLikeState(challengeId));
+    }
+
+    @PostMapping("/api/challenge/{challengeId}/like")
+    public ResponseEntity<?> insertLike(@PathVariable int challengeId) {
+        return ResponseEntity.ok(challengeService.insertLike(challengeId));
+    }
+
+    @DeleteMapping("/api/challenge/{challengeId}/like")
+    public ResponseEntity<?> cancelLike(@PathVariable int challengeId) {
+        return ResponseEntity.ok(challengeService.cancelLike(challengeId));
+    }
 }
