@@ -14,6 +14,7 @@
         <result property="startDate" column="start_date" />
         <result property="endDate" column="end_date" />
         <result property="categoryName" column="category_name" />
+        <result property="challengeLikeCount" column="challenge_like_count" />
     </resultMap>
 
     <insert id="saveChallenge" parameterType="com.dogtiger.challus.entity.Challenge">
@@ -51,7 +52,8 @@
             ct.start_date,
             ct.end_date,
             ct.category_name,
-            ut.name
+            ut.name,
+            ct.challenge_like_count
         from
             challenge_tb ct
             left outer join user_tb ut on(ut.user_id = ct.user_id)
@@ -66,7 +68,6 @@
             challenge_like_tb
         where
             challenge_id = #{challengeId}
-        and user_id = #{userId}
     </select>
 
     <update id="insertLike" parameterType="hashmap">

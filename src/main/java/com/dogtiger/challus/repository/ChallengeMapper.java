@@ -9,7 +9,7 @@ import java.util.Map;
 public interface ChallengeMapper {
     public int saveChallenge(Challenge challenge);
     public Challenge getChallengeByChallengeId(int challengeId);
-    public int getLikeState(Map<String, Object> paramsMap);
+    public int getLikeState(int challengeId);
     public int insertLike(Map<String, Object> paramsMap);
     public int cancelLike(Map<String, Object> paramsMap);
 }
