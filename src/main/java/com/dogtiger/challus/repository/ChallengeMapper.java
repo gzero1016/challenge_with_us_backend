@@ -10,6 +10,6 @@ public interface ChallengeMapper {
     public int saveChallenge(Challenge challenge);
     public Challenge getChallengeByChallengeId(int challengeId);
     public int getLikeState(int challengeId);
-    public int insertLike(Map<String, Object> paramsMap);
-    public int cancelLike(Map<String, Object> paramsMap);
+    public int insertLike(Challenge challenge);
+    public int cancelLike(Challenge challenge);
 }

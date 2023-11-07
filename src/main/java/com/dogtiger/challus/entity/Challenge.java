@@ -45,4 +45,5 @@ public class Challenge {
                 .challengeLikeCount(challengeLikeCount)
                 .build();
     }
+
 }

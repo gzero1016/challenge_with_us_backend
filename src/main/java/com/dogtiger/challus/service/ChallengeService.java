@@ -1,6 +1,7 @@
 package com.dogtiger.challus.service;
 
 import com.dogtiger.challus.dto.ChallengeCreateReqDto;
+import com.dogtiger.challus.dto.ChallengeLikeReqDto;
 import com.dogtiger.challus.dto.GetChallengeRespDto;
 import com.dogtiger.challus.repository.ChallengeMapper;
 import com.dogtiger.challus.security.PrincipalUser;
@@ -30,22 +31,12 @@ public class ChallengeService {
     }
 
     @Transactional(rollbackFor = Exception.class)
-    public boolean insertLike(int challengeId) {
-//        int userId = ((PrincipalUser)SecurityContextHolder.getContext().getAuthentication()).getUser().getUserId();
-        Map<String, Object> paramsMap = new HashMap<>();
-//        paramsMap.put("challengeId", challengeId);
-//        paramsMap.put("userId", userId);
-        paramsMap.put("userId", SecurityContextHolder.getContext().getAuthentication().getName());
-        System.out.println(paramsMap);
-        return challengeMapper.insertLike(paramsMap) > 0;
+    public boolean insertLike(ChallengeLikeReqDto challengeLikeReqDto) {
+        return challengeMapper.insertLike(challengeLikeReqDto.toChallengeEntity()) > 0;
     }
 
     @Transactional(rollbackFor = Exception.class)
-    public boolean cancelLike(int challengeId) {
-        int userId = ((PrincipalUser)SecurityContextHolder.getContext().getAuthentication()).getUser().getUserId();
-        Map<String, Object> paramsMap = new HashMap<>();
-        paramsMap.put("challengeId", challengeId);
-        paramsMap.put("userId", userId);
-        return challengeMapper.cancelLike(paramsMap) > 0;
+    public boolean cancelLike(ChallengeLikeReqDto challengeLikeReqDto) {
+        return challengeMapper.cancelLike(challengeLikeReqDto.toChallengeEntity()) > 0;
     }
 }

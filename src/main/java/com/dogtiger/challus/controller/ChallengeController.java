@@ -1,6 +1,7 @@
 package com.dogtiger.challus.controller;
 
 import com.dogtiger.challus.dto.ChallengeCreateReqDto;
+import com.dogtiger.challus.dto.ChallengeLikeReqDto;
 import com.dogtiger.challus.service.ChallengeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -29,12 +30,13 @@ public class ChallengeController {
     }
 
     @PostMapping("/api/challenge/{challengeId}/like")
-    public ResponseEntity<?> insertLike(@PathVariable int challengeId) {
-        return ResponseEntity.ok(challengeService.insertLike(challengeId));
+    public ResponseEntity<?> insertLike(@RequestBody ChallengeLikeReqDto challengeLikeReqDto) {
+        System.out.println(challengeLikeReqDto);
+        return ResponseEntity.ok(challengeService.insertLike(challengeLikeReqDto));
     }
 
     @DeleteMapping("/api/challenge/{challengeId}/like")
-    public ResponseEntity<?> cancelLike(@PathVariable int challengeId) {
-        return ResponseEntity.ok(challengeService.cancelLike(challengeId));
+    public ResponseEntity<?> cancelLike(@RequestBody ChallengeLikeReqDto challengeLikeReqDto) {
+        return ResponseEntity.ok(challengeService.cancelLike(challengeLikeReqDto));
     }
 }
