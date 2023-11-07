@@ -30,6 +30,10 @@ public class ChallengeService {
         return challengeMapper.getLikeState(challengeId);
     }
 
+    public Boolean getUserLikeState(ChallengeLikeReqDto challengeLikeReqDto) {
+        return challengeMapper.getUserLikeState(challengeLikeReqDto.toChallengeEntity()) > 0;
+    }
+
     @Transactional(rollbackFor = Exception.class)
     public boolean insertLike(ChallengeLikeReqDto challengeLikeReqDto) {
         return challengeMapper.insertLike(challengeLikeReqDto.toChallengeEntity()) > 0;
