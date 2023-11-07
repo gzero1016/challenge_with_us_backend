@@ -25,11 +25,8 @@ public class ChallengeService {
         return challengeMapper.getChallengeByChallengeId(challengeId).toChallengeDto();
     }
 
-    public boolean getLikeState(int challengeId) {
-        Map<String, Object> paramsMap = new HashMap<>();
-        paramsMap.put("challengeId", challengeId);
-        paramsMap.put("userId", SecurityContextHolder.getContext().getAuthentication().getName());
-        return challengeMapper.getLikeState(paramsMap) > 0;
+    public int getLikeState(int challengeId) {
+        return challengeMapper.getLikeState(challengeId);
     }
 
     @Transactional(rollbackFor = Exception.class)

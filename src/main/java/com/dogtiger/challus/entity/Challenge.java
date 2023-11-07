@@ -27,6 +27,7 @@ public class Challenge {
     private LocalDate endDate;
     private String categoryName;
     private String name;
+    private int challengeLikeCount;
 
     public GetChallengeRespDto toChallengeDto() {
         return GetChallengeRespDto.builder()
@@ -41,6 +42,7 @@ public class Challenge {
                 .endDate(endDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")))
                 .categoryName(categoryName)
                 .name(name)
+                .challengeLikeCount(challengeLikeCount)
                 .build();
     }
 }
