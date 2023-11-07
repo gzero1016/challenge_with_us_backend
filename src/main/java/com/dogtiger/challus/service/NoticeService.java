@@ -20,17 +20,17 @@ public class NoticeService {
     private final UserMapper userMapper;
 
 
-    public boolean saveNotice(NoticeWriteReqDto noticewriteReqDto) {
-        String email = SecurityContextHolder.getContext().getAuthentication().getName();
-        User user = userMapper.findUserByEmail(email);
-        Notice notice = noticewriteReqDto.toNoticeEntity(user.getUserId());
-        return noticeMapper.saveNotice(notice) > 0;
-    }
-
-    public List<NoticeListRespDto> noticeListGet() {
-        List<NoticeListRespDto> noticeListRespDtos = new ArrayList<>();
-        List<Notice> notices = noticeMapper.noticeList();
-
-        return NoticeListRespDto;
-    }
+//    public boolean saveNotice(NoticeWriteReqDto noticewriteReqDto) {
+//        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+//        User user = userMapper.findUserByEmail(email);
+//        Notice notice = noticewriteReqDto.toNoticeEntity(user.getUserId());
+//        return noticeMapper.saveNotice(notice) > 0;
+//    }
+//
+//    public List<NoticeListRespDto> noticeListGet() {
+//        List<NoticeListRespDto> noticeListRespDtos = new ArrayList<>();
+//        List<Notice> notices = noticeMapper.noticeList();
+//
+//        return NoticeListRespDto;
+//    }
 }

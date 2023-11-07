@@ -18,13 +18,13 @@ import java.util.List;
 public class NoticeController {
     private final NoticeService noticeService;
 
-    @PostMapping("/api/notice")
-    public ResponseEntity<?> noticeWrite(@RequestBody NoticeWriteReqDto noticewriteReqDto){
-        return ResponseEntity.ok(noticeService.saveNotice(noticewriteReqDto));
-    }
-    @GetMapping("/api/notices")
-    public ResponseEntity<?> noticeListGet(){
-        List<NoticeListRespDto> noticeList = noticeService.noticeListGet();
-        return ResponseEntity.ok(noticeList);
-    }
+//    @PostMapping("/api/notice")
+//    public ResponseEntity<?> noticeWrite(@RequestBody NoticeWriteReqDto noticewriteReqDto){
+//        return ResponseEntity.ok(noticeService.saveNotice(noticewriteReqDto));
+//    }
+//    @GetMapping("/api/notices")
+//    public ResponseEntity<?> noticeListGet(){
+//        List<NoticeListRespDto> noticeList = noticeService.noticeListGet();
+//        return ResponseEntity.ok(noticeList);
+//    }
 }
