@@ -21,6 +21,7 @@ public class ChallengeCreateReqDto {
                 .isApplicable(isApplicable)
                 .startDate(startDate)
                 .endDate(endDate)
+                .userId(userId)
                 .build();
     }
 }
