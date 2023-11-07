@@ -18,4 +18,5 @@ public class PrincipalResDto {
     private int isAdmin;
     private String oauth2Id;
     private String profileUrl;
+    private int enabled;
 }

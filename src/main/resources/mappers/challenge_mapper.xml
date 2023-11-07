@@ -37,7 +37,7 @@
                 0
             </otherwise>
         </choose>,
-        #{startDate}, #{endDate}, #{categoryName}
+        #{startDate}, #{endDate}, #{categoryName}, #{challengeLikeCount}
         )
     </insert>
 
