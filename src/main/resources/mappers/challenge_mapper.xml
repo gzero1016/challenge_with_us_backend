@@ -70,12 +70,12 @@
             challenge_id = #{challengeId}
     </select>
 
-    <update id="insertLike" parameterType="hashmap">
+    <update id="insertLike" parameterType="com.dogtiger.challus.entity.Challenge">
         insert into challenge_like_tb
         values(0, #{challengeId}, #{userId})
     </update>
 
-    <delete id="cancelLike" parameterType="hashmap">
+    <delete id="cancelLike" parameterType="com.dogtiger.challus.entity.Challenge">
         delete
         from
             challenge_like_tb
