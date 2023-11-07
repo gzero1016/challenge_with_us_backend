@@ -51,4 +51,9 @@ public class ChallengeController {
         System.out.println(challengeLikeReqDto);
         return ResponseEntity.ok(challengeService.cancelLike(challengeLikeReqDto));
     }
+
+    @DeleteMapping("/api/challenge/{challengeId}")
+    public ResponseEntity<?> challengeDelete(@PathVariable int challengeId) {
+        return ResponseEntity.ok(challengeService.challengeDelete(challengeId));
+    }
 }

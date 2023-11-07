@@ -94,4 +94,12 @@
         and user_id = #{userId}
     </delete>
 
+    <delete id="challengeDelete">
+        delete
+        from
+            challenge_tb
+        where
+            challenge_id = #{challengeId}
+    </delete>
+
 </mapper>

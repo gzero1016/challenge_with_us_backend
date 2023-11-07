@@ -13,4 +13,5 @@ public interface ChallengeMapper {
     public int getUserLikeState(Challenge challenge);
     public int insertLike(Challenge challenge);
     public int cancelLike(Challenge challenge);
+    public int challengeDelete(int challengeId);
 }
