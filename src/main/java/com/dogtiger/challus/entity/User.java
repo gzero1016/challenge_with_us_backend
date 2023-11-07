@@ -13,16 +13,17 @@ import lombok.NoArgsConstructor;
 public class User {
     private int userId;
     private String email;
-    private String password;
     private String name;
     private String phone;
     private String nickname;
+    private String password;
     private int point;
     private String intro;
     private String membership;
     private int isAdmin;
     private String oauth2Id;
     private String profileUrl;
+    private int enabled;
 
     public PrincipalResDto toPrincipalResDto() {
         return PrincipalResDto.builder()
@@ -37,6 +38,7 @@ public class User {
                 .isAdmin(isAdmin)
                 .oauth2Id(oauth2Id)
                 .profileUrl(profileUrl)
+                .enabled(enabled)
                 .build();
     }
 

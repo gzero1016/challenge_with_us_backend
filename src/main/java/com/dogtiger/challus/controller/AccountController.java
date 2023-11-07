@@ -5,9 +5,11 @@ import com.dogtiger.challus.dto.PrincipalResDto;
 import com.dogtiger.challus.dto.UpdateProfileDetailReqDto;
 import com.dogtiger.challus.entity.User;
 import com.dogtiger.challus.repository.UserMapper;
+import com.dogtiger.challus.security.PrincipalUser;
 import com.dogtiger.challus.service.AccountService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -18,7 +20,10 @@ public class AccountController {
     private final UserMapper userMapper;
     @GetMapping("/api/account/principal")
     public ResponseEntity<?> getPrincipal() {
-        User user = userMapper.findUserByEmail("tiger@gmail.com");
+        PrincipalUser principalUser = (PrincipalUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        User user = principalUser.getUser();
+
         PrincipalResDto principalResDto = user.toPrincipalResDto();
         return ResponseEntity.ok(principalResDto);
     }

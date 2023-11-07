@@ -4,11 +4,23 @@
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.dogtiger.challus.repository.ChallengeMapper">
+    <resultMap id="challengeMap" type="com.dogtiger.challus.entity.Challenge">
+        <id property="challengeId" column="challenge_id" />
+        <result property="userId" column="user_id" />
+        <result property="challengeName" column="challenge_name" />
+        <result property="introduction" column="challenge_introduction" />
+        <result property="isOpen" column="is_open" />
+        <result property="isApplicable" column="is_applicable" />
+        <result property="startDate" column="start_date" />
+        <result property="endDate" column="end_date" />
+        <result property="categoryName" column="category_name" />
+        <result property="challengeLikeCount" column="challenge_like_count" />
+    </resultMap>
 
     <insert id="saveChallenge" parameterType="com.dogtiger.challus.entity.Challenge">
-        insert into challenge_tb (user_id, challenge_name, is_open, is_applicable, start_date, end_date)
+        insert into challenge_tb
         values (
-        #{userId}, #{challengeName},
+        0, #{userId}, #{challengeName}, #{layout}, #{introduction},
         <choose>
             <when test="isOpen.equals('true')">
                 1
@@ -25,8 +37,61 @@
                 0
             </otherwise>
         </choose>,
-        #{startDate}, #{endDate}
+        #{startDate}, #{endDate}, #{categoryName}
         )
     </insert>
+
+    <select id="getChallengeByChallengeId" resultMap="challengeMap">
+        select
+            ct.challenge_id,
+            ct.user_id,
+            ct.challenge_name,
+            ct.challenge_introduction,
+            ct.is_open,
+            ct.is_applicable,
+            ct.start_date,
+            ct.end_date,
+            ct.category_name,
+            ut.name,
+            ct.challenge_like_count
+        from
+            challenge_tb ct
+            left outer join user_tb ut on(ut.user_id = ct.user_id)
+        where
+            ct.challenge_id = #{challengeId}
+    </select>
+
+    <select id="getLikeState" resultType="java.lang.Integer">
+        select
+            count(*)
+        from
+            challenge_like_tb
+        where
+            challenge_id = #{challengeId}
+    </select>
+
+    <select id="getUserLikeState" parameterMap="com.dogtiger.challus.entity.Challenge">
+        select
+            count(*)
+        from
+            challenge_like_tb
+        where
+            challenge_id = #{challengeId}
+        and user_id = #{userId}
+    </select>
+
+    <update id="insertLike" parameterType="com.dogtiger.challus.entity.Challenge">
+        insert into challenge_like_tb
+        values(0, #{challengeId}, #{userId})
+    </update>
+
+    <delete id="cancelLike" parameterType="com.dogtiger.challus.entity.Challenge">
+        delete
+        from
+            challenge_like_tb
+        where
+            challenge_id = #{challengeId}
+        and user_id = #{userId}
+    </delete>
 
 </mapper>

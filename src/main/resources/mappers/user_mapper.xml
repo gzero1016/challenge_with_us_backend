@@ -17,8 +17,8 @@
         <result property="isAdmin" column="is_admin" />
         <result property="oauth2Id" column="oauth2_id" />
         <result property="profileUrl" column="profile_url" />
+        <result property="enabled" column="enabled" />
     </resultMap>
-
 
     <insert id="saveUser" parameterType="com.dogtiger.challus.entity.User">
         insert into user_tb
@@ -34,7 +34,8 @@
             '브론즈',
             0,
             #{oauth2Id},
-            #{profileUrl}
+            #{profileUrl},
+            default
         );
     </insert>
 
