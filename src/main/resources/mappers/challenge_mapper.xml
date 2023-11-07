@@ -70,7 +70,7 @@
             challenge_id = #{challengeId}
     </select>
 
-    <select id="getUserLikeState" parameterMap="com.dogtiger.challus.entity.Challenge">
+    <select id="getUserLikeState" parameterType="com.dogtiger.challus.entity.Challenge" resultType="integer">
         select
             count(*)
         from
