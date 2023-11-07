@@ -37,7 +37,7 @@
                 0
             </otherwise>
         </choose>,
-        #{startDate}, #{endDate}, #{categoryName}
+        #{startDate}, #{endDate}, #{categoryName}, #{challengeLikeCount}
         )
     </insert>
 
@@ -70,7 +70,7 @@
             challenge_id = #{challengeId}
     </select>
 
-    <select id="getUserLikeState" parameterMap="com.dogtiger.challus.entity.Challenge">
+    <select id="getUserLikeState" parameterType="com.dogtiger.challus.entity.Challenge">
         select
             count(*)
         from
