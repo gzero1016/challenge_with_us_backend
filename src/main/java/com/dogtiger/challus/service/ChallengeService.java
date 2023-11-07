@@ -31,10 +31,12 @@ public class ChallengeService {
 
     @Transactional(rollbackFor = Exception.class)
     public boolean insertLike(int challengeId) {
-        int userId = ((PrincipalUser)SecurityContextHolder.getContext().getAuthentication()).getUser().getUserId();
+//        int userId = ((PrincipalUser)SecurityContextHolder.getContext().getAuthentication()).getUser().getUserId();
         Map<String, Object> paramsMap = new HashMap<>();
-        paramsMap.put("challengeId", challengeId);
-        paramsMap.put("userId", userId);
+//        paramsMap.put("challengeId", challengeId);
+//        paramsMap.put("userId", userId);
+        paramsMap.put("userId", SecurityContextHolder.getContext().getAuthentication().getName());
+        System.out.println(paramsMap);
         return challengeMapper.insertLike(paramsMap) > 0;
     }
 
