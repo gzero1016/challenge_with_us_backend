@@ -30,7 +30,10 @@ public class ChallengeController {
     }
 
     @GetMapping("/api/challenge/{challengeId}/userlike")
-    public ResponseEntity<?> getUserLikeState(@PathVariable int challengeId, @RequestBody ChallengeLikeReqDto challengeLikeReqDto) {
+    public ResponseEntity<?> getUserLikeState(@PathVariable int challengeId,
+                                              @RequestParam int userId) {
+        ChallengeLikeReqDto challengeLikeReqDto = new ChallengeLikeReqDto();
+        challengeLikeReqDto.setUserId(userId);
         challengeLikeReqDto.setChallengeId(challengeId);
         return ResponseEntity.ok(challengeService.getUserLikeState(challengeLikeReqDto));
     }
