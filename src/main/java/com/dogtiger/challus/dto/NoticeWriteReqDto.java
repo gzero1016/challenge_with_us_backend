@@ -4,7 +4,7 @@ import com.dogtiger.challus.entity.Notice;
 import lombok.Data;
 
 @Data
-public class NoticewriteReqDto {
+public class NoticeWriteReqDto {
 
     private String title;
     private String content;
