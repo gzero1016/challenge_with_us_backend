@@ -70,6 +70,16 @@
             challenge_id = #{challengeId}
     </select>
 
+    <select id="getUserLikeState" parameterMap="com.dogtiger.challus.entity.Challenge">
+        select
+            count(*)
+        from
+            challenge_like_tb
+        where
+            challenge_id = #{challengeId}
+        and user_id = #{userId}
+    </select>
+
     <update id="insertLike" parameterType="com.dogtiger.challus.entity.Challenge">
         insert into challenge_like_tb
         values(0, #{challengeId}, #{userId})
