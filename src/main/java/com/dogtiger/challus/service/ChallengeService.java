@@ -43,4 +43,8 @@ public class ChallengeService {
     public boolean cancelLike(ChallengeLikeReqDto challengeLikeReqDto) {
         return challengeMapper.cancelLike(challengeLikeReqDto.toChallengeEntity()) > 0;
     }
+
+    public boolean challengeDelete(int challengeId){
+        return challengeMapper.challengeDelete(challengeId) > 0;
+    }
 }
