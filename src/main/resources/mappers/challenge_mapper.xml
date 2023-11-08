@@ -41,6 +41,21 @@
         )
     </insert>
 
+    <insert id="challengeApplicable">
+        insert into challenge_application_tb
+        (
+            select
+                0,
+                challenge_id,
+                user_id,
+                if(is_applicable = 0, 1, 0)
+            from
+                challenge_tb
+            where
+                challenge_id = #{challengeId}
+        )
+    </insert>
+
     <select id="getChallengeByChallengeId" resultMap="challengeMap">
         select
             ct.challenge_id,
@@ -78,6 +93,28 @@
         where
             challenge_id = #{challengeId}
         and user_id = #{userId}
+    </select>
+
+    <select id="getChallengeStatus" resultType="java.lang.Integer">
+        select
+            count(*)
+        from
+            challenge_application_tb
+        where
+            challenge_id = #{challengeId}
+        and user_id = #{userId}
+        and accept_state = 1
+    </select>
+
+    <select id="getChallengeAtmospher" resultType="java.lang.Integer">
+        select
+            count(*)
+        from
+            challenge_application_tb
+        where
+            challenge_id = #{challengeId}
+        and user_id = #{userId}
+        and accept_state = 0
     </select>
 
     <update id="insertLike" parameterType="com.dogtiger.challus.entity.Challenge">

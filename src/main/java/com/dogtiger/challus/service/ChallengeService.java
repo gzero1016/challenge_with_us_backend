@@ -47,4 +47,23 @@ public class ChallengeService {
     public boolean challengeDelete(int challengeId){
         return challengeMapper.challengeDelete(challengeId) > 0;
     }
+
+    public boolean getChallengeStatus(int challengeId){
+        PrincipalUser principalUser = (PrincipalUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        int userId = principalUser.getUser().getUserId();
+        return challengeMapper.getChallengeStatus(challengeId, userId) > 0;
+    }
+
+    public boolean getChallengeAtmospher(int challengeId){
+        PrincipalUser principalUser = (PrincipalUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        int userId = principalUser.getUser().getUserId();
+        return challengeMapper.getChallengeAtmospher(challengeId, userId) > 0;
+    }
+
+    public boolean challengeApplicable(int challengeId){
+        PrincipalUser principalUser = (PrincipalUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        int userId = principalUser.getUser().getUserId();
+        System.out.println(userId);
+        return challengeMapper.challengeApplicable(challengeId, userId) > 0;
+    }
 }
