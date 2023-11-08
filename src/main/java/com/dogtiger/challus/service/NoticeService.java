@@ -11,7 +11,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -27,10 +29,16 @@ public class NoticeService {
         return noticeMapper.saveNotice(notice) > 0;
     }
 
-    public List<NoticeListRespDto> noticeListGet() {
+    public List<NoticeListRespDto> noticeListGet(int page) {
+        Map<String, Object> paramsMap = new HashMap<>();
+        int index = (page - 1) * 10;
+        paramsMap.put("index", index);
         List<NoticeListRespDto> noticeListRespDtos = new ArrayList<>();
-        List<Notice> notices = noticeMapper.noticeList();
+        noticeMapper.getNoticeList(paramsMap).forEach(notice -> {
+            noticeListRespDtos.add(notice.noticeListRespDto());
+        });
 
-        return NoticeListRespDto;
+        return noticeListRespDtos;
+
     }
 }

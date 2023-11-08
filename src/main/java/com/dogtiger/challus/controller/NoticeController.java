@@ -6,10 +6,7 @@ import com.dogtiger.challus.dto.NoticeWriteReqDto;
 import com.dogtiger.challus.service.NoticeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -22,9 +19,11 @@ public class NoticeController {
     public ResponseEntity<?> noticeWrite(@RequestBody NoticeWriteReqDto noticewriteReqDto){
         return ResponseEntity.ok(noticeService.saveNotice(noticewriteReqDto));
     }
-    @GetMapping("/api/notices")
-    public ResponseEntity<?> noticeListGet(){
-        List<NoticeListRespDto> noticeList = noticeService.noticeListGet();
+
+    @GetMapping("/api/notices/{page}")
+    public ResponseEntity<?> noticeListGet(@PathVariable int page){
+        System.out.println(page);
+        List<NoticeListRespDto> noticeList = noticeService.noticeListGet(page);
         return ResponseEntity.ok(noticeList);
     }
 }
