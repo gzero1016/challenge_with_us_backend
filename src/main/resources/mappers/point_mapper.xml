@@ -10,9 +10,8 @@
         values(0, #{userId}, 1, #{point}, now())
     </insert>
 
-    <insert id="challengeCreatePoint">
+    <insert id="usePoint">
         insert into point_history_tb
         values(0, #{userId}, 0, #{point}, now())
     </insert>
-
 </mapper>

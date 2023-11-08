@@ -31,4 +31,13 @@ public enum StoreItem {
     public String getItemImgUrl() {
         return this.itemImgUrl;
     }
+
+    public static Integer getItemPriceByItemId(int itemId) {
+        for (StoreItem item : StoreItem.values()) {
+            if (item.getItemId() == itemId) {
+                return item.getItemPrice();
+            }
+        }
+        return null;
+    }
 }
