@@ -21,7 +21,6 @@ public class NoticeService {
     private final NoticeMapper noticeMapper;
     private final UserMapper userMapper;
 
-
     public boolean saveNotice(NoticeWriteReqDto noticewriteReqDto) {
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
         User user = userMapper.findUserByEmail(email);

@@ -5,15 +5,13 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
-
 @Builder
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Point {
+public class Order {
+    private int orderId;
     private int userId;
-    private int pointType;
-    private int point;
-    private LocalDate date;
+    private int itemId;
+    private int itemPrice;
 }

@@ -29,14 +29,31 @@ public class ChallengeController {
         return ResponseEntity.ok(challengeService.getLikeState(challengeId));
     }
 
+    @GetMapping("/api/challenge/{challengeId}/userlike")
+    public ResponseEntity<?> getUserLikeState(@PathVariable int challengeId,
+                                              @RequestParam int userId) {
+        ChallengeLikeReqDto challengeLikeReqDto = new ChallengeLikeReqDto();
+        challengeLikeReqDto.setUserId(userId);
+        challengeLikeReqDto.setChallengeId(challengeId);
+        return ResponseEntity.ok(challengeService.getUserLikeState(challengeLikeReqDto));
+    }
+
     @PostMapping("/api/challenge/{challengeId}/like")
-    public ResponseEntity<?> insertLike(@RequestBody ChallengeLikeReqDto challengeLikeReqDto) {
+    public ResponseEntity<?> insertLike(@PathVariable int challengeId, @RequestBody ChallengeLikeReqDto challengeLikeReqDto) {
+        challengeLikeReqDto.setChallengeId(challengeId);
         System.out.println(challengeLikeReqDto);
         return ResponseEntity.ok(challengeService.insertLike(challengeLikeReqDto));
     }
 
     @DeleteMapping("/api/challenge/{challengeId}/like")
-    public ResponseEntity<?> cancelLike(@RequestBody ChallengeLikeReqDto challengeLikeReqDto) {
+    public ResponseEntity<?> cancelLike(@PathVariable int challengeId, @RequestBody ChallengeLikeReqDto challengeLikeReqDto) {
+        challengeLikeReqDto.setChallengeId(challengeId);
+        System.out.println(challengeLikeReqDto);
         return ResponseEntity.ok(challengeService.cancelLike(challengeLikeReqDto));
+    }
+
+    @DeleteMapping("/api/challenge/{challengeId}")
+    public ResponseEntity<?> challengeDelete(@PathVariable int challengeId) {
+        return ResponseEntity.ok(challengeService.challengeDelete(challengeId));
     }
 }
