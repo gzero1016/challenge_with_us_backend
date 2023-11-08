@@ -2,6 +2,7 @@ package com.dogtiger.challus.controller;
 
 import com.dogtiger.challus.dto.ChallengeCreateReqDto;
 import com.dogtiger.challus.dto.ChallengeLikeReqDto;
+import com.dogtiger.challus.security.PrincipalUser;
 import com.dogtiger.challus.service.ChallengeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -55,5 +56,15 @@ public class ChallengeController {
     @DeleteMapping("/api/challenge/{challengeId}")
     public ResponseEntity<?> challengeDelete(@PathVariable int challengeId) {
         return ResponseEntity.ok(challengeService.challengeDelete(challengeId));
+    }
+
+    @GetMapping("/api/challenge/join/{challengeId}")
+    public ResponseEntity<?> getChallengeStatus(@PathVariable int challengeId) {
+        return ResponseEntity.ok(challengeService.getChallengeStatus(challengeId));
+    }
+
+    @PostMapping("/api/challenge/join/{challengeId}")
+    public ResponseEntity<?> challengeApplicable(@PathVariable int challengeId) {
+        return ResponseEntity.ok(challengeService.challengeApplicable(challengeId));
     }
 }
