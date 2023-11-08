@@ -2,6 +2,7 @@ package com.dogtiger.challus.controller;
 
 import com.dogtiger.challus.dto.ChallengeCreateReqDto;
 import com.dogtiger.challus.dto.ChallengeLikeReqDto;
+import com.dogtiger.challus.dto.FeedReqDto;
 import com.dogtiger.challus.security.PrincipalUser;
 import com.dogtiger.challus.service.ChallengeService;
 import lombok.RequiredArgsConstructor;
