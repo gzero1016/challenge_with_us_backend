@@ -9,6 +9,5 @@ import java.util.Map;
 @Mapper
 public interface NoticeMapper {
     public int saveNotice(Notice notice);
-
-    public List<Notice> noticeList(Map<String, Object> paramsMap);
+    public List<Notice> getNoticeList(Map<String, Object> paramsMap);
 }

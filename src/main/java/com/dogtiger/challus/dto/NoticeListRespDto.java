@@ -9,5 +9,5 @@ public class NoticeListRespDto {
     private int noticeId;
     private String noticeTitle;
     private String nickname;
-    private String createDate;
+    private String noticeDate;
 }
