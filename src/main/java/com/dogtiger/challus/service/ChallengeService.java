@@ -54,6 +54,12 @@ public class ChallengeService {
         return challengeMapper.getChallengeStatus(challengeId, userId) > 0;
     }
 
+    public boolean getChallengeAtmospher(int challengeId){
+        PrincipalUser principalUser = (PrincipalUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        int userId = principalUser.getUser().getUserId();
+        return challengeMapper.getChallengeAtmospher(challengeId, userId) > 0;
+    }
+
     public boolean challengeApplicable(int challengeId){
         PrincipalUser principalUser = (PrincipalUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         int userId = principalUser.getUser().getUserId();

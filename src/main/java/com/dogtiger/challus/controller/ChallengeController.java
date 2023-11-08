@@ -63,6 +63,11 @@ public class ChallengeController {
         return ResponseEntity.ok(challengeService.getChallengeStatus(challengeId));
     }
 
+    @GetMapping("/api/challenge/atmospher/{challengeId}")
+    public ResponseEntity<?> getChallengeAtmospher(@PathVariable int challengeId) {
+        return ResponseEntity.ok(challengeService.getChallengeAtmospher(challengeId));
+    }
+
     @PostMapping("/api/challenge/join/{challengeId}")
     public ResponseEntity<?> challengeApplicable(@PathVariable int challengeId) {
         return ResponseEntity.ok(challengeService.challengeApplicable(challengeId));
