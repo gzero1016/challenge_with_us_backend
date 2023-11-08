@@ -10,8 +10,8 @@ import java.time.LocalDateTime;
 
 @Builder
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 public class Notice {
 
     private int noticeId;
