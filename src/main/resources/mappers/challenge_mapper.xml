@@ -59,4 +59,54 @@
             ct.challenge_id = #{challengeId}
     </select>
 
+    <select id="getChallengeList" resultMap="challengeMap" parameterType="hashmap">
+        select
+            ct.challenge_id,
+            ct.challenge_name,
+            ct.category_name,
+            ct.start_date,
+            ct.challenge_like_count
+        from
+            challenge_tb ct
+            left outer join user_tb ut on(ut.user_id = ct.user_id)
+        where
+            1 = 1
+            <choose>
+                <when test="optionName.equals('전체')">
+                    and ct.challenge_name like concat("%", #{searchValue}, "%")
+                    or ct.category_name like concat("%", #{searchValue}, "%")
+                </when>
+                <when test="optionName.equals('챌린지제목')">
+                    and ct.challenge_name like concat("%", #{searchValue}, "%")
+                </when>
+                <when test="optionName.equals('카테고리이름')">
+                    and ct.category_name like concat("%", #{searchValue}, "%")
+                </when>
+            </choose>
+        order by
+            challenge_id desc
+        limit #{index}, 10
+    </select>
+    <select id="getChallengeCount" resultType="java.lang.Integer">
+        select
+            count(*)
+        from
+            challenge_tb ct
+            left outer join user_tb ut on(ut.user_id = ct.user_id)
+        where
+            1 = 1
+            <choose>
+                <when test="optionName.equals('전체')">
+                    and ct.challenge_name like concat("%", #{searchValue}, "%")
+                    or ct.category_name like concat("%", #{searchValue}, "%")
+                </when>
+                <when test="optionName.equals('챌린지제목')">
+                    and ct.challenge_name like concat("%", #{searchValue}, "%")
+                </when>
+                <when test="optionName.equals('카테고리이름')">
+                    and ct.category_name like concat("%", #{searchValue}, "%")
+                </when>
+            </choose>
+    </select>
+
 </mapper>
