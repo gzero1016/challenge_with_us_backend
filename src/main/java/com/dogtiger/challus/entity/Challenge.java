@@ -53,6 +53,8 @@ public class Challenge {
                 .endDate(endDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")))
                 .categoryName(categoryName)
                 .name(name)
+                .challengeLikeCount(challengeLikeCount)
                 .build();
     }
+
 }

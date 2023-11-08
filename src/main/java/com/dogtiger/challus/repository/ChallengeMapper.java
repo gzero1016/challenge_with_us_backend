@@ -12,4 +12,9 @@ public interface ChallengeMapper {
     public Challenge getChallengeByChallengeId(int challengeId);
     public List<Challenge> getChallengeList(Map<String, Object> paramsMap);
     public int getChallengeCount(Map<String, Object> paramsMap);
+    public int getLikeState(int challengeId);
+    public int getUserLikeState(Challenge challenge);
+    public int insertLike(Challenge challenge);
+    public int cancelLike(Challenge challenge);
+    public int challengeDelete(int challengeId);
 }

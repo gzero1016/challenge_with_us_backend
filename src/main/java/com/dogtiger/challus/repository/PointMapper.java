@@ -6,5 +6,5 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface PointMapper {
     public int savePoint(Point point);
-    public int challengeCreatePoint(Point point);
+    public int usePoint(Point point);
 }
