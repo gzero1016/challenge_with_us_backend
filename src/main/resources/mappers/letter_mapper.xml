@@ -15,7 +15,36 @@
         <result property="letterType" column="letter_type" />
         <result property="targetUrl" column="target_url" />
         <result property="senderNickname" column="nickname" />
+        <result property="challengeId" column="challenge_id" />
+        <result property="challengeName" column="challenge_name" />
+        <association property="challengeApplication" resultMap="challengeApplicationMap" />
+        <association property="challenge" resultMap="challengeMap" />
     </resultMap>
+
+    <resultMap id="challengeApplicationMap" type="com.dogtiger.challus.entity.ChallengeApplication">
+        <id property="challengeApplicationId" column="challenge_application_id" />
+        <result property="challengeId" column="challenge_id" />
+        <result property="userId" column="user_id" />
+        <result property="acceptState" column="accept_state" />
+    </resultMap>
+
+    <resultMap id="challengeMap" type="com.dogtiger.challus.entity.Challenge">
+        <id property="challengeId" column="challenge_id" />
+        <result property="userId" column="user_id" />
+        <result property="challengeName" column="challenge_name" />
+        <result property="introduction" column="challenge_introduction" />
+        <result property="isOpen" column="is_open" />
+        <result property="isApplicable" column="is_applicable" />
+        <result property="startDate" column="start_date" />
+        <result property="endDate" column="end_date" />
+        <result property="categoryName" column="category_name" />
+        <result property="challengeLikeCount" column="challenge_like_count" />
+    </resultMap>
+
+    <insert id="challengeAtmosphereLetter" parameterType="com.dogtiger.challus.entity.Letter">
+        insert into letter_tb
+        values(0, #{senderUserId}, #{receiverUserId}, #{title}, #{content}, now(), 0, 1, #{targetUrl})
+    </insert>
 
     <select id="findLettersByUserId" resultMap="letterMap">
         select
@@ -28,10 +57,14 @@
             lt.is_read,
             lt.letter_type,
             lt.target_url,
-            ut.nickname
+            ut.nickname,
+            cat.challenge_id,
+            ct.challenge_name
         from
             letter_tb lt
             left outer join user_tb ut on (ut.user_id = lt.sender_user_id)
+            left outer join challenge_application_tb cat on (ut.user_id = lt.sender_user_id)
+            left outer join challenge_tb ct on (ct.challenge_id = cat.challenge_id)
         where
             receiver_user_id = #{userId}
     </select>

@@ -25,6 +25,11 @@ public class Letter {
     private String targetUrl;
 
     private String senderNickname;
+    private int challengeId;
+    private String challengeName;
+
+    private ChallengeApplication challengeApplication;
+    private Challenge challenge;
 
     public LettersResDto toLettersResDto() {
         return LettersResDto.builder()
@@ -38,6 +43,8 @@ public class Letter {
                 .isRead(isRead)
                 .letterType(letterType)
                 .targetUrl(targetUrl)
+                .challengeId(challengeId)
+                .challengeName(challengeName)
                 .build();
     }
 }
