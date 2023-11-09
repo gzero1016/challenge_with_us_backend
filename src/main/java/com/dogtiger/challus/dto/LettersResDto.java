@@ -14,7 +14,7 @@ public class LettersResDto {
     private int receiverUserId;
     private String title;
     private String content;
-    private LocalDateTime sendDateTime;
+    private String sendDateTime;
     private int isRead;
     private int letterType;
     private String targetUrl;

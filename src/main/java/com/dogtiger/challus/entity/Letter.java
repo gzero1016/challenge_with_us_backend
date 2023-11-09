@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Builder
 @Data
@@ -30,7 +31,7 @@ public class Letter {
                 .receiverUserId(receiverUserId)
                 .title(title)
                 .content(content)
-                .sendDateTime(sendDateTime)
+                .sendDateTime(sendDateTime.format(DateTimeFormatter.ofPattern("MM월dd일 HH시mm분")))
                 .isRead(isRead)
                 .letterType(letterType)
                 .targetUrl(targetUrl)
