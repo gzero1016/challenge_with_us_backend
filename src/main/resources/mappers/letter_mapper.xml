@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.dogtiger.challus.repository.LetterMapper">
+    <resultMap id="letterMap" type="com.dogtiger.challus.entity.Letter">
+        <id property="letterId" column="letter_id" />
+        <result property="senderUserId" column="sender_user_id" />
+        <result property="receiverUserId" column="receiver_user_id" />
+        <result property="title" column="title" />
+        <result property="content" column="content" />
+        <result property="sendDateTime" column="sendDateTime" />
+        <result property="isRead" column="is_read" />
+        <result property="letterType" column="letter_type" />
+        <result property="targetUrl" column="target_url" />
+    </resultMap>
+
+    <select id="findLettersByUserId" resultMap="letterMap">
+        select
+            letter_id,
+            sender_user_id,
+            receiver_user_id,
+            title,
+            content,
+            send_date_time,
+            is_read,
+            letter_type,
+            target_url,
+        from
+            letter_tb
+        where
+            user_id = #{userId}
+    </select>
+</mapper>
