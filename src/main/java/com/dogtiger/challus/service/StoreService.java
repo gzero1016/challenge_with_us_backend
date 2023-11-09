@@ -2,6 +2,7 @@ package com.dogtiger.challus.service;
 
 
 import com.dogtiger.challus.dto.ItemsResDto;
+import com.dogtiger.challus.dto.StoreOrderResDto;
 import com.dogtiger.challus.entity.Order;
 import com.dogtiger.challus.entity.Point;
 import com.dogtiger.challus.entity.User;
@@ -17,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -58,5 +60,15 @@ public class StoreService {
                 .userId(user.getUserId())
                 .point(itemPrice)
                 .build());
+    }
+
+    public List<StoreOrderResDto> getOrderList(int userId) {
+        List<StoreOrderResDto> orderList = null;
+
+        orderList = orderMapper.findOrdersByUserId(userId)
+                .stream()
+                .map(Order::toStoreOrderResDto)
+                .collect(Collectors.toList());
+        return orderList;
     }
 }

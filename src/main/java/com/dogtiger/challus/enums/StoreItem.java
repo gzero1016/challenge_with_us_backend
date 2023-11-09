@@ -40,4 +40,13 @@ public enum StoreItem {
         }
         return null;
     }
+
+    public static String getItemNameByItemId(int itemId) {
+        for (StoreItem item : StoreItem.values()) {
+            if (item.getItemId() == itemId) {
+                return item.getItemName();
+            }
+        }
+        return null;
+    }
 }
