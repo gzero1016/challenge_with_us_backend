@@ -46,8 +46,8 @@
         (
             select
                 0,
-                challenge_id,
-                user_id,
+                #{challengeId},
+                #{userId},
                 if(is_applicable = 0, 1, 0)
             from
                 challenge_tb
