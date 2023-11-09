@@ -1,5 +1,6 @@
 package com.dogtiger.challus.entity;
 
+import com.dogtiger.challus.dto.ChallengeListRespDto;
 import com.dogtiger.challus.dto.GetChallengeRespDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -28,6 +29,16 @@ public class Challenge {
     private String categoryName;
     private String name;
     private int challengeLikeCount;
+
+    public ChallengeListRespDto toChallengeListDto() {
+        return ChallengeListRespDto.builder()
+                .challengeId(challengeId)
+                .title(challengeName)
+                .categoryname(categoryName)
+                .startDate(startDate.format(DateTimeFormatter.ISO_DATE))
+                .likeCount(challengeLikeCount)
+                .build();
+    }
 
     public GetChallengeRespDto toChallengeDto() {
         return GetChallengeRespDto.builder()
