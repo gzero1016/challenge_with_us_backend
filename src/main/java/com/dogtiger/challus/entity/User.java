@@ -42,11 +42,4 @@ public class User {
                 .enabled(enabled)
                 .build();
     }
-
-    public GetChallengersRespDto toChallengersDto() {
-        return GetChallengersRespDto.builder()
-                .nickname(nickname)
-                .build();
-    }
-
 }

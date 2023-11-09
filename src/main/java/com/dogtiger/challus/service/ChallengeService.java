@@ -2,6 +2,7 @@ package com.dogtiger.challus.service;
 
 import com.dogtiger.challus.dto.*;
 import com.dogtiger.challus.entity.Challenge;
+import com.dogtiger.challus.entity.ChallengeApplication;
 import com.dogtiger.challus.entity.Letter;
 import com.dogtiger.challus.entity.User;
 import com.dogtiger.challus.repository.ChallengeMapper;
@@ -99,11 +100,12 @@ public class ChallengeService {
         return challengeMapper.challengeApplicable(challengeId, userId) > 0;
     }
 
-    public List<GetChallengersRespDto> getChallengers(int challengeId){
-        List<GetChallengersRespDto> challengers = null;
-        challengers = challengeMapper.getChallengersByChallengeId(challengeId).stream().map(User::toChallengersDto).collect(Collectors.toList());
-
-        return challengers;
+    public List<GetChallengersRespDto> getChallengers(int challengeId) {
+        return challengeMapper
+                .getChallengersByChallengeId(challengeId)
+                .stream()
+                .map(ChallengeApplication::toChallengersDto)
+                .collect(Collectors.toList());
     }
 
     @Transactional(rollbackFor = Exception.class)
