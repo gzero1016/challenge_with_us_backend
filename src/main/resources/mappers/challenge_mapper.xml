@@ -166,6 +166,15 @@
         and user_id = #{userId}
         and accept_state = 0
     </select>
+    <select id="getChallengersByChallengeId" resultType="com.dogtiger.challus.entity.User">
+        select
+            ut.nickname
+        from
+            challenge_application_tb cat
+            left outer join user_tb ut on(ut.user_id = cat.user_id)
+        where
+            cat.challenge_id = #{challengeId}
+    </select>
 
     <update id="insertLike" parameterType="com.dogtiger.challus.entity.Challenge">
         insert into challenge_like_tb
@@ -188,4 +197,14 @@
         where
             challenge_id = #{challengeId}
     </delete>
+
+    <delete id="deleteChallenger">
+        delete
+        from
+            challenge_application_tb
+        where
+            user_id = #{userId}
+        and challenge_id = #{challengeId}
+    </delete>
+
 </mapper>

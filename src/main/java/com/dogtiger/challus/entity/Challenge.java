@@ -2,6 +2,7 @@ package com.dogtiger.challus.entity;
 
 import com.dogtiger.challus.dto.ChallengeListRespDto;
 import com.dogtiger.challus.dto.GetChallengeRespDto;
+import com.dogtiger.challus.dto.GetChallengersRespDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -56,5 +57,6 @@ public class Challenge {
                 .challengeLikeCount(challengeLikeCount)
                 .build();
     }
+
 
 }

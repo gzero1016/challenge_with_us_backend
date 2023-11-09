@@ -1,10 +1,9 @@
 package com.dogtiger.challus.service;
 
-import com.dogtiger.challus.dto.ChallengeCreateReqDto;
-import com.dogtiger.challus.dto.ChallengeListRespDto;
-import com.dogtiger.challus.dto.ChallengeLikeReqDto;
-import com.dogtiger.challus.dto.GetChallengeRespDto;
-import com.dogtiger.challus.dto.SearchChallengeListReqDto;
+import com.dogtiger.challus.dto.*;
+import com.dogtiger.challus.entity.Challenge;
+import com.dogtiger.challus.entity.Letter;
+import com.dogtiger.challus.entity.User;
 import com.dogtiger.challus.repository.ChallengeMapper;
 import com.dogtiger.challus.security.PrincipalUser;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +16,7 @@ import java.util.Map;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -98,4 +98,18 @@ public class ChallengeService {
         System.out.println(userId);
         return challengeMapper.challengeApplicable(challengeId, userId) > 0;
     }
+
+    public List<GetChallengersRespDto> getChallengers(int challengeId){
+        List<GetChallengersRespDto> challengers = null;
+        challengers = challengeMapper.getChallengersByChallengeId(challengeId).stream().map(User::toChallengersDto).collect(Collectors.toList());
+
+        return challengers;
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    public boolean deleteChallenger (int challengeId, int userId){
+        return challengeMapper.deleteChallenger(challengeId, userId) > 0;
+    }
+
+
 }

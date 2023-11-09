@@ -1,21 +1,18 @@
 package com.dogtiger.challus.dto;
 
+import com.dogtiger.challus.entity.User;
 import lombok.Builder;
 import lombok.Data;
 
 @Data
 @Builder
-public class GetChallengeRespDto {
-    private int challengeId;
+public class GetChallengersRespDto {
     private int userId;
-    private String challengeName;
-    private int layout;
-    private String introduction;
-    private String isOpen;
-    private String isApplicable;
-    private String startDate;
-    private String endDate;
-    private String categoryName;
-    private String name;
-    private int challengeLikeCount;
+    private String nickname;
+
+    public User toUserEntity() {
+        return User.builder()
+                .nickname(nickname)
+                .build();
+    }
 }

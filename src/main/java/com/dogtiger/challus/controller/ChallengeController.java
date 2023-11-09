@@ -87,4 +87,15 @@ public class ChallengeController {
     public ResponseEntity<?> challengeApplicable(@PathVariable int challengeId) {
         return ResponseEntity.ok(challengeService.challengeApplicable(challengeId));
     }
+
+    @GetMapping("/api/challengers/{challengeId}")
+    public ResponseEntity<?> getChallengers(@PathVariable int challengeId) {
+        return ResponseEntity.ok(challengeService.getChallengers(challengeId));
+    }
+
+    @DeleteMapping("/api/challenger/{challengeId}")
+    public ResponseEntity<?> deleteChallenger(@PathVariable int challengeId, int userId) {
+        System.out.println(challengeId + ", " + userId);
+        return ResponseEntity.ok(challengeService.deleteChallenger(challengeId, userId));
+    }
 }

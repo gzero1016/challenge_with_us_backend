@@ -1,5 +1,6 @@
 package com.dogtiger.challus.entity;
 
+import com.dogtiger.challus.dto.GetChallengersRespDto;
 import com.dogtiger.challus.dto.PrincipalResDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -39,6 +40,12 @@ public class User {
                 .oauth2Id(oauth2Id)
                 .profileUrl(profileUrl)
                 .enabled(enabled)
+                .build();
+    }
+
+    public GetChallengersRespDto toChallengersDto() {
+        return GetChallengersRespDto.builder()
+                .nickname(nickname)
                 .build();
     }
 
