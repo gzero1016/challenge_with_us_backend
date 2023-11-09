@@ -10,7 +10,7 @@
         <result property="receiverUserId" column="receiver_user_id" />
         <result property="title" column="title" />
         <result property="content" column="content" />
-        <result property="sendDateTime" column="sendDateTime" />
+        <result property="sendDateTime" column="send_date_time" />
         <result property="isRead" column="is_read" />
         <result property="letterType" column="letter_type" />
         <result property="targetUrl" column="target_url" />
