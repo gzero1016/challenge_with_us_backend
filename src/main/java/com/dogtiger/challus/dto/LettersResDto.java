@@ -19,4 +19,6 @@ public class LettersResDto {
     private int isRead;
     private int letterType;
     private String targetUrl;
+    private int challengeId;
+    private String challengeName;
 }

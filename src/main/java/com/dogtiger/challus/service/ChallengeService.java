@@ -1,10 +1,6 @@
 package com.dogtiger.challus.service;
 
-import com.dogtiger.challus.dto.ChallengeCreateReqDto;
-import com.dogtiger.challus.dto.ChallengeListRespDto;
-import com.dogtiger.challus.dto.ChallengeLikeReqDto;
-import com.dogtiger.challus.dto.GetChallengeRespDto;
-import com.dogtiger.challus.dto.SearchChallengeListReqDto;
+import com.dogtiger.challus.dto.*;
 import com.dogtiger.challus.repository.ChallengeMapper;
 import com.dogtiger.challus.security.PrincipalUser;
 import lombok.RequiredArgsConstructor;
@@ -86,16 +82,20 @@ public class ChallengeService {
     public boolean getChallengeAtmospher(int challengeId){
         PrincipalUser principalUser = (PrincipalUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         int userId = principalUser.getUser().getUserId();
-        System.out.println(challengeId);
-        System.out.println(userId);
-        System.out.println(challengeMapper.getChallengeAtmospher(challengeId, userId) > 0);
         return challengeMapper.getChallengeAtmospher(challengeId, userId) > 0;
     }
 
     public boolean challengeApplicable(int challengeId){
         PrincipalUser principalUser = (PrincipalUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         int userId = principalUser.getUser().getUserId();
-        System.out.println(userId);
         return challengeMapper.challengeApplicable(challengeId, userId) > 0;
+    }
+
+    public boolean challengeApproval(ChallengeApplicableReqDto challengeApplicableReqDto) {
+        return challengeMapper.challengeApproval(challengeApplicableReqDto.toChallengeApplicationEntity()) > 0;
+    }
+
+    public boolean challengeRefusal(ChallengeApplicableReqDto challengeApplicableReqDto) {
+        return challengeMapper.challengeRefusal(challengeApplicableReqDto.toChallengeApplicationEntity()) > 0;
     }
 }

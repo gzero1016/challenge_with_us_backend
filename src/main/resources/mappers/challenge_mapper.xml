@@ -180,6 +180,24 @@
         values(0, #{challengeId}, #{userId})
     </update>
 
+    <update id="challengeApproval">
+        update challenge_application_tb
+        set
+            accept_state = 1
+        where
+            user_id = #{userId}
+        and challenge_id = #{challengeId}
+    </update>
+
+    <update id="challengeRefusal">
+        update challenge_application_tb
+        set
+            accept_state = 2
+        where
+            user_id = #{userId}
+        and challenge_id = #{challengeId}
+    </update>
+
     <delete id="cancelLike" parameterType="com.dogtiger.challus.entity.Challenge">
         delete
         from
