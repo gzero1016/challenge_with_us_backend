@@ -41,4 +41,36 @@
         where
             receiver_user_id = #{userId}
     </select>
+
+    <select id="findLetterByLetterId" resultType="com.dogtiger.challus.entity.Letter">
+        select
+            letter_id,
+            sender_user_id,
+            receiver_user_id,
+            title,
+            content,
+            send_date_time,
+            is_read,
+            letter_type,
+            target_url
+        from
+            letter_tb
+        where
+            letter_id = #{letterId}
+    </select>
+
+    <update id="updateLetter">
+        update letter_tb
+        set
+            sender_user_id = #{sender_user_id},
+            receiver_user_id = #{receiver_user_id},
+            title = #{title},
+            content = #{content},
+            send_date_time = #{sendDateTime},
+            is_read = #{isRead},
+            letter_type = #{letterType},
+            target_url = #{targetUrl}
+        where
+            letter_id = #{letterId}
+    </update>
 </mapper>
