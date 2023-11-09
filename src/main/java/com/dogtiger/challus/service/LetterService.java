@@ -18,9 +18,18 @@ public class LetterService {
     private final LetterMapper letterMapper;
     public List<LettersResDto> getLetters() {
         List<LettersResDto> letters = null;
+        letters = letterMapper.findLettersByUserId(getCurrentUser().getUserId()).stream().map(Letter::toLettersResDto).collect(Collectors.toList());
+        return letters;
+    }
+
+    public int getLettersCount() {
+        User user = getCurrentUser();
+        return letterMapper.getLettersCountByUserId(user.getUserId());
+    }
+
+    private User getCurrentUser(){
         PrincipalUser principalUser = (PrincipalUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         User user = principalUser.getUser();
-        letters = letterMapper.findLettersByUserId(user.getUserId()).stream().map(Letter::toLettersResDto).collect(Collectors.toList());
-        return letters;
+        return user;
     }
 }

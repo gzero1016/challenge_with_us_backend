@@ -9,4 +9,5 @@ import java.util.List;
 @Mapper
 public interface LetterMapper {
     public List<Letter> findLettersByUserId(int userId);
+    public int getLettersCountByUserId(int userId);
 }
