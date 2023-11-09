@@ -10,13 +10,42 @@
         <result property="receiverUserId" column="receiver_user_id" />
         <result property="title" column="title" />
         <result property="content" column="content" />
-        <result property="sendDateTime" column="sendDateTime" />
+        <result property="sendDateTime" column="send_date_time" />
         <result property="isRead" column="is_read" />
         <result property="letterType" column="letter_type" />
         <result property="targetUrl" column="target_url" />
+        <result property="senderNickname" column="nickname" />
     </resultMap>
 
     <select id="findLettersByUserId" resultMap="letterMap">
+        select
+            lt.letter_id,
+            lt.sender_user_id,
+            lt.receiver_user_id,
+            lt.title,
+            lt.content,
+            lt.send_date_time,
+            lt.is_read,
+            lt.letter_type,
+            lt.target_url,
+            ut.nickname
+        from
+            letter_tb lt
+            left outer join user_tb ut on (ut.user_id = lt.sender_user_id)
+        where
+            receiver_user_id = #{userId}
+    </select>
+
+    <select id="getLettersCountByUserId" resultType="java.lang.Integer">
+        select
+            count(receiver_user_id)
+        from
+            letter_tb
+        where
+            receiver_user_id = #{userId}
+    </select>
+
+    <select id="findLetterByLetterId" resultType="com.dogtiger.challus.entity.Letter">
         select
             letter_id,
             sender_user_id,
@@ -26,10 +55,25 @@
             send_date_time,
             is_read,
             letter_type,
-            target_url,
+            target_url
         from
             letter_tb
         where
-            user_id = #{userId}
+            letter_id = #{letterId}
     </select>
+
+    <update id="updateLetter">
+        update letter_tb
+        set
+            sender_user_id = #{sender_user_id},
+            receiver_user_id = #{receiver_user_id},
+            title = #{title},
+            content = #{content},
+            send_date_time = #{sendDateTime},
+            is_read = #{isRead},
+            letter_type = #{letterType},
+            target_url = #{targetUrl}
+        where
+            letter_id = #{letterId}
+    </update>
 </mapper>

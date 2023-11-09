@@ -1,7 +1,11 @@
 package com.dogtiger.challus.repository;
 
 import com.dogtiger.challus.entity.Challenge;
+<<<<<<< HEAD
 import com.dogtiger.challus.entity.User;
+=======
+import com.dogtiger.challus.entity.ChallengeApplication;
+>>>>>>> main
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -23,4 +27,5 @@ public interface ChallengeMapper {
     public int challengeApplicable(int challengeId, int userId);
     public List<User> getChallengersByChallengeId(int challengeId);
     public int deleteChallenger(int challengeId, int userId);
+    public List<Challenge> getApprovedChallengesByUserId(int userId);
 }

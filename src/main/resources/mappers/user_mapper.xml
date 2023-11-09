@@ -131,4 +131,5 @@
             nickname = #{nickname}
     </select>
 
+
 </mapper>
