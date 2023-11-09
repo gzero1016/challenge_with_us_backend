@@ -15,6 +15,14 @@
         <result property="endDate" column="end_date" />
         <result property="categoryName" column="category_name" />
         <result property="challengeLikeCount" column="challenge_like_count" />
+        <association property="challengeApplication" resultMap="challengeApplicationMap" />
+    </resultMap>
+
+    <resultMap id="challengeApplicationMap" type="com.dogtiger.challus.entity.ChallengeApplication">
+        <id property="challengeApplicationId" column="challenge_application_id" />
+        <result property="challengeId" column="challenge_id" />
+        <result property="userId" column="user_id" />
+        <result property="acceptState" column="accept_state" />
     </resultMap>
 
     <insert id="saveChallenge" parameterType="com.dogtiger.challus.entity.Challenge">
@@ -46,8 +54,8 @@
         (
             select
                 0,
-                challenge_id,
-                user_id,
+                #{challengeId},
+                #{userId},
                 if(is_applicable = 0, 1, 0)
             from
                 challenge_tb
@@ -74,6 +82,56 @@
             left outer join user_tb ut on(ut.user_id = ct.user_id)
         where
             ct.challenge_id = #{challengeId}
+    </select>
+
+    <select id="getChallengeList" resultMap="challengeMap" parameterType="hashmap">
+        select
+            ct.challenge_id,
+            ct.challenge_name,
+            ct.category_name,
+            ct.start_date,
+            ct.challenge_like_count
+        from
+            challenge_tb ct
+            left outer join user_tb ut on(ut.user_id = ct.user_id)
+        where
+            1 = 1
+            <choose>
+                <when test="optionName.equals('전체')">
+                    and ct.challenge_name like concat("%", #{searchValue}, "%")
+                    or ct.category_name like concat("%", #{searchValue}, "%")
+                </when>
+                <when test="optionName.equals('챌린지제목')">
+                    and ct.challenge_name like concat("%", #{searchValue}, "%")
+                </when>
+                <when test="optionName.equals('카테고리이름')">
+                    and ct.category_name like concat("%", #{searchValue}, "%")
+                </when>
+            </choose>
+        order by
+            challenge_id desc
+        limit #{index}, 10
+    </select>
+    <select id="getChallengeCount" resultType="java.lang.Integer">
+        select
+            count(*)
+        from
+            challenge_tb ct
+            left outer join user_tb ut on(ut.user_id = ct.user_id)
+        where
+            1 = 1
+            <choose>
+                <when test="optionName.equals('전체')">
+                    and ct.challenge_name like concat("%", #{searchValue}, "%")
+                    or ct.category_name like concat("%", #{searchValue}, "%")
+                </when>
+                <when test="optionName.equals('챌린지제목')">
+                    and ct.challenge_name like concat("%", #{searchValue}, "%")
+                </when>
+                <when test="optionName.equals('카테고리이름')">
+                    and ct.category_name like concat("%", #{searchValue}, "%")
+                </when>
+            </choose>
     </select>
 
     <select id="getLikeState" resultType="java.lang.Integer">
@@ -139,4 +197,23 @@
             challenge_id = #{challengeId}
     </delete>
 
+    <select id="getApprovedChallengesByUserId" resultMap="challengeMap">
+        select
+            ct.challenge_id,
+            ct.user_id,
+            ct.challenge_name,
+            ct.challenge_introduction,
+            ct.is_open,
+            ct.is_applicable,
+            ct.start_date,
+            ct.end_date,
+            ct.category_name,
+            ct.challenge_like_count
+        from
+            challenge_tb ct
+            left outer join challenge_application_tb cat on(cat.challenge_id = ct.challenge_id)
+        where
+            cat.accept_state = 1
+        and cat.user_id = #{userId};
+    </select>
 </mapper>

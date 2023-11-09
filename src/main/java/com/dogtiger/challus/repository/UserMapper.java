@@ -1,7 +1,10 @@
 package com.dogtiger.challus.repository;
 
 import com.dogtiger.challus.entity.User;
+import com.dogtiger.challus.entity.ChallengeApplication;
 import org.apache.ibatis.annotations.Mapper;
+
+import java.util.List;
 
 @Mapper
 public interface UserMapper {
