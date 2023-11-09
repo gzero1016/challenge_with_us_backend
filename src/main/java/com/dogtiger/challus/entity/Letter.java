@@ -24,10 +24,13 @@ public class Letter {
     private int letterType;
     private String targetUrl;
 
+    private String senderNickname;
+
     public LettersResDto toLettersResDto() {
         return LettersResDto.builder()
                 .letterId(letterId)
                 .senderUserId(senderUserId)
+                .senderNickname(senderNickname)
                 .receiverUserId(receiverUserId)
                 .title(title)
                 .content(content)

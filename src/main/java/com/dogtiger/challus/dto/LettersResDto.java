@@ -11,6 +11,7 @@ import java.time.LocalDateTime;
 public class LettersResDto {
     private int letterId;
     private int senderUserId;
+    private String senderNickname;
     private int receiverUserId;
     private String title;
     private String content;
