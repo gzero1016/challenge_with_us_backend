@@ -15,6 +15,14 @@
         <result property="endDate" column="end_date" />
         <result property="categoryName" column="category_name" />
         <result property="challengeLikeCount" column="challenge_like_count" />
+        <association property="challengeApplication" resultMap="challengeApplicationMap" />
+    </resultMap>
+
+    <resultMap id="challengeApplicationMap" type="com.dogtiger.challus.entity.ChallengeApplication">
+        <id property="challengeApplicationId" column="challenge_application_id" />
+        <result property="challengeId" column="challenge_id" />
+        <result property="userId" column="user_id" />
+        <result property="acceptState" column="accept_state" />
     </resultMap>
 
     <insert id="saveChallenge" parameterType="com.dogtiger.challus.entity.Challenge">
@@ -188,4 +196,24 @@
         where
             challenge_id = #{challengeId}
     </delete>
+
+    <select id="getApprovedChallengesByUserId" resultMap="challengeMap">
+        select
+            ct.challenge_id,
+            ct.user_id,
+            ct.challenge_name,
+            ct.challenge_introduction,
+            ct.is_open,
+            ct.is_applicable,
+            ct.start_date,
+            ct.end_date,
+            ct.category_name,
+            ct.challenge_like_count
+        from
+            challenge_tb ct
+            left outer join challenge_application_tb cat on(cat.challenge_id = ct.challenge_id)
+        where
+            cat.accept_state = 1
+        and cat.user_id = #{userId};
+    </select>
 </mapper>

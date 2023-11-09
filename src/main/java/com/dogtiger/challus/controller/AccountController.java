@@ -59,4 +59,9 @@ public class AccountController {
         System.out.println(introReqDto);
         return ResponseEntity.ok(accountService.updateIntro(introReqDto));
     }
+
+    @GetMapping("/api/account/mychallenges")
+    public ResponseEntity<?> getMyChallenge() {
+        return ResponseEntity.ok(accountService.getMyChallenges());
+    }
 }
