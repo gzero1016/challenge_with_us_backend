@@ -9,6 +9,8 @@ import com.dogtiger.challus.security.PrincipalUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -25,6 +27,22 @@ public class LetterService {
     public int getLettersCount() {
         User user = getCurrentUser();
         return letterMapper.getLettersCountByUserId(user.getUserId());
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    public boolean changeReadStatus(int letterId) {
+        User user = getCurrentUser();
+        Letter letter = letterMapper.findLetterByLetterId(letterId);
+        if(user.getUserId() != letter.getReceiverUserId()) {
+            return false;
+        }
+        if(letter.getIsRead() == 0) {
+            letter.setIsRead(1);
+        }else{
+            letter.setIsRead(0);
+        }
+        letterMapper.updateLetter(letter);
+        return true;
     }
 
     private User getCurrentUser(){
