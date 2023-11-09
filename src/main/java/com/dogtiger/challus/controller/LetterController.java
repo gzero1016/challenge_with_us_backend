@@ -14,4 +14,9 @@ public class LetterController {
     public ResponseEntity<?> getLetters() {
         return ResponseEntity.ok(letterService.getLetters());
     }
+
+    @GetMapping("/api/letters/count")
+    public ResponseEntity<?> getLettersCount() {
+        return ResponseEntity.ok(letterService.getLettersCount());
+    }
 }

@@ -26,10 +26,19 @@
             send_date_time,
             is_read,
             letter_type,
-            target_url,
+            target_url
         from
             letter_tb
         where
-            user_id = #{userId}
+            receiver_user_id = #{userId}
+    </select>
+
+    <select id="getLettersCountByUserId" resultType="java.lang.Integer">
+        select
+            count(receiver_user_id)
+        from
+            letter_tb
+        where
+            receiver_user_id = #{userId}
     </select>
 </mapper>
