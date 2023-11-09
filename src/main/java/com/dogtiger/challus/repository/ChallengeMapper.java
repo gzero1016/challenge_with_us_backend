@@ -1,11 +1,7 @@
 package com.dogtiger.challus.repository;
 
 import com.dogtiger.challus.entity.Challenge;
-<<<<<<< HEAD
 import com.dogtiger.challus.entity.User;
-=======
-import com.dogtiger.challus.entity.ChallengeApplication;
->>>>>>> main
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
