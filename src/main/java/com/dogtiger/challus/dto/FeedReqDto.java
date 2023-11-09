@@ -11,6 +11,8 @@ public class FeedReqDto {
     private String image;
     private String categoryName;
     private int userId;
+    private int challengeLayout;
+    private int layout;
 
     public Feed toFeedEntity() {
         String modifiedImage = (image != null) ? image.replace("blob:", "") : null;
@@ -22,6 +24,8 @@ public class FeedReqDto {
                 .img(modifiedImage)
                 .categoryName(categoryName)
                 .userId(userId)
+                .challengeLayout(challengeLayout)
+                .layout(layout)
                 .build();
     }
 }

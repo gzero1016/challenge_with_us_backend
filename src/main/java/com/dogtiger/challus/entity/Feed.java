@@ -20,4 +20,6 @@ public class Feed {
     private int stopWatch;
     private String img;
     private LocalDate dateTime;
+    private int challengeLayout;
+    private int layout;
 }
