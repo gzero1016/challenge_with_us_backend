@@ -16,6 +16,7 @@
         <result property="endDate" column="end_date" />
         <result property="categoryName" column="category_name" />
         <result property="challengeLikeCount" column="challenge_like_count" />
+        <result property="name" column="name" />
         <association property="challengeApplication" resultMap="challengeApplicationMap" />
     </resultMap>
 
@@ -24,6 +25,23 @@
         <result property="challengeId" column="challenge_id" />
         <result property="userId" column="user_id" />
         <result property="acceptState" column="accept_state" />
+        <association property="user" resultMap="userMap" />
+    </resultMap>
+
+    <resultMap id="userMap" type="com.dogtiger.challus.entity.User">
+        <id property="userId" column="user_id" />
+        <result property="email" column="email" />
+        <result property="name" column="name" />
+        <result property="phone" column="phone" />
+        <result property="nickname" column="nickname" />
+        <result property="password" column="password" />
+        <result property="point" column="point" />
+        <result property="intro" column="intro" />
+        <result property="membership" column="membership" />
+        <result property="isAdmin" column="is_admin" />
+        <result property="oauth2Id" column="oauth2_id" />
+        <result property="profileUrl" column="profile_url" />
+        <result property="enabled" column="enabled" />
     </resultMap>
 
     <insert id="saveChallenge" parameterType="com.dogtiger.challus.entity.Challenge">
@@ -176,6 +194,16 @@
         and user_id = #{userId}
         and accept_state = 0
     </select>
+    <select id="getChallengersByChallengeId" resultMap="challengeApplicationMap">
+        select
+            cat.user_id,
+            ut.nickname
+        from
+            challenge_application_tb cat
+            left outer join user_tb ut on(ut.user_id = cat.user_id)
+        where
+            cat.challenge_id = #{challengeId}
+    </select>
 
     <update id="insertLike" parameterType="com.dogtiger.challus.entity.Challenge">
         insert into challenge_like_tb
@@ -215,6 +243,15 @@
             challenge_tb
         where
             challenge_id = #{challengeId}
+    </delete>
+
+    <delete id="deleteChallenger">
+        delete
+        from
+            challenge_application_tb
+        where
+            user_id = #{userId}
+        and challenge_id = #{challengeId}
     </delete>
 
     <select id="getApprovedChallengesByUserId" resultMap="challengeMap">

@@ -1,6 +1,10 @@
 package com.dogtiger.challus.service;
 
 import com.dogtiger.challus.dto.*;
+import com.dogtiger.challus.entity.Challenge;
+import com.dogtiger.challus.entity.ChallengeApplication;
+import com.dogtiger.challus.entity.Letter;
+import com.dogtiger.challus.entity.User;
 import com.dogtiger.challus.repository.ChallengeMapper;
 import com.dogtiger.challus.security.PrincipalUser;
 import lombok.RequiredArgsConstructor;
@@ -13,6 +17,7 @@ import java.util.Map;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -89,6 +94,24 @@ public class ChallengeService {
         PrincipalUser principalUser = (PrincipalUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         int userId = principalUser.getUser().getUserId();
         return challengeMapper.challengeApplicable(challengeId, userId) > 0;
+    }
+
+    public List<GetChallengersRespDto> getChallengers(int challengeId) {
+        return challengeMapper
+                .getChallengersByChallengeId(challengeId)
+                .stream()
+                .map(ChallengeApplication::toChallengersDto)
+                .collect(Collectors.toList());
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    public boolean deleteChallenger (int challengeId, int userId){
+        PrincipalUser principalUser = (PrincipalUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        int myUserId = principalUser.getUser().getUserId();
+        if(myUserId == challengeMapper.getChallengeByChallengeId(challengeId).getUserId()) {
+            return challengeMapper.deleteChallenger(challengeId, userId) > 0;
+        }
+        return false;
     }
 
     public boolean challengeApproval(ChallengeApplicableReqDto challengeApplicableReqDto) {

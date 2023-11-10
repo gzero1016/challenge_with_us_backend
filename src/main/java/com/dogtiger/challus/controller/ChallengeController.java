@@ -86,7 +86,16 @@ public class ChallengeController {
     public ResponseEntity<?> challengeApplicable(@PathVariable int challengeId) {
         return ResponseEntity.ok(challengeService.challengeApplicable(challengeId));
     }
+    @GetMapping("/api/challengers/{challengeId}")
+    public ResponseEntity<?> getChallengers(@PathVariable int challengeId) {
+        return ResponseEntity.ok(challengeService.getChallengers(challengeId));
+    }
 
+    @DeleteMapping("/api/challenger/{challengeId}")
+    public ResponseEntity<?> deleteChallenger(@PathVariable int challengeId, int userId) {
+        System.out.println(challengeId + ", " + userId);
+        return ResponseEntity.ok(challengeService.deleteChallenger(challengeId, userId));
+    }
     @PutMapping("/api/challenge/approval")
     public ResponseEntity<?> challengeApproval(@RequestBody Map<String, ChallengeApplicableReqDto> requestData) {
         ChallengeApplicableReqDto challengeApplicableReqDto = requestData.get("data");
@@ -100,5 +109,4 @@ public class ChallengeController {
 
         return ResponseEntity.ok(challengeService.challengeRefusal(challengeApplicableReqDto));
     }
-
 }
