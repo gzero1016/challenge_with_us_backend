@@ -10,25 +10,61 @@
         <result property="receiverUserId" column="receiver_user_id" />
         <result property="title" column="title" />
         <result property="content" column="content" />
-        <result property="sendDateTime" column="sendDateTime" />
+        <result property="sendDateTime" column="send_date_time" />
         <result property="isRead" column="is_read" />
         <result property="letterType" column="letter_type" />
         <result property="targetUrl" column="target_url" />
+        <result property="senderNickname" column="nickname" />
+        <result property="challengeId" column="challenge_id" />
+        <result property="challengeName" column="challenge_name" />
+        <association property="challengeApplication" resultMap="challengeApplicationMap" />
+        <association property="challenge" resultMap="challengeMap" />
     </resultMap>
+
+    <resultMap id="challengeApplicationMap" type="com.dogtiger.challus.entity.ChallengeApplication">
+        <id property="challengeApplicationId" column="challenge_application_id" />
+        <result property="challengeId" column="challenge_id" />
+        <result property="userId" column="user_id" />
+        <result property="acceptState" column="accept_state" />
+    </resultMap>
+
+    <resultMap id="challengeMap" type="com.dogtiger.challus.entity.Challenge">
+        <id property="challengeId" column="challenge_id" />
+        <result property="userId" column="user_id" />
+        <result property="challengeName" column="challenge_name" />
+        <result property="introduction" column="challenge_introduction" />
+        <result property="isOpen" column="is_open" />
+        <result property="isApplicable" column="is_applicable" />
+        <result property="startDate" column="start_date" />
+        <result property="endDate" column="end_date" />
+        <result property="categoryName" column="category_name" />
+        <result property="challengeLikeCount" column="challenge_like_count" />
+    </resultMap>
+
+    <insert id="challengeAtmosphereLetter" parameterType="com.dogtiger.challus.entity.Letter">
+        insert into letter_tb
+        values(0, #{senderUserId}, #{receiverUserId}, #{title}, #{content}, now(), 0, 1, #{targetUrl})
+    </insert>
 
     <select id="findLettersByUserId" resultMap="letterMap">
         select
-            letter_id,
-            sender_user_id,
-            receiver_user_id,
-            title,
-            content,
-            send_date_time,
-            is_read,
-            letter_type,
-            target_url
+            lt.letter_id,
+            lt.sender_user_id,
+            lt.receiver_user_id,
+            lt.title,
+            lt.content,
+            lt.send_date_time,
+            lt.is_read,
+            lt.letter_type,
+            lt.target_url,
+            ut.nickname,
+            cat.challenge_id,
+            ct.challenge_name
         from
-            letter_tb
+            letter_tb lt
+            left outer join user_tb ut on (ut.user_id = lt.sender_user_id)
+            left outer join challenge_application_tb cat on (cat.user_id = lt.sender_user_id)
+            left outer join challenge_tb ct on (ct.challenge_id = cat.challenge_id)
         where
             receiver_user_id = #{userId}
     </select>
@@ -42,7 +78,7 @@
             receiver_user_id = #{userId}
     </select>
 
-    <select id="findLetterByLetterId" resultType="com.dogtiger.challus.entity.Letter">
+    <select id="findLetterByLetterId" resultMap="letterMap">
         select
             letter_id,
             sender_user_id,
@@ -59,11 +95,11 @@
             letter_id = #{letterId}
     </select>
 
-    <update id="updateLetter">
+    <update id="updateLetter" parameterType="com.dogtiger.challus.entity.Letter">
         update letter_tb
         set
-            sender_user_id = #{sender_user_id},
-            receiver_user_id = #{receiver_user_id},
+            sender_user_id = #{senderUserId},
+            receiver_user_id = #{receiverUserId},
             title = #{title},
             content = #{content},
             send_date_time = #{sendDateTime},
