@@ -110,8 +110,12 @@ public class ChallengeService {
 
     @Transactional(rollbackFor = Exception.class)
     public boolean deleteChallenger (int challengeId, int userId){
-        return challengeMapper.deleteChallenger(challengeId, userId) > 0;
+        PrincipalUser principalUser = (PrincipalUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        int myUserId = principalUser.getUser().getUserId();
+        if(myUserId == challengeMapper.getChallengeByChallengeId(challengeId).getUserId()) {
+            return challengeMapper.deleteChallenger(challengeId, userId) > 0;
+        }
+        return false;
     }
-
 
 }

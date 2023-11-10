@@ -15,6 +15,7 @@
         <result property="endDate" column="end_date" />
         <result property="categoryName" column="category_name" />
         <result property="challengeLikeCount" column="challenge_like_count" />
+        <result property="name" column="name" />
         <association property="challengeApplication" resultMap="challengeApplicationMap" />
     </resultMap>
 
