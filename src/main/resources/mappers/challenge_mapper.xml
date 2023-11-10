@@ -20,7 +20,7 @@
     <insert id="saveChallenge" parameterType="com.dogtiger.challus.entity.Challenge">
         insert into challenge_tb
         values (
-        0, #{userId}, #{challengeName}, #{layout}, #{introduction},
+        0, #{userId}, #{challengeName}, #{challengeLayout}, #{introduction},
         <choose>
             <when test="isOpen.equals('true')">
                 1

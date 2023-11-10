@@ -41,7 +41,7 @@ public class Challenge {
     }
 
     public GetChallengeRespDto toChallengeDto() {
-        return GetChallengeRespDto.builder()
+        GetChallengeRespDto getChallengeRespDto = GetChallengeRespDto.builder()
                 .challengeId(challengeId)
                 .userId(userId)
                 .challengeName(challengeName)
@@ -50,11 +50,17 @@ public class Challenge {
                 .isOpen(isOpen)
                 .isApplicable(isApplicable)
                 .startDate(startDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")))
-                .endDate(endDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")))
                 .categoryName(categoryName)
                 .name(name)
                 .challengeLikeCount(challengeLikeCount)
                 .build();
+
+        if(endDate != null) {
+            getChallengeRespDto.setEndDate(endDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+        }else {
+            endDate = null;
+        }
+        return getChallengeRespDto;
     }
 
 }
