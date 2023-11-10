@@ -21,7 +21,7 @@ public class Challenge {
     private int challengeId;
     private int userId;
     private String challengeName;
-    private int layout;
+    private int challengeLayout;
     private String introduction;
     private String isOpen;
     private String isApplicable;
@@ -48,7 +48,7 @@ public class Challenge {
                 .challengeId(challengeId)
                 .userId(userId)
                 .challengeName(challengeName)
-                .layout(layout)
+                .layout(challengeLayout)
                 .introduction(introduction)
                 .isOpen(isOpen)
                 .isApplicable(isApplicable)
