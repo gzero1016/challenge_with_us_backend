@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.dogtiger.challus.repository.FeedMapper">
+
+    <insert id="saveFeed" parameterType="com.dogtiger.challus.entity.Feed">
+        insert into feed_tb
+        values(0, #{userId}, #{challengeId}, #{categoryName}, #{feedContent}, #{stopWatch}, #{img}, now())
+    </insert>
+</mapper>
