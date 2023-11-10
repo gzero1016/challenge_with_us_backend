@@ -2,6 +2,7 @@ package com.dogtiger.challus.entity;
 
 
 import com.dogtiger.challus.dto.GetChallengeRespDto;
+import com.dogtiger.challus.dto.NoticeGetRespDto;
 import com.dogtiger.challus.dto.NoticeListRespDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -31,6 +32,15 @@ public class Notice {
                 .noticeTitle(noticeTitle)
                 .nickname(user.getNickname())
                 .noticeDate(noticeDate.format(DateTimeFormatter.ISO_DATE))
+                .build();
+    }
+    public NoticeGetRespDto toNoticeDto() {
+        return NoticeGetRespDto.builder()
+                .noticeId(noticeId)
+                .noticeTitle(noticeTitle)
+                .noticeContent(noticeContent)
+                .nickname(user.getNickname())
+                .noticeDate(noticeDate.format(DateTimeFormatter.ofPattern("MM월dd일 HH시mm분")))
                 .build();
     }
 }

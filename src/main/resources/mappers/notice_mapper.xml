@@ -52,4 +52,18 @@
             notice_id
             limit #{index}, 10
     </select>
+    <select id="getNoticeByNoticeId" resultMap="noticeMap">
+        select
+            nt.notice_id,
+            nt.notice_title,
+            nt.notice_content,
+            ut.nickname,
+            nt.notice_date
+        from
+            notice_tb nt
+            left outer join user_tb ut on(ut.user_id = nt.user_id)
+        where
+            nt.notice_id = #{noticeId}
+
+    </select>
 </mapper>

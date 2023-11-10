@@ -26,4 +26,9 @@ public class NoticeController {
         List<NoticeListRespDto> noticeList = noticeService.noticeListGet(page);
         return ResponseEntity.ok(noticeList);
     }
+
+    @GetMapping("/api/notice/{noticeId}")
+    public ResponseEntity<?> getBoard(@PathVariable int noticeId){
+        return ResponseEntity.ok(noticeService.getNotice(noticeId));
+    }
 }

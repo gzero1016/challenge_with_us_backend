@@ -1,5 +1,6 @@
 package com.dogtiger.challus.service;
 
+import com.dogtiger.challus.dto.NoticeGetRespDto;
 import com.dogtiger.challus.dto.NoticeListRespDto;
 import com.dogtiger.challus.dto.NoticeWriteReqDto;
 import com.dogtiger.challus.entity.Notice;
@@ -39,5 +40,12 @@ public class NoticeService {
 
         return noticeListRespDtos;
 
+    }
+
+    public NoticeGetRespDto getNotice(int noticeId) {
+
+        NoticeGetRespDto noticeGetRespDto = noticeMapper.getNoticeByNoticeId(noticeId).toNoticeDto();
+        System.out.println(noticeGetRespDto);
+        return noticeGetRespDto;
     }
 }
