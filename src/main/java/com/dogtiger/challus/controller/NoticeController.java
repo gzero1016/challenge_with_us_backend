@@ -27,6 +27,11 @@ public class NoticeController {
         return ResponseEntity.ok(noticeList);
     }
 
+    @GetMapping("/api/notices/count")
+    public ResponseEntity<Integer> getNoticesCount(){
+        return ResponseEntity.ok(noticeService.getNoticesCount());
+    }
+
     @GetMapping("/api/notice/{noticeId}")
     public ResponseEntity<?> getBoard(@PathVariable int noticeId){
         return ResponseEntity.ok(noticeService.getNotice(noticeId));
