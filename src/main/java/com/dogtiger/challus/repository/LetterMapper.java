@@ -11,5 +11,6 @@ public interface LetterMapper {
     public List<Letter> findLettersByUserId(int userId);
     public Letter findLetterByLetterId(int letterId);
     public int getLettersCountByUserId(int userId);
-    int updateLetter(Letter letter);
+    public int updateLetter(Letter letter);
+    public int challengeAtmosphereLetter(Letter letter);
 }

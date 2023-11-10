@@ -22,13 +22,11 @@ public class JwtAuthenticationFilter extends GenericFilter {
 
         String bearerToken = httpServletRequest.getHeader("Authorization");
         String token = jwtProvider.removeBearer(bearerToken);
-        System.out.println("token: " + token);
         Authentication authentication = jwtProvider.getAuthentication(token);
 
         if(authentication != null) {
             SecurityContextHolder.getContext().setAuthentication(authentication);
         }
         chain.doFilter(request, response);
-        System.out.println("zsdfasdfa");
     }
 }

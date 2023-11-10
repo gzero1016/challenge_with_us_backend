@@ -7,6 +7,7 @@
     <resultMap id="challengeMap" type="com.dogtiger.challus.entity.Challenge">
         <id property="challengeId" column="challenge_id" />
         <result property="userId" column="user_id" />
+        <result property="challengeLayout" column="challenge_layout" />
         <result property="challengeName" column="challenge_name" />
         <result property="introduction" column="challenge_introduction" />
         <result property="isOpen" column="is_open" />
@@ -94,7 +95,8 @@
             ct.end_date,
             ct.category_name,
             ut.name,
-            ct.challenge_like_count
+            ct.challenge_like_count,
+            ct.challenge_layout
         from
             challenge_tb ct
             left outer join user_tb ut on(ut.user_id = ct.user_id)
@@ -206,6 +208,24 @@
     <update id="insertLike" parameterType="com.dogtiger.challus.entity.Challenge">
         insert into challenge_like_tb
         values(0, #{challengeId}, #{userId})
+    </update>
+
+    <update id="challengeApproval">
+        update challenge_application_tb
+        set
+            accept_state = 1
+        where
+            user_id = #{userId}
+        and challenge_id = #{challengeId}
+    </update>
+
+    <update id="challengeRefusal">
+        update challenge_application_tb
+        set
+            accept_state = 2
+        where
+            user_id = #{userId}
+        and challenge_id = #{challengeId}
     </update>
 
     <delete id="cancelLike" parameterType="com.dogtiger.challus.entity.Challenge">
