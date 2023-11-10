@@ -63,7 +63,7 @@
         from
             letter_tb lt
             left outer join user_tb ut on (ut.user_id = lt.sender_user_id)
-            left outer join challenge_application_tb cat on (ut.user_id = lt.sender_user_id)
+            left outer join challenge_application_tb cat on (cat.user_id = lt.sender_user_id)
             left outer join challenge_tb ct on (ct.challenge_id = cat.challenge_id)
         where
             receiver_user_id = #{userId}
@@ -78,7 +78,7 @@
             receiver_user_id = #{userId}
     </select>
 
-    <select id="findLetterByLetterId" resultType="com.dogtiger.challus.entity.Letter">
+    <select id="findLetterByLetterId" resultMap="letterMap">
         select
             letter_id,
             sender_user_id,
@@ -95,11 +95,11 @@
             letter_id = #{letterId}
     </select>
 
-    <update id="updateLetter">
+    <update id="updateLetter" parameterType="com.dogtiger.challus.entity.Letter">
         update letter_tb
         set
-            sender_user_id = #{sender_user_id},
-            receiver_user_id = #{receiver_user_id},
+            sender_user_id = #{senderUserId},
+            receiver_user_id = #{receiverUserId},
             title = #{title},
             content = #{content},
             send_date_time = #{sendDateTime},
