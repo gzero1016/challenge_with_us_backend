@@ -1,5 +1,6 @@
 package com.dogtiger.challus.service;
 
+import com.dogtiger.challus.dto.LetterReqDto;
 import com.dogtiger.challus.dto.LettersResDto;
 import com.dogtiger.challus.entity.Letter;
 import com.dogtiger.challus.entity.Order;
@@ -18,6 +19,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class LetterService {
     private final LetterMapper letterMapper;
+
     public List<LettersResDto> getLetters() {
         List<LettersResDto> letters = null;
         letters = letterMapper.findLettersByUserId(getCurrentUser().getUserId()).stream().map(Letter::toLettersResDto).collect(Collectors.toList());
@@ -49,5 +51,9 @@ public class LetterService {
         PrincipalUser principalUser = (PrincipalUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         User user = principalUser.getUser();
         return user;
+    }
+
+    public boolean challengeAtmosphereLetter(LetterReqDto letterReqDto) {
+        return letterMapper.challengeAtmosphereLetter(letterReqDto.toLetterEntity()) > 0;
     }
 }

@@ -1,5 +1,6 @@
 package com.dogtiger.challus.entity;
 
+import com.dogtiger.challus.dto.GetChallengersRespDto;
 import com.dogtiger.challus.dto.PrincipalResDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -41,5 +42,4 @@ public class User {
                 .enabled(enabled)
                 .build();
     }
-
 }

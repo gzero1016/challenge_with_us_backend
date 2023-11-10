@@ -26,7 +26,7 @@ public class ChallengeCreateReqDto {
                 .startDate(startDate)
                 .endDate(endDate)
                 .userId(userId)
-                .layout(layout)
+                .challengeLayout(layout)
                 .categoryName(categoryName)
                 .build();
     }

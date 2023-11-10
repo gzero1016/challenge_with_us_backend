@@ -7,6 +7,7 @@
     <resultMap id="challengeMap" type="com.dogtiger.challus.entity.Challenge">
         <id property="challengeId" column="challenge_id" />
         <result property="userId" column="user_id" />
+        <result property="challengeLayout" column="challenge_layout" />
         <result property="challengeName" column="challenge_name" />
         <result property="introduction" column="challenge_introduction" />
         <result property="isOpen" column="is_open" />
@@ -15,6 +16,32 @@
         <result property="endDate" column="end_date" />
         <result property="categoryName" column="category_name" />
         <result property="challengeLikeCount" column="challenge_like_count" />
+        <result property="name" column="name" />
+        <association property="challengeApplication" resultMap="challengeApplicationMap" />
+    </resultMap>
+
+    <resultMap id="challengeApplicationMap" type="com.dogtiger.challus.entity.ChallengeApplication">
+        <id property="challengeApplicationId" column="challenge_application_id" />
+        <result property="challengeId" column="challenge_id" />
+        <result property="userId" column="user_id" />
+        <result property="acceptState" column="accept_state" />
+        <association property="user" resultMap="userMap" />
+    </resultMap>
+
+    <resultMap id="userMap" type="com.dogtiger.challus.entity.User">
+        <id property="userId" column="user_id" />
+        <result property="email" column="email" />
+        <result property="name" column="name" />
+        <result property="phone" column="phone" />
+        <result property="nickname" column="nickname" />
+        <result property="password" column="password" />
+        <result property="point" column="point" />
+        <result property="intro" column="intro" />
+        <result property="membership" column="membership" />
+        <result property="isAdmin" column="is_admin" />
+        <result property="oauth2Id" column="oauth2_id" />
+        <result property="profileUrl" column="profile_url" />
+        <result property="enabled" column="enabled" />
     </resultMap>
 
     <insert id="saveChallenge" parameterType="com.dogtiger.challus.entity.Challenge">
@@ -68,7 +95,8 @@
             ct.end_date,
             ct.category_name,
             ut.name,
-            ct.challenge_like_count
+            ct.challenge_like_count,
+            ct.challenge_layout
         from
             challenge_tb ct
             left outer join user_tb ut on(ut.user_id = ct.user_id)
@@ -166,10 +194,38 @@
         and user_id = #{userId}
         and accept_state = 0
     </select>
+    <select id="getChallengersByChallengeId" resultMap="challengeApplicationMap">
+        select
+            cat.user_id,
+            ut.nickname
+        from
+            challenge_application_tb cat
+            left outer join user_tb ut on(ut.user_id = cat.user_id)
+        where
+            cat.challenge_id = #{challengeId}
+    </select>
 
     <update id="insertLike" parameterType="com.dogtiger.challus.entity.Challenge">
         insert into challenge_like_tb
         values(0, #{challengeId}, #{userId})
+    </update>
+
+    <update id="challengeApproval">
+        update challenge_application_tb
+        set
+            accept_state = 1
+        where
+            user_id = #{userId}
+        and challenge_id = #{challengeId}
+    </update>
+
+    <update id="challengeRefusal">
+        update challenge_application_tb
+        set
+            accept_state = 2
+        where
+            user_id = #{userId}
+        and challenge_id = #{challengeId}
     </update>
 
     <delete id="cancelLike" parameterType="com.dogtiger.challus.entity.Challenge">
@@ -188,4 +244,33 @@
         where
             challenge_id = #{challengeId}
     </delete>
+
+    <delete id="deleteChallenger">
+        delete
+        from
+            challenge_application_tb
+        where
+            user_id = #{userId}
+        and challenge_id = #{challengeId}
+    </delete>
+
+    <select id="getApprovedChallengesByUserId" resultMap="challengeMap">
+        select
+            ct.challenge_id,
+            ct.user_id,
+            ct.challenge_name,
+            ct.challenge_introduction,
+            ct.is_open,
+            ct.is_applicable,
+            ct.start_date,
+            ct.end_date,
+            ct.category_name,
+            ct.challenge_like_count
+        from
+            challenge_tb ct
+            left outer join challenge_application_tb cat on(cat.challenge_id = ct.challenge_id)
+        where
+            cat.accept_state = 1
+        and cat.user_id = #{userId};
+    </select>
 </mapper>

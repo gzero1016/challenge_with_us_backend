@@ -1,15 +1,14 @@
 package com.dogtiger.challus.controller;
 
-import com.dogtiger.challus.dto.ChallengeCreateReqDto;
-import com.dogtiger.challus.dto.SearchChallengeListReqDto;
-import com.dogtiger.challus.dto.ChallengeLikeReqDto;
-import com.dogtiger.challus.dto.FeedReqDto;
+import com.dogtiger.challus.dto.*;
 import com.dogtiger.challus.security.PrincipalUser;
 import com.dogtiger.challus.service.ChallengeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
@@ -86,5 +85,28 @@ public class ChallengeController {
     @PostMapping("/api/challenge/join/{challengeId}")
     public ResponseEntity<?> challengeApplicable(@PathVariable int challengeId) {
         return ResponseEntity.ok(challengeService.challengeApplicable(challengeId));
+    }
+    @GetMapping("/api/challengers/{challengeId}")
+    public ResponseEntity<?> getChallengers(@PathVariable int challengeId) {
+        return ResponseEntity.ok(challengeService.getChallengers(challengeId));
+    }
+
+    @DeleteMapping("/api/challenger/{challengeId}")
+    public ResponseEntity<?> deleteChallenger(@PathVariable int challengeId, int userId) {
+        System.out.println(challengeId + ", " + userId);
+        return ResponseEntity.ok(challengeService.deleteChallenger(challengeId, userId));
+    }
+    @PutMapping("/api/challenge/approval")
+    public ResponseEntity<?> challengeApproval(@RequestBody Map<String, ChallengeApplicableReqDto> requestData) {
+        ChallengeApplicableReqDto challengeApplicableReqDto = requestData.get("data");
+
+        return ResponseEntity.ok(challengeService.challengeApproval(challengeApplicableReqDto));
+    }
+
+    @PutMapping("/api/challenge/refusal")
+    public ResponseEntity<?> challengeRefusal(@RequestBody Map<String, ChallengeApplicableReqDto> requestData) {
+        ChallengeApplicableReqDto challengeApplicableReqDto = requestData.get("data");
+
+        return ResponseEntity.ok(challengeService.challengeRefusal(challengeApplicableReqDto));
     }
 }

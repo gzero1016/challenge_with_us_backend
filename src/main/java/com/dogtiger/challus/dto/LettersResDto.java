@@ -11,11 +11,14 @@ import java.time.LocalDateTime;
 public class LettersResDto {
     private int letterId;
     private int senderUserId;
+    private String senderNickname;
     private int receiverUserId;
     private String title;
     private String content;
-    private LocalDateTime sendDateTime;
+    private String sendDateTime;
     private int isRead;
     private int letterType;
     private String targetUrl;
+    private int challengeId;
+    private String challengeName;
 }
