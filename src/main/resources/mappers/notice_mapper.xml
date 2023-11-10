@@ -35,6 +35,7 @@
         values(0, #{noticeTitle}, #{noticeContent}, #{userId}, now())
 
     </insert>
+
     <select id="getNoticeList"
             resultMap="noticeMap"
             parameterType="hashmap">
@@ -52,6 +53,14 @@
             notice_id
             limit #{index}, 10
     </select>
+
+    <select id="getNoticesCount" resultType="java.lang.Integer">
+        select
+            count(*)
+        from
+            notice_tb;
+    </select>
+
     <select id="getNoticeByNoticeId" resultMap="noticeMap">
         select
             nt.notice_id,

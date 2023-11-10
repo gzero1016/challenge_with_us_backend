@@ -39,7 +39,10 @@ public class NoticeService {
         });
 
         return noticeListRespDtos;
+    }
 
+    public Integer getNoticesCount() {
+        return noticeMapper.getNoticesCount();
     }
 
     public NoticeGetRespDto getNotice(int noticeId) {
