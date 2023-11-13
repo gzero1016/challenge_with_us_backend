@@ -76,6 +76,8 @@
             feed_tb ft
             left outer join challenge_tb ct on(ct.challenge_id = ft.challenge_id)
             left outer join user_tb ut on(ut.user_id = ft.user_id)
+        order by
+            datetime desc
         limit #{index}, 5
     </select>
 
