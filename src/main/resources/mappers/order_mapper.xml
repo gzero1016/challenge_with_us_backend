@@ -9,13 +9,14 @@
         <result property="userId" column="user_id" />
         <result property="itemId" column="item_id" />
         <result property="itemPrice" column="item_price" />
+        <result property="orderTime" column="order_time" />
     </resultMap>
 
 
     <insert id="saveOrder">
         insert into order_tb
         values
-            (0, #{userId}, #{itemId}, #{itemPrice});
+            (0, #{userId}, #{itemId}, #{itemPrice}, now());
     </insert>
 
     <select id="findOrdersByUserId" resultMap="orderMap">
@@ -23,7 +24,8 @@
             order_id,
             user_id,
             item_id,
-            item_price
+            item_price,
+            order_time
         from
             order_tb
         where

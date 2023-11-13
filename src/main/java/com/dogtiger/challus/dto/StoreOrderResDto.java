@@ -11,4 +11,5 @@ public class StoreOrderResDto {
     private int itemId;
     private String itemName;
     private int itemPrice;
+    private String orderTime;
 }
