@@ -3,7 +3,12 @@ package com.dogtiger.challus.repository;
 import com.dogtiger.challus.entity.Feed;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 @Mapper
 public interface FeedMapper {
     public int saveFeed(Feed feed);
+    public List<Feed> getFeeds(int index);
 }

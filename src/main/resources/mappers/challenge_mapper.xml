@@ -273,4 +273,13 @@
             cat.accept_state = 1
         and cat.user_id = #{userId};
     </select>
+
+    <select id="findReceiverUserId" resultType="int">
+        select
+            user_id
+        from
+            challenge_tb
+        where
+            challenge_id = #{challengeId}
+    </select>
 </mapper>

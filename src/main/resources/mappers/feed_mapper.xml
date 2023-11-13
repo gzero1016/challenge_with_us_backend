@@ -4,9 +4,79 @@
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.dogtiger.challus.repository.FeedMapper">
+    <resultMap id="feedMap" type="com.dogtiger.challus.entity.Feed">
+        <id property="feedId" column="feed_id" />
+        <result property="challengeLayout" column="challenge_layout" />
+        <result property="layout" column="layout" />
+        <result property="userId" column="user_id" />
+        <result property="challengeId" column="challenge_id" />
+        <result property="categoryName" column="category_name" />
+        <result property="feedContent" column="feed_content" />
+        <result property="stopWatch" column="stopwatch" />
+        <result property="img" column="Img" />
+        <result property="dateTime" column="datetime" />
+        <result property="challengeName" column="challenge_name" />
+        <result property="nickname" column="nickname" />
+        <result property="profileUrl" column="profile_url" />
+        <association property="user" resultMap="userMap" />
+    </resultMap>
+
+    <resultMap id="userMap" type="com.dogtiger.challus.entity.User">
+        <id property="userId" column="user_id" />
+        <result property="email" column="email" />
+        <result property="name" column="name" />
+        <result property="phone" column="phone" />
+        <result property="nickname" column="nickname" />
+        <result property="password" column="password" />
+        <result property="point" column="point" />
+        <result property="intro" column="intro" />
+        <result property="membership" column="membership" />
+        <result property="isAdmin" column="is_admin" />
+        <result property="oauth2Id" column="oauth2_id" />
+        <result property="profileUrl" column="profile_url" />
+        <result property="enabled" column="enabled" />
+        <association property="challenge" resultMap="challengeMap" />
+    </resultMap>
+
+    <resultMap id="challengeMap" type="com.dogtiger.challus.entity.Challenge">
+        <id property="challengeId" column="challenge_id" />
+        <result property="userId" column="user_id" />
+        <result property="challengeLayout" column="challenge_layout" />
+        <result property="challengeName" column="challenge_name" />
+        <result property="introduction" column="challenge_introduction" />
+        <result property="isOpen" column="is_open" />
+        <result property="isApplicable" column="is_applicable" />
+        <result property="startDate" column="start_date" />
+        <result property="endDate" column="end_date" />
+        <result property="categoryName" column="category_name" />
+        <result property="challengeLikeCount" column="challenge_like_count" />
+    </resultMap>
 
     <insert id="saveFeed" parameterType="com.dogtiger.challus.entity.Feed">
         insert into feed_tb
         values(0, #{challengeLayout}, #{layout}, #{userId}, #{challengeId}, #{categoryName}, #{feedContent}, #{stopWatch}, #{img}, now())
     </insert>
+
+    <select id="getFeeds" resultMap="feedMap" parameterType="int">
+        select
+            ft.feed_id,
+            ft.challenge_layout,
+            ft.layout,
+            ft.user_id,
+            ft.challenge_id,
+            ct.challenge_name,
+            ft.category_name,
+            ft.feed_content,
+            ft.stopwatch,
+            ft.Img,
+            ft.datetime,
+            ut.nickname,
+            ut.profile_url
+        from
+            feed_tb ft
+            left outer join challenge_tb ct on(ct.challenge_id = ft.challenge_id)
+            left outer join user_tb ut on(ut.user_id = ft.user_id)
+        limit #{index}, 5
+    </select>
+
 </mapper>

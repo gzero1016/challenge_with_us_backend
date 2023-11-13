@@ -28,4 +28,5 @@ public interface ChallengeMapper {
     public List<Challenge> getApprovedChallengesByUserId(int userId);
     public int challengeApproval(ChallengeApplication challengeApplication);
     public int challengeRefusal(ChallengeApplication challengeApplication);
+    public int findReceiverUserId(int challengeId);
 }

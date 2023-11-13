@@ -13,4 +13,6 @@ public interface LetterMapper {
     public int getLettersCountByUserId(int userId);
     public int updateLetter(Letter letter);
     public int challengeAtmosphereLetter(Letter letter);
+    public int challengeReport(Letter letter);
+
 }
