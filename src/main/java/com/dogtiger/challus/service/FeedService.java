@@ -2,8 +2,10 @@ package com.dogtiger.challus.service;
 
 
 import com.dogtiger.challus.dto.ChallengeListRespDto;
+import com.dogtiger.challus.dto.CreateCommentReqDto;
 import com.dogtiger.challus.dto.FeedReqDto;
 import com.dogtiger.challus.dto.FeedResDto;
+import com.dogtiger.challus.entity.Comment;
 import com.dogtiger.challus.entity.Feed;
 import com.dogtiger.challus.repository.FeedMapper;
 import com.dogtiger.challus.security.PrincipalUser;
@@ -39,4 +41,13 @@ public class FeedService {
         return feedList;
     }
 
+    public void createComment(int feedId, CreateCommentReqDto createCommentReqDto) {
+        PrincipalUser principalUser = (PrincipalUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        int userId = principalUser.getUser().getUserId();
+        feedMapper.insertComment(Comment.builder()
+                .feedId(feedId)
+                .userId(userId)
+                .commentContent(createCommentReqDto.getCommentContent())
+                .build());
+    }
 }
