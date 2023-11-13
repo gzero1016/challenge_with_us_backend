@@ -25,6 +25,8 @@ public class User {
     private String profileUrl;
     private int enabled;
 
+    private Challenge challenge;
+
     public PrincipalResDto toPrincipalResDto() {
         return PrincipalResDto.builder()
                 .userId(userId)

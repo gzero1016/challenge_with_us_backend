@@ -1,9 +1,16 @@
 package com.dogtiger.challus.dto;
 
 import com.dogtiger.challus.entity.Feed;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class FeedReqDto {
     private int challengeId;
     private int time;

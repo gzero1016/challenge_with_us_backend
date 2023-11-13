@@ -29,7 +29,7 @@
     <insert id="saveChallenge" parameterType="com.dogtiger.challus.entity.Challenge">
         insert into challenge_tb
         values (
-        0, #{userId}, #{challengeName}, #{layout}, #{introduction},
+        0, #{userId}, #{challengeName}, #{challengeLayout}, #{introduction},
         <choose>
             <when test="isOpen.equals('true')">
                 1
@@ -235,5 +235,14 @@
         where
             cat.accept_state = 1
         and cat.user_id = #{userId};
+    </select>
+
+    <select id="findReceiverUserId" resultType="int">
+        select
+            user_id
+        from
+            challenge_tb
+        where
+            challenge_id = #{challengeId}
     </select>
 </mapper>

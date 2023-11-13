@@ -1,12 +1,20 @@
 package com.dogtiger.challus.service;
 
 
+import com.dogtiger.challus.dto.ChallengeListRespDto;
 import com.dogtiger.challus.dto.FeedReqDto;
+import com.dogtiger.challus.dto.FeedResDto;
+import com.dogtiger.challus.entity.Feed;
 import com.dogtiger.challus.repository.FeedMapper;
 import com.dogtiger.challus.security.PrincipalUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -19,4 +27,16 @@ public class FeedService {
         feedReqDto.setUserId(userId);
         return feedMapper.saveFeed(feedReqDto.toFeedEntity()) > 0;
     }
+
+    public List<FeedResDto> getFeeds(int page) {
+        int index = (page - 1) * 5;
+        List<FeedResDto> feedList = new ArrayList<>();
+
+        feedMapper.getFeeds(index).forEach(feeds -> {
+            feedList.add(feeds.toFeedResDto());
+        });
+        System.out.println(feedList);
+        return feedList;
+    }
+
 }

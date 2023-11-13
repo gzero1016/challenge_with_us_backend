@@ -2,9 +2,11 @@ package com.dogtiger.challus.service;
 
 import com.dogtiger.challus.dto.LetterReqDto;
 import com.dogtiger.challus.dto.LettersResDto;
+import com.dogtiger.challus.dto.ReportReqDto;
 import com.dogtiger.challus.entity.Letter;
 import com.dogtiger.challus.entity.Order;
 import com.dogtiger.challus.entity.User;
+import com.dogtiger.challus.repository.ChallengeMapper;
 import com.dogtiger.challus.repository.LetterMapper;
 import com.dogtiger.challus.security.PrincipalUser;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +21,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class LetterService {
     private final LetterMapper letterMapper;
+    private final ChallengeMapper challengeMapper;
 
     public List<LettersResDto> getLetters() {
         List<LettersResDto> letters = null;
@@ -55,5 +58,15 @@ public class LetterService {
 
     public boolean challengeAtmosphereLetter(LetterReqDto letterReqDto) {
         return letterMapper.challengeAtmosphereLetter(letterReqDto.toLetterEntity()) > 0;
+    }
+
+    public boolean challengeReport(ReportReqDto reportReqDto) {
+        PrincipalUser principalUser = (PrincipalUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User user = principalUser.getUser();
+
+        reportReqDto.setSenderUserId(user.getUserId());
+        reportReqDto.setReceiverUserId(challengeMapper.findReceiverUserId(reportReqDto.getChallengeId()));
+
+        return letterMapper.challengeReport(reportReqDto.toLetterEntity()) > 0;
     }
 }
