@@ -1,5 +1,6 @@
 package com.dogtiger.challus.repository;
 
+import com.dogtiger.challus.dto.CommentResDto;
 import com.dogtiger.challus.entity.Comment;
 import com.dogtiger.challus.entity.Feed;
 import org.apache.ibatis.annotations.Mapper;
@@ -13,4 +14,5 @@ public interface FeedMapper {
     public int saveFeed(Feed feed);
     public List<Feed> getFeeds(int index);
     int insertComment(Comment build);
+    List<Comment> findCommentsByFeedId(int feedId);
 }
