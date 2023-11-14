@@ -53,4 +53,7 @@ public class FeedService {
                 .build());
     }
 
+    public CommentResDto getLatestFeedComment(int feedId) {
+        return feedMapper.getLatestCommentByFeedId(feedId).toCommentResDto();
+    }
 }

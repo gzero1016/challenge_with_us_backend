@@ -110,4 +110,21 @@
             (0, #{feedId}, #{userId}, #{commentContent}, now());
     </insert>
 
+    <select id="getLatestCommentByFeedId" resultMap="commentMap">
+        select
+            ct.comment_id,
+            ct.feed_id,
+            ct.user_id,
+            ct.comment_content,
+            ct.comment_datetime,
+            ut.nickname userNickname
+        from
+            comment_tb ct
+            left outer join user_tb ut on (ut.user_id = ct.user_id)
+        where
+            ct.feed_id = #{feedId}
+        order by
+            comment_content desc
+        limit 0,1;
+    </select>
 </mapper>

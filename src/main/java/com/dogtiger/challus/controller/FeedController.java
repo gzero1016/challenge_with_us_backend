@@ -40,4 +40,8 @@ public class FeedController {
         return ResponseEntity.ok(feedService.getFeedComments(feedId));
     }
 
+    @GetMapping("/api/feed/{feedId}/comment/latest")
+    public ResponseEntity<CommentResDto> getLatestFeedComment(@PathVariable int feedId) {
+        return ResponseEntity.ok(feedService.getLatestFeedComment(feedId));
+    }
 }
