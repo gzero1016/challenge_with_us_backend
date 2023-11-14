@@ -15,4 +15,5 @@ public interface FeedMapper {
     public List<Feed> getFeeds(int index);
     int insertComment(Comment build);
     List<Comment> findCommentsByFeedId(int feedId);
+    Comment getLatestCommentByFeedId(int feedId);
 }
