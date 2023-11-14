@@ -1,5 +1,6 @@
 package com.dogtiger.challus.controller;
 
+import com.dogtiger.challus.dto.CreateCommentReqDto;
 import com.dogtiger.challus.dto.FeedReqDto;
 import com.dogtiger.challus.entity.Challenge;
 import com.dogtiger.challus.service.FeedService;
@@ -25,4 +26,9 @@ public class FeedController {
         return ResponseEntity.ok(feedService.getFeeds(page));
     }
 
+    @PostMapping("/api/feed/{feedId}/comment")
+    public ResponseEntity<?> createComment(@PathVariable int feedId, @RequestBody CreateCommentReqDto createCommentReqDto) {
+        feedService.createComment(feedId, createCommentReqDto);
+        return ResponseEntity.ok("");
+    }
 }

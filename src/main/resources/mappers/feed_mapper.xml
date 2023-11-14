@@ -81,4 +81,11 @@
         limit #{index}, 5
     </select>
 
+    <insert id="insertComment" parameterType="com.dogtiger.challus.entity.Comment">
+        insert into
+            comment_tb
+        values
+            (0, #{feedId}, #{userId}, #{commentContent}, now());
+    </insert>
+
 </mapper>
