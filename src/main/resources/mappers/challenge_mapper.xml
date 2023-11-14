@@ -64,7 +64,7 @@
                 0
             </otherwise>
         </choose>,
-        #{startDate}, #{endDate}, #{categoryName}, #{challengeLikeCount}
+        #{startDate}, #{endDate}, #{categoryName}, 0, 0, 0
         )
     </insert>
 
@@ -110,7 +110,9 @@
             ct.challenge_name,
             ct.category_name,
             ct.start_date,
-            ct.challenge_like_count
+            ct.challenge_like_count,
+            ut.name,
+
         from
             challenge_tb ct
             left outer join user_tb ut on(ut.user_id = ct.user_id)
@@ -132,6 +134,7 @@
             challenge_id desc
         limit #{index}, 10
     </select>
+
     <select id="getChallengeCount" resultType="java.lang.Integer">
         select
             count(*)
@@ -281,5 +284,24 @@
             challenge_tb
         where
             challenge_id = #{challengeId}
+    </select>
+
+    <select id="getChallenges" resultMap="challengeMap" parameterType="hashmap">
+        select
+            ct.challenge_id,
+            ct.user_id,
+            ct.challenge_name,
+            ct.challenge_introduction,
+            ct.is_open,
+            ct.is_applicable,
+            ct.start_date,
+            ct.end_date,
+            ct.category_name,
+            ut.name,
+            ct.challenge_like_count,
+            ct.challenge_layout
+        from
+            challenge_tb ct
+            left outer join user_tb ut on(ut.user_id = ct.user_id)
     </select>
 </mapper>

@@ -7,8 +7,15 @@ import lombok.Data;
 @Data
 public class ChallengeListRespDto {
     private int challengeId;
-    private String title;
-    private String categoryname;
+    private int userId;
+    private String challengeName;
+    private int layout;
+    private String introduction;
+    private String isOpen;
+    private String isApplicable;
     private String startDate;
+    private String endDate;
+    private String categoryName;
+    private String name;
     private int likeCount;
 }

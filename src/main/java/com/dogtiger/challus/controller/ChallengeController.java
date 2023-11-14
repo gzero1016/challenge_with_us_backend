@@ -33,6 +33,11 @@ public class ChallengeController {
         return ResponseEntity.ok(challengeService.getChallengeList(page, searchChallengeListReqDto));
     }
 
+    @GetMapping("/api/challenges")
+    public ResponseEntity<?> getChallengs() {
+        return ResponseEntity.ok(challengeService.getChallenges());
+    }
+
     @GetMapping("/api/challenges/count")
     public ResponseEntity<?> getChallengeCount(
             SearchChallengeListReqDto searchChallengeListReqDto) {

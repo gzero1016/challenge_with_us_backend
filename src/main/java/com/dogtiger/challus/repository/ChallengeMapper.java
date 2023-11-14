@@ -13,6 +13,7 @@ import java.util.Map;
 public interface ChallengeMapper {
     public int saveChallenge(Challenge challenge);
     public Challenge getChallengeByChallengeId(int challengeId);
+    public List<Challenge> getChallenges();
     public List<Challenge> getChallengeList(Map<String, Object> paramsMap);
     public int getChallengeCount(Map<String, Object> paramsMap);
     public int getLikeState(int challengeId);

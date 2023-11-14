@@ -37,8 +37,15 @@ public class Challenge {
     public ChallengeListRespDto toChallengeListDto() {
         return ChallengeListRespDto.builder()
                 .challengeId(challengeId)
-                .title(challengeName)
-                .categoryname(categoryName)
+                .challengeName(challengeName)
+                .categoryName(categoryName)
+                .isOpen(isOpen)
+                .isApplicable(isApplicable)
+                .userId(userId)
+                .layout(challengeLayout)
+                .introduction(introduction)
+                .endDate(endDate.format(DateTimeFormatter.ISO_DATE))
+                .name(name)
                 .startDate(startDate.format(DateTimeFormatter.ISO_DATE))
                 .likeCount(challengeLikeCount)
                 .build();
