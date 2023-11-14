@@ -124,6 +124,13 @@
             and user_id = #{userId}
     </select>
 
+    <insert id="insertFeedLike">
+        insert into
+            feed_like_tb
+        values
+            (0, #{feedId}, #{userId});
+    </insert>
+
     <insert id="insertComment" parameterType="com.dogtiger.challus.entity.Comment">
         insert into
             comment_tb

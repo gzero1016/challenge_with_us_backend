@@ -4,6 +4,7 @@ package com.dogtiger.challus.service;
 import com.dogtiger.challus.dto.*;
 import com.dogtiger.challus.entity.Comment;
 import com.dogtiger.challus.entity.Feed;
+import com.dogtiger.challus.entity.FeedLike;
 import com.dogtiger.challus.repository.FeedMapper;
 import com.dogtiger.challus.security.PrincipalUser;
 import lombok.RequiredArgsConstructor;
@@ -53,6 +54,23 @@ public class FeedService {
         return feedMapper.findFeedLikeCountByFeedIdAndUserId(feedId, userId);
     }
 
+    public void likeToFeed(int feedId) throws Exception {
+        PrincipalUser principalUser = (PrincipalUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        int userId = principalUser.getUser().getUserId();
+        if(feedMapper.findFeedLikeCountByFeedIdAndUserId(feedId, userId) > 0) {
+            throw new Exception("이미 좋아요 상태 입니다");
+        }
+
+        int result = feedMapper.insertFeedLike(FeedLike.builder()
+                .feedId(feedId)
+                .userId(userId)
+                .build());
+
+        if(result == 0) {
+            throw new Exception("좋아요 실패");
+        }
+    }
+
     public void createComment(int feedId, CreateCommentReqDto createCommentReqDto) {
         PrincipalUser principalUser = (PrincipalUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         int userId = principalUser.getUser().getUserId();
@@ -66,4 +84,6 @@ public class FeedService {
     public CommentResDto getLatestFeedComment(int feedId) {
         return feedMapper.getLatestCommentByFeedId(feedId).toCommentResDto();
     }
+
+
 }
