@@ -12,4 +12,7 @@ public interface NoticeMapper {
     public List<Notice> getNoticeList(Map<String, Object> paramsMap);
     public Notice getNoticeByNoticeId(int noticeId);
     public Integer getNoticesCount();
+    public int deleteNotice(int noticeId);
+    public int updateNotice(Notice notice);
+
 }
