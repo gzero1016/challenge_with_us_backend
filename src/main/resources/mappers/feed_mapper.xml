@@ -131,6 +131,14 @@
             (0, #{feedId}, #{userId});
     </insert>
 
+    <delete id="deleteFeedLike">
+        delete from
+            feed_like_tb
+        where
+            feed_id = #{feedId}
+            and user_id = #{userId}
+    </delete>
+
     <insert id="insertComment" parameterType="com.dogtiger.challus.entity.Comment">
         insert into
             comment_tb
