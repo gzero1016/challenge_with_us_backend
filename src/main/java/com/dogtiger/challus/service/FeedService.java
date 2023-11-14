@@ -43,6 +43,10 @@ public class FeedService {
         return feedMapper.findCommentsByFeedId(feedId).stream().map(comment -> comment.toCommentResDto()).collect(Collectors.toList());
     }
 
+    public Integer getFeedLikeCount(int feedId) {
+        return feedMapper.getFeedLikeCountByFeedId(feedId);
+    }
+
     public void createComment(int feedId, CreateCommentReqDto createCommentReqDto) {
         PrincipalUser principalUser = (PrincipalUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         int userId = principalUser.getUser().getUserId();

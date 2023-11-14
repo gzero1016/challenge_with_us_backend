@@ -29,6 +29,11 @@ public class FeedController {
         return ResponseEntity.ok(feedService.getFeeds(page));
     }
 
+    @GetMapping("/api/feed/{feedId}/like/count")
+    public ResponseEntity<Integer> getFeedLikeCount(@PathVariable int feedId){
+        return ResponseEntity.ok(feedService.getFeedLikeCount(feedId));
+    }
+
     @PostMapping("/api/feed/{feedId}/comment")
     public ResponseEntity<?> createComment(@PathVariable int feedId, @RequestBody CreateCommentReqDto createCommentReqDto) {
         feedService.createComment(feedId, createCommentReqDto);

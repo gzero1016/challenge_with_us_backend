@@ -105,6 +105,15 @@
             ct.feed_id = #{feedId}
     </select>
 
+    <select id="getFeedLikeCountByFeedId" resultType="java.lang.Integer">
+        select
+            count(*)
+        from
+            feed_like_tb
+        where
+            feed_id = #{feedId}
+    </select>
+
     <insert id="insertComment" parameterType="com.dogtiger.challus.entity.Comment">
         insert into
             comment_tb
