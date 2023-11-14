@@ -14,6 +14,7 @@ public interface FeedMapper {
     public int saveFeed(Feed feed);
     public List<Feed> getFeeds(int index);
     Integer getFeedLikeCountByFeedId(int feedId);
+    int findFeedLikeCountByFeedIdAndUserId(int feedId, int userId);
     int insertComment(Comment build);
     List<Comment> findCommentsByFeedId(int feedId);
     Comment getLatestCommentByFeedId(int feedId);
