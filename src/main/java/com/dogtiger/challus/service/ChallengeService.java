@@ -32,6 +32,15 @@ public class ChallengeService {
         return challengeMapper.getChallengeByChallengeId(challengeId).toChallengeDto();
     }
 
+    public List<ChallengeListRespDto> getChallenges() {
+
+        List<ChallengeListRespDto> challengeListRespDtos = new ArrayList<>();
+        challengeMapper.getChallenges().forEach(challenge -> {
+            challengeListRespDtos.add(challenge.toChallengeListDto());
+        });
+        System.out.println(challengeListRespDtos);
+        return challengeListRespDtos;
+    }
 
     public List<ChallengeListRespDto> getChallengeList(int page, SearchChallengeListReqDto searchChallengeListReqDto) {
         int index = (page - 1) * 10;
