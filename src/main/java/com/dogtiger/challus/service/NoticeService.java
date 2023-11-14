@@ -1,5 +1,6 @@
 package com.dogtiger.challus.service;
 
+import com.dogtiger.challus.dto.NoticeEditReqDto;
 import com.dogtiger.challus.dto.NoticeGetRespDto;
 import com.dogtiger.challus.dto.NoticeListRespDto;
 import com.dogtiger.challus.dto.NoticeWriteReqDto;
@@ -10,6 +11,7 @@ import com.dogtiger.challus.repository.UserMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -45,10 +47,22 @@ public class NoticeService {
         return noticeMapper.getNoticesCount();
     }
 
-    public NoticeGetRespDto getNotice(int noticeId) {
+       public NoticeGetRespDto getNotice(int noticeId) {
 
         NoticeGetRespDto noticeGetRespDto = noticeMapper.getNoticeByNoticeId(noticeId).toNoticeDto();
         System.out.println(noticeGetRespDto);
         return noticeGetRespDto;
+    }
+
+    public boolean deleteNotice(int noticeId){
+        return noticeMapper.deleteNotice(noticeId) > 0 ;
+    }
+
+    public boolean editNotice(int noticeId, NoticeEditReqDto noticeEditReqDto) {
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        User user = userMapper.findUserByEmail(email);
+        Notice notice = noticeEditReqDto.toNoticeEntity(user.getUserId());
+        notice.setNoticeId(noticeId);
+        return noticeMapper.updateNotice(notice) > 0;
     }
 }

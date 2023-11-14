@@ -75,4 +75,22 @@
             nt.notice_id = #{noticeId}
 
     </select>
+
+    <delete id="deleteNotice" parameterType="hashmap">
+        delete
+        from
+            notice_tb
+        where
+            notice_id = #{noticeId}
+    </delete>
+    <update id="updateNotice">
+        update notice_tb
+        set
+            notice_title = #{noticeTitle},
+            notice_content = #{noticeContent}
+        where
+            notice_id = #{noticeId}
+
+    </update>
+
 </mapper>

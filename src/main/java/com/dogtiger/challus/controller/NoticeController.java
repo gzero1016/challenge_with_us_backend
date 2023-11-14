@@ -1,13 +1,16 @@
 package com.dogtiger.challus.controller;
 
 
+import com.dogtiger.challus.dto.NoticeEditReqDto;
 import com.dogtiger.challus.dto.NoticeListRespDto;
 import com.dogtiger.challus.dto.NoticeWriteReqDto;
 import com.dogtiger.challus.service.NoticeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -33,7 +36,21 @@ public class NoticeController {
     }
 
     @GetMapping("/api/notice/{noticeId}")
-    public ResponseEntity<?> getBoard(@PathVariable int noticeId){
+    public ResponseEntity<?> getNotice(@PathVariable int noticeId){
         return ResponseEntity.ok(noticeService.getNotice(noticeId));
+    }
+
+    @DeleteMapping("/api/notice/{noticeId}")
+    public ResponseEntity<?> deleteNotice(@PathVariable int noticeId){
+        System.out.println(noticeId);
+        return ResponseEntity.ok(noticeService.deleteNotice(noticeId));
+    }
+
+    @PutMapping("/api/notice/{noticeId}")
+    public ResponseEntity<?> editBoard(@PathVariable int noticeId,
+                                       @Valid @RequestBody NoticeEditReqDto noticeEditReqDto,
+                                       BindingResult bindingResult) {
+
+        return ResponseEntity.ok(noticeService.editNotice(noticeId, noticeEditReqDto));
     }
 }
