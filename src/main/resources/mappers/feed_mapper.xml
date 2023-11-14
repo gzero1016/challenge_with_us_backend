@@ -114,6 +114,16 @@
             feed_id = #{feedId}
     </select>
 
+    <select id="findFeedLikeCountByFeedIdAndUserId" resultType="java.lang.Integer">
+        select
+            count(*)
+        from
+            feed_like_tb
+        where
+            feed_id = #{feedId}
+            and user_id = #{userId}
+    </select>
+
     <insert id="insertComment" parameterType="com.dogtiger.challus.entity.Comment">
         insert into
             comment_tb
@@ -138,4 +148,5 @@
             comment_content desc
         limit 0,1;
     </select>
+
 </mapper>
