@@ -52,6 +52,15 @@
         <result property="challengeLikeCount" column="challenge_like_count" />
     </resultMap>
 
+    <resultMap id="commentMap" type="com.dogtiger.challus.entity.Comment">
+        <id property="commentId" column="comment_id" />
+        <result property="feedId" column="feed_id" />
+        <result property="userId" column="user_id" />
+        <result property="commentContent" column="comment_content" />
+        <result property="commentDatetime" column="comment_datetime" />
+        <result property="userNickname" column="userNickname" />
+    </resultMap>
+
     <insert id="saveFeed" parameterType="com.dogtiger.challus.entity.Feed">
         insert into feed_tb
         values(0, #{challengeLayout}, #{layout}, #{userId}, #{challengeId}, #{categoryName}, #{feedContent}, #{stopWatch}, #{img}, now())
@@ -77,6 +86,21 @@
             left outer join challenge_tb ct on(ct.challenge_id = ft.challenge_id)
             left outer join user_tb ut on(ut.user_id = ft.user_id)
         limit #{index}, 5
+    </select>
+
+    <select id="findCommentsByFeedId" resultMap="commentMap">
+        select
+            ct.comment_id,
+            ct.feed_id,
+            ct.user_id,
+            ct.comment_content,
+            ct.comment_datetime,
+            ut.nickname userNickname
+        from
+            comment_tb ct
+            left outer join user_tb ut on (ut.user_id = ct.user_id)
+        where
+            ct.feed_id = #{feedId}
     </select>
 
     <insert id="insertComment" parameterType="com.dogtiger.challus.entity.Comment">

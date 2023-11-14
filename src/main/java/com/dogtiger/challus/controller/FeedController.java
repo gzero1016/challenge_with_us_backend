@@ -1,5 +1,6 @@
 package com.dogtiger.challus.controller;
 
+import com.dogtiger.challus.dto.CommentResDto;
 import com.dogtiger.challus.dto.CreateCommentReqDto;
 import com.dogtiger.challus.dto.FeedReqDto;
 import com.dogtiger.challus.entity.Challenge;
@@ -7,6 +8,8 @@ import com.dogtiger.challus.service.FeedService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -31,4 +34,10 @@ public class FeedController {
         feedService.createComment(feedId, createCommentReqDto);
         return ResponseEntity.ok("");
     }
+
+    @GetMapping("/api/feed/{feedId}/comments")
+    public ResponseEntity<List<CommentResDto>> getFeedComments(@PathVariable int feedId) {
+        return ResponseEntity.ok(feedService.getFeedComments(feedId));
+    }
+
 }
