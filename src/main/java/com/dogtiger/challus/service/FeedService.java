@@ -71,6 +71,23 @@ public class FeedService {
         }
     }
 
+    public void cancelLikeToFeed(int feedId) throws Exception {
+        PrincipalUser principalUser = (PrincipalUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        int userId = principalUser.getUser().getUserId();
+        if(feedMapper.findFeedLikeCountByFeedIdAndUserId(feedId, userId) == 0) {
+            throw new Exception("이미 좋아요 취소 상태 입니다");
+        }
+
+        int result = feedMapper.deleteFeedLike(FeedLike.builder()
+                .feedId(feedId)
+                .userId(userId)
+                .build());
+
+        if(result == 0) {
+            throw new Exception("좋아요 취소 실패");
+        }
+    }
+
     public void createComment(int feedId, CreateCommentReqDto createCommentReqDto) {
         PrincipalUser principalUser = (PrincipalUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         int userId = principalUser.getUser().getUserId();
@@ -84,6 +101,4 @@ public class FeedService {
     public CommentResDto getLatestFeedComment(int feedId) {
         return feedMapper.getLatestCommentByFeedId(feedId).toCommentResDto();
     }
-
-
 }

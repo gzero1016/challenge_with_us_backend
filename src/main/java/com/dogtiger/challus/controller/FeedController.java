@@ -45,6 +45,12 @@ public class FeedController {
         return ResponseEntity.ok("");
     }
 
+    @DeleteMapping("/api/feed/{feedId}/like")
+    public ResponseEntity<?> cancelLikeToFeed(@PathVariable int feedId) throws Exception {
+        feedService.cancelLikeToFeed(feedId);
+        return ResponseEntity.ok("");
+    }
+
     @PostMapping("/api/feed/{feedId}/comment")
     public ResponseEntity<?> createComment(@PathVariable int feedId, @RequestBody CreateCommentReqDto createCommentReqDto) {
         feedService.createComment(feedId, createCommentReqDto);
