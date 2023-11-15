@@ -11,10 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -99,6 +96,12 @@ public class FeedService {
     }
 
     public CommentResDto getLatestFeedComment(int feedId) {
-        return feedMapper.getLatestCommentByFeedId(feedId).toCommentResDto();
+        Comment comment = feedMapper.getLatestCommentByFeedId(feedId);
+
+        if(comment == null) {
+            return null;
+        }
+
+        return comment.toCommentResDto();
     }
 }
