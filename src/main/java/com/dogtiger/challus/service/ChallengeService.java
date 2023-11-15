@@ -32,29 +32,18 @@ public class ChallengeService {
         return challengeMapper.getChallengeByChallengeId(challengeId).toChallengeDto();
     }
 
-    public List<ChallengeListRespDto> getChallenges() {
-
-        List<ChallengeListRespDto> challengeListRespDtos = new ArrayList<>();
-        challengeMapper.getChallenges().forEach(challenge -> {
-            challengeListRespDtos.add(challenge.toChallengeListDto());
-        });
-        System.out.println(challengeListRespDtos);
-        return challengeListRespDtos;
-    }
-
     public List<ChallengeListRespDto> getChallengeList(int page, SearchChallengeListReqDto searchChallengeListReqDto) {
         int index = (page - 1) * 10;
         Map<String, Object> paramsMap = new HashMap<>();
         paramsMap.put("index", index);
         paramsMap.put("optionName", searchChallengeListReqDto.getOptionName());
         paramsMap.put("searchValue", searchChallengeListReqDto.getSearchValue());
+        paramsMap.put("orderBy", searchChallengeListReqDto.getOrderBy());
+        List<Challenge> challenges = challengeMapper.getChallengeList(paramsMap);
 
-        List<ChallengeListRespDto> challengeListRespDtos = new ArrayList<>();
-        challengeMapper.getChallengeList(paramsMap).forEach(challenge -> {
-            challengeListRespDtos.add(challenge.toChallengeListDto());
-        });
+        System.out.println(challenges.stream().map(Challenge::toChallengeListDto).collect(Collectors.toList()));
 
-        return challengeListRespDtos;
+        return challenges.stream().map(Challenge::toChallengeListDto).collect(Collectors.toList());
     }
 
     public int getChallengeCount(SearchChallengeListReqDto searchChallengeListReqDto) {

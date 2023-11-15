@@ -17,6 +17,7 @@
         <result property="categoryName" column="category_name" />
         <result property="challengeLikeCount" column="challenge_like_count" />
         <result property="name" column="name" />
+        <result property="challenger" column="challenger" />
         <association property="challengeApplication" resultMap="challengeApplicationMap" />
     </resultMap>
 
@@ -64,7 +65,7 @@
                 0
             </otherwise>
         </choose>,
-        #{startDate}, #{endDate}, #{categoryName}, 0, 0, 0
+        #{startDate}, #{endDate}, #{categoryName}, 0, 0, 0, 0
         )
     </insert>
 
@@ -96,7 +97,8 @@
             ct.category_name,
             ut.name,
             ct.challenge_like_count,
-            ct.challenge_layout
+            ct.challenge_layout,
+            ct.challenger
         from
             challenge_tb ct
             left outer join user_tb ut on(ut.user_id = ct.user_id)
@@ -107,12 +109,18 @@
     <select id="getChallengeList" resultMap="challengeMap" parameterType="hashmap">
         select
             ct.challenge_id,
+            ct.user_id,
             ct.challenge_name,
-            ct.category_name,
+            ct.challenge_introduction,
+            ct.is_open,
+            ct.is_applicable,
             ct.start_date,
-            ct.challenge_like_count,
+            ct.end_date,
+            ct.category_name,
             ut.name,
-
+            ct.challenge_like_count,
+            ct.challenge_layout,
+            ct.challenger
         from
             challenge_tb ct
             left outer join user_tb ut on(ut.user_id = ct.user_id)
@@ -131,7 +139,20 @@
                 </when>
             </choose>
         order by
-            challenge_id desc
+            <choose>
+                <when test="orderBy.equals('latest')">
+                    ct.challenge_id desc
+                </when>
+                <when test="orderBy.equals('oldest')">
+                    ct.challenge_id asc
+                </when>
+                <when test="orderBy.equals('popular')">
+                    ct.challenge_like_count desc
+                </when>
+                <when test="orderBy.equals('participants')">
+                    ct.challenger desc
+                </when>
+            </choose>
         limit #{index}, 10
     </select>
 

@@ -6,4 +6,5 @@ import lombok.Data;
 public class SearchChallengeListReqDto {
     private String optionName;
     private String searchValue;
+    private String orderBy;
 }
