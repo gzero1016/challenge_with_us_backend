@@ -103,6 +103,7 @@
             left outer join user_tb ut on (ut.user_id = ct.user_id)
         where
             ct.feed_id = #{feedId}
+        order by comment_datetime desc
     </select>
 
     <select id="getFeedLikeCountByFeedId" resultType="java.lang.Integer">
