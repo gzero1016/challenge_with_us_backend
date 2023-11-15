@@ -11,8 +11,10 @@ import lombok.NoArgsConstructor;
 
 import javax.swing.text.DateFormatter;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
+import java.util.Date;
 
 @Builder
 @Data
@@ -26,11 +28,12 @@ public class Challenge {
     private String introduction;
     private String isOpen;
     private String isApplicable;
-    private LocalDate startDate;
-    private LocalDate endDate;
+    private LocalDateTime startDate;
+    private LocalDateTime endDate;
     private String categoryName;
     private String name;
     private int challengeLikeCount;
+    private int challenger;
 
     private ChallengeApplication challengeApplication;
 
@@ -64,6 +67,7 @@ public class Challenge {
                 .categoryName(categoryName)
                 .name(name)
                 .challengeLikeCount(challengeLikeCount)
+                .challenger(challenger)
                 .build();
 
         if(endDate != null) {

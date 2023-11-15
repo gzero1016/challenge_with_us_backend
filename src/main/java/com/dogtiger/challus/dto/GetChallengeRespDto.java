@@ -18,4 +18,5 @@ public class GetChallengeRespDto {
     private String categoryName;
     private String name;
     private int challengeLikeCount;
+    private int challenger;
 }
