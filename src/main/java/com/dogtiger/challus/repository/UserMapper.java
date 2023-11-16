@@ -19,4 +19,5 @@ public interface UserMapper {
     public String getIntro(User user);
     public Integer saveUser(User user);
     public List<Map<String, Object>> getMembersCount();
+    public List<Integer> getUserIdAll();
 }

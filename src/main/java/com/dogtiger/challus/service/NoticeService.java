@@ -4,8 +4,10 @@ import com.dogtiger.challus.dto.NoticeEditReqDto;
 import com.dogtiger.challus.dto.NoticeGetRespDto;
 import com.dogtiger.challus.dto.NoticeListRespDto;
 import com.dogtiger.challus.dto.NoticeWriteReqDto;
+import com.dogtiger.challus.entity.Letter;
 import com.dogtiger.challus.entity.Notice;
 import com.dogtiger.challus.entity.User;
+import com.dogtiger.challus.repository.LetterMapper;
 import com.dogtiger.challus.repository.NoticeMapper;
 import com.dogtiger.challus.repository.UserMapper;
 import lombok.RequiredArgsConstructor;
@@ -13,22 +15,43 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
 public class NoticeService {
     private final NoticeMapper noticeMapper;
     private final UserMapper userMapper;
+    private final LetterMapper letterMapper;
 
+    @Transactional(rollbackFor = Exception.class)
     public boolean saveNotice(NoticeWriteReqDto noticewriteReqDto) {
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
         User user = userMapper.findUserByEmail(email);
         Notice notice = noticewriteReqDto.toNoticeEntity(user.getUserId());
-        return noticeMapper.saveNotice(notice) > 0;
+        boolean result = noticeMapper.saveNotice(notice) > 0;
+
+        List<Integer> userIds = userMapper.getUserIdAll();
+
+        System.out.println("???");
+        System.out.println(userIds);
+        System.out.println("???");
+
+        userIds.stream().forEach(
+                (receiverUserId) -> {
+                    if(user.getUserId() != receiverUserId) {
+                        letterMapper.insertLetter(Letter.builder()
+                                .senderUserId(user.getUserId())
+                                .receiverUserId(receiverUserId)
+                                .title("새로운 공지가 있습니다.")
+                                .content("링크를 통해 확인해주세요.")
+                                .targetUrl("http://localhost:3000/notice/" + notice.getNoticeId())
+                                .build());
+                    }
+                }
+        );
+
+        return result;
     }
 
     public List<NoticeListRespDto> noticeListGet(int page) {

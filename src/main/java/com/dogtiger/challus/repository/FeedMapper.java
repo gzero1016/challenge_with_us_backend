@@ -13,6 +13,7 @@ import java.util.Map;
 @Mapper
 public interface FeedMapper {
     public int saveFeed(Feed feed);
+    public int getLikeCountByFeedId(int feedId);
     public List<Feed> getFeeds(int index);
     Integer getFeedLikeCountByFeedId(int feedId);
     int findFeedLikeCountByFeedIdAndUserId(int feedId, int userId);
