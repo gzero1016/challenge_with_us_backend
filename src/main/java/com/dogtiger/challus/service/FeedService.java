@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -123,5 +124,12 @@ public class FeedService {
         }
 
         return comment.toCommentResDto();
+    }
+
+    public List<Map<String, Object>> getMembersCount() {
+        List<Map<String, Object>> result = feedMapper.getFeedsCount();
+        for (Map<String, Object> entry : result) {
+        }
+        return result;
     }
 }

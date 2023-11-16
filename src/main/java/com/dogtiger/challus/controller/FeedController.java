@@ -72,4 +72,9 @@ public class FeedController {
     public ResponseEntity<CommentResDto> getLatestFeedComment(@PathVariable int feedId) {
         return ResponseEntity.ok(feedService.getLatestFeedComment(feedId));
     }
+
+    @GetMapping("/api/admin/feed/count")
+    public ResponseEntity<?> getFeedCount() {
+        return ResponseEntity.ok(feedService.getMembersCount());
+    }
 }

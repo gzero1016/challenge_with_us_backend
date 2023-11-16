@@ -5,6 +5,7 @@ import com.dogtiger.challus.entity.ChallengeApplication;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
+import java.util.Map;
 
 @Mapper
 public interface UserMapper {
@@ -17,4 +18,5 @@ public interface UserMapper {
     public int updateIntro(User user);
     public String getIntro(User user);
     public Integer saveUser(User user);
+    public List<Map<String, Object>> getMembersCount();
 }

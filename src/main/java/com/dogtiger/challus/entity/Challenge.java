@@ -1,9 +1,6 @@
 package com.dogtiger.challus.entity;
 
-import com.dogtiger.challus.dto.ApprovedChallengesRespDto;
-import com.dogtiger.challus.dto.ChallengeListRespDto;
-import com.dogtiger.challus.dto.GetChallengeRespDto;
-import com.dogtiger.challus.dto.GetChallengersRespDto;
+import com.dogtiger.challus.dto.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

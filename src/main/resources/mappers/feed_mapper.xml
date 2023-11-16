@@ -187,4 +187,14 @@
         limit 0,1;
     </select>
 
+    <select id="getFeedsCount" resultType="java.util.Map">
+        select
+            date_format(datetime, '%Y-%m-%d') as date,
+            count(*) as count
+        from
+            feed_tb
+        group by
+            date_format(datetime, '%Y-%m-%d')
+    </select>
+
 </mapper>

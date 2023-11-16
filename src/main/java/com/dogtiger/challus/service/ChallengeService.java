@@ -8,10 +8,13 @@ import com.dogtiger.challus.entity.User;
 import com.dogtiger.challus.repository.ChallengeMapper;
 import com.dogtiger.challus.security.PrincipalUser;
 import lombok.RequiredArgsConstructor;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -96,11 +99,6 @@ public class ChallengeService {
     }
 
     public List<GetChallengersRespDto> getChallengers(int challengeId) {
-        System.out.println(challengeMapper
-                .getChallengersByChallengeId(challengeId)
-                .stream()
-                .map(ChallengeApplication::toChallengersDto)
-                .collect(Collectors.toList()));
         return challengeMapper
                 .getChallengersByChallengeId(challengeId)
                 .stream()
@@ -132,5 +130,27 @@ public class ChallengeService {
 
     public boolean challengeHidden(int challengeId) {
         return challengeMapper.challengeHidden(challengeId) > 0;
+    }
+
+    public List<Map<String, Object>> getChallengesCount() {
+        List<Map<String, Object>> result = challengeMapper.getAdminChallengersCount();
+        for (Map<String, Object> entry : result) {
+        }
+        System.out.println(result);
+        return result;
+    }
+
+    public List<Map<String, Object>> getChallengeCompletedCount() {
+        List<Map<String, Object>> result = challengeMapper.getChallengeCompletedCount();
+        for (Map<String, Object> entry : result) {
+        }
+        return result;
+    }
+
+    public List<Map<String, Object>> getChallengeDeletedCount() {
+        List<Map<String, Object>> result = challengeMapper.getChallengeDeletedCount();
+        for (Map<String, Object> entry : result) {
+        }
+        return result;
     }
 }

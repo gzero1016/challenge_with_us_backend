@@ -6,6 +6,7 @@ import com.dogtiger.challus.entity.User;
 import com.dogtiger.challus.entity.Letter;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 
@@ -32,5 +33,7 @@ public interface ChallengeMapper {
     public int findReceiverUserId(int challengeId);
     public int challengeStop(int challengeId);
     public int challengeHidden(int challengeId);
-    public List<ChallengeApplication> getAdminChallenger(int challengeId);
+    public List<Map<String, Object>> getAdminChallengersCount();
+    public List<Map<String, Object>> getChallengeCompletedCount();
+    public List<Map<String, Object>> getChallengeDeletedCount();
 }
