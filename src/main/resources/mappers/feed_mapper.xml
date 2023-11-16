@@ -66,6 +66,15 @@
         values(0, #{challengeLayout}, #{layout}, #{userId}, #{challengeId}, #{categoryName}, #{feedContent}, #{stopWatch}, #{img}, now())
     </insert>
 
+    <select id="getLikeCountByFeedId" parameterType="integer" resultType="integer">
+        select
+            count(feed_id)
+        from
+            feed_like_tb
+        where
+            feed_id = #{feedId};
+    </select>
+
     <select id="getFeeds" resultMap="feedMap" parameterType="int">
         select
             ft.feed_id,
