@@ -18,6 +18,7 @@
         <result property="challengeName" column="challenge_name" />
         <result property="nickname" column="nickname" />
         <result property="profileUrl" column="profile_url" />
+        <result property="feedLike" column="feed_like" />
         <association property="user" resultMap="userMap" />
     </resultMap>
 
@@ -66,16 +67,7 @@
         values(0, #{challengeLayout}, #{layout}, #{userId}, #{challengeId}, #{categoryName}, #{feedContent}, #{stopWatch}, #{img}, now())
     </insert>
 
-    <select id="getLikeCountByFeedId" parameterType="integer" resultType="integer">
-        select
-            count(feed_id)
-        from
-            feed_like_tb
-        where
-            feed_id = #{feedId};
-    </select>
-
-    <select id="getFeeds" resultMap="feedMap" parameterType="int">
+    <select id="getFeeds" resultMap="feedMap" parameterType="hashmap">
         select
             ft.feed_id,
             ft.challenge_layout,
@@ -89,13 +81,27 @@
             ft.Img,
             ft.datetime,
             ut.nickname,
-            ut.profile_url
+            ut.profile_url,
+            ft.feed_like
         from
             feed_tb ft
             left outer join challenge_tb ct on(ct.challenge_id = ft.challenge_id)
             left outer join user_tb ut on(ut.user_id = ft.user_id)
         order by
-            ft.datetime desc
+            <choose>
+                <when test="sort.equals('latest')">
+                    ft.datetime desc
+                </when>
+                <when test="sort.equals('oldest')">
+                    ft.datetime asc
+                </when>
+                <when test="sort.equals('popular')">
+                    ft.feed_like desc
+                </when>
+                <otherwise>
+                    ft.datetime desc
+                </otherwise>
+            </choose>
         limit #{index}, 5
     </select>
 

@@ -20,4 +20,5 @@ public interface UserMapper {
     public Integer saveUser(User user);
     public List<Map<String, Object>> getMembersCount();
     public List<Integer> getUserIdAll();
+    public int checkpassword(String password);
 }

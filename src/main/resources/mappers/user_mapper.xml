@@ -31,11 +31,12 @@
             #{password},
             0,
             '',
-            '브론즈',
+            'Bronze',
             0,
             #{oauth2Id},
-            #{profileUrl},
-            default
+            CASE WHEN #{profileUrl} = '' THEN '' ELSE #{profileUrl} END,
+            0,
+            now()
         );
     </insert>
 
