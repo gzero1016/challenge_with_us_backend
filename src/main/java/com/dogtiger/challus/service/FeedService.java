@@ -27,6 +27,18 @@ public class FeedService {
         return feedMapper.saveFeed(feedReqDto.toFeedEntity()) > 0;
     }
 
+    public List<FeedResDto> getFeedDetails(int page, int challengeId) {
+        int index = (page - 1) * 5;
+        List<FeedResDto> feedList = new ArrayList<>();
+
+        feedMapper.getFeedDetails(index, challengeId).forEach(feeds -> {
+            int likeCount = feedMapper.getLikeCountByFeedId(feeds.getFeedId());
+            feedList.add(feeds.toFeedResDto(likeCount));
+        });
+        System.out.println(feedList);
+        return feedList;
+    }
+
     public List<FeedResDto> getFeeds(int page) {
         int index = (page - 1) * 5;
         List<FeedResDto> feedList = new ArrayList<>();

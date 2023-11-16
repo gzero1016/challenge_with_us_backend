@@ -24,6 +24,12 @@ public class FeedController {
         return ResponseEntity.ok(feedService.saveFeed(feedReqDto));
     }
 
+    @GetMapping("/api/challenge/certification/feed/{page}/{challengeId}")
+    public ResponseEntity<?> getFeed(@PathVariable int page,
+                                     @PathVariable int challengeId){
+        return ResponseEntity.ok(feedService.getFeedDetails(page, challengeId));
+    }
+
     @GetMapping("/api/challenge/certification/feed/{page}")
     public ResponseEntity<?> getFeed(@PathVariable int page){
         return ResponseEntity.ok(feedService.getFeeds(page));
