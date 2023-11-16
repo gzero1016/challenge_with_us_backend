@@ -1,5 +1,7 @@
 package com.dogtiger.challus.service;
 
+import com.dogtiger.challus.dto.GetFeedCountRespDto;
+import com.dogtiger.challus.dto.GetUserCountRespDto;
 import com.dogtiger.challus.dto.SigninReqDto;
 import com.dogtiger.challus.dto.SignupReqDto;
 import com.dogtiger.challus.entity.User;
@@ -11,6 +13,11 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -32,5 +39,12 @@ public class AuthService {
         Authentication authentication = principalProvider.authenticate(authenticationToken);
 
         return jwtProvider.generateToken(authentication);
+    }
+
+    public List<Map<String, Object>> getMembersCount() {
+        List<Map<String, Object>> result = userMapper.getMembersCount();
+        for (Map<String, Object> entry : result) {
+        }
+        return result;
     }
 }

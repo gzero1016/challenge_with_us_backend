@@ -267,7 +267,8 @@
     <update id="challengeStop">
         update challenge_tb
         set
-            is_deadline = 1
+            is_deadline = 1,
+            end_date = now()
         where
             challenge_id = #{challengeId}
     </update>
@@ -275,7 +276,8 @@
     <update id="challengeHidden">
         update challenge_tb
         set
-            is_hidden = 1
+            is_hidden = 1,
+            end_date = now()
         where
             challenge_id = #{challengeId}
     </update>
@@ -354,16 +356,42 @@
             left outer join user_tb ut on(ut.user_id = ct.user_id)
     </select>
 
-<!--    <select id="getAdminChallenger" resultType="com.dogtiger.challus.entity.ChallengeApplication">-->
-<!--        select-->
-<!--            cat.user_id,-->
-<!--            ut.nickname-->
-<!--        from-->
-<!--            challenge_application_tb cat-->
-<!--            left outer join user_tb ut on(ut.user_id = cat.user_id)-->
-<!--        where-->
+    <select id="getAdminChallengersCount" resultType="java.util.Map">
+        select
+            date_format(start_date, '%Y-%m-%d') as date,
+            count(*) as count
+        from
+            challenge_tb
+        where
+            is_deadline = 0
+            and is_hidden = 0
+        group by
+            date_format(start_date, '%Y-%m-%d')
+        order by
+            date asc;
+    </select>
 
-<!--            cat.challenge_id = #{challengeId}-->
-<!--    </select>-->
+    <select id="getChallengeCompletedCount" resultType="java.util.Map">
+        select
+            date_format(end_date, '%Y-%m-%d') as date,
+            count(*) as count
+        from
+            challenge_tb
+        where
+            is_deadline = 1
+        group by
+            date_format(end_date, '%Y-%m-%d')
+    </select>
 
+    <select id="getChallengeDeletedCount" resultType="java.util.Map">
+        select
+            date_format(end_date, '%Y-%m-%d') as date,
+            count(*) as count
+        from
+            challenge_tb
+        where
+            is_hidden = 1
+        group by
+            date_format(end_date, '%Y-%m-%d')
+    </select>
 </mapper>

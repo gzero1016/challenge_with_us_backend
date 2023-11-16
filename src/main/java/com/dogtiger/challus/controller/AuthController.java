@@ -34,4 +34,9 @@ public class AuthController {
     public ResponseEntity<?> signIn(@RequestBody SigninReqDto signinReqDto) {
         return ResponseEntity.ok(authService.signin(signinReqDto));
     }
+
+    @GetMapping("/api/admin/members/count")
+    public ResponseEntity<?> getUserCount() {
+        return ResponseEntity.ok(authService.getMembersCount());
+    }
 }

@@ -121,8 +121,18 @@ public class ChallengeController {
         return ResponseEntity.ok(challengeService.challengeHidden(challengeId));
     }
 
-    @GetMapping("/api/admin/challengers/{challengeId}")
-    public ResponseEntity<?> getChallenger(@PathVariable int challengeId) {
-        return ResponseEntity.ok(null);
+    @GetMapping("/api/admin/challengers/count")
+    public ResponseEntity<?> getChallengesCount() {
+        return ResponseEntity.ok(challengeService.getChallengesCount());
+    }
+
+    @GetMapping("/api/admin/challenges/completed/count")
+    public ResponseEntity<?> getChallengeCompletedCount() {
+        return ResponseEntity.ok(challengeService.getChallengeCompletedCount());
+    }
+
+    @GetMapping("/api/admin/challenges/deleted/count")
+    public ResponseEntity<?> getChallengeDeletedCount() {
+        return ResponseEntity.ok(challengeService.getChallengeDeletedCount());
     }
 }

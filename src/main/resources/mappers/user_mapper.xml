@@ -131,10 +131,24 @@
             nickname = #{nickname}
     </select>
 
+    <select id="getMembersCount" resultType="java.util.Map">
+        select
+            date_format(datetime, '%Y-%m-%d') as date,
+            count(*) as count
+        from
+            user_tb
+        where
+            is_admin = 0
+        group by
+            date_format(datetime, '%Y-%m-%d')
+    </select>
+
+
     <select id="getUserIdAll" resultType="java.lang.Integer">
         select
             user_id
         from
             user_tb
     </select>
+
 </mapper>

@@ -24,4 +24,5 @@ public interface FeedMapper {
     int deleteCommentByCommentId(int commentId);
     List<Comment> findCommentsByFeedId(int feedId);
     Comment getLatestCommentByFeedId(int feedId);
+    List<Map<String, Object>> getFeedsCount();
 }
