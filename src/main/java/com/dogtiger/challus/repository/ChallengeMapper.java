@@ -30,4 +30,7 @@ public interface ChallengeMapper {
     public int challengeApproval(ChallengeApplication challengeApplication);
     public int challengeRefusal(ChallengeApplication challengeApplication);
     public int findReceiverUserId(int challengeId);
+    public int challengeStop(int challengeId);
+    public int challengeHidden(int challengeId);
+    public List<ChallengeApplication> getAdminChallenger(int challengeId);
 }

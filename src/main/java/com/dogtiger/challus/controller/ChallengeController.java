@@ -109,4 +109,19 @@ public class ChallengeController {
 
         return ResponseEntity.ok(challengeService.challengeRefusal(challengeApplicableReqDto));
     }
+
+    @PutMapping("/api/challenge/stop/{challengeId}")
+    public ResponseEntity<?> challengeStop(@PathVariable int challengeId) {
+        return ResponseEntity.ok(challengeService.challengeStop(challengeId));
+    }
+
+    @PutMapping("/api/challenge/hidden/{challengeId}")
+    public ResponseEntity<?> challengeHidden(@PathVariable int challengeId) {
+        return ResponseEntity.ok(challengeService.challengeHidden(challengeId));
+    }
+
+    @GetMapping("/api/admin/challengers/{challengeId}")
+    public ResponseEntity<?> getChallenger(@PathVariable int challengeId) {
+        return ResponseEntity.ok(null);
+    }
 }

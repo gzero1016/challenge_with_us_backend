@@ -18,6 +18,8 @@
         <result property="challengeLikeCount" column="challenge_like_count" />
         <result property="name" column="name" />
         <result property="challenger" column="challenger" />
+        <result property="isDeadline" column="is_deadline" />
+        <result property="isHidden" column="is_hidden" />
         <association property="challengeApplication" resultMap="challengeApplicationMap" />
     </resultMap>
 
@@ -98,7 +100,9 @@
             ut.name,
             ct.challenge_like_count,
             ct.challenge_layout,
-            ct.challenger
+            ct.challenger,
+            ct.is_deadline,
+            ct.is_hidden
         from
             challenge_tb ct
             left outer join user_tb ut on(ut.user_id = ct.user_id)
@@ -120,16 +124,30 @@
             ut.name,
             ct.challenge_like_count,
             ct.challenge_layout,
-            ct.challenger
+            ct.challenger,
+            ct.is_deadline,
+            ct.is_hidden
         from
             challenge_tb ct
             left outer join user_tb ut on(ut.user_id = ct.user_id)
         where
-            1 = 1
+        1 = 1
+            <choose>
+                <when test="sort.equals('hidden')">
+                    and is_hidden = 1
+                </when>
+                <when test="sort.equals('stop')">
+                    and is_deadline = 1
+                </when>
+                <otherwise>
+                    and is_hidden = 0
+                    and is_deadline = 0
+                </otherwise>
+            </choose>
             <choose>
                 <when test="optionName.equals('전체')">
-                    and ct.challenge_name like concat("%", #{searchValue}, "%")
-                    or ct.category_name like concat("%", #{searchValue}, "%")
+                    and (ct.challenge_name like concat("%", #{searchValue}, "%")
+                    or ct.category_name like concat("%", #{searchValue}, "%"))
                 </when>
                 <when test="optionName.equals('챌린지제목')">
                     and ct.challenge_name like concat("%", #{searchValue}, "%")
@@ -140,18 +158,21 @@
             </choose>
         order by
             <choose>
-                <when test="orderBy.equals('latest')">
+                <when test="sort.equals('latest')">
                     ct.challenge_id desc
                 </when>
-                <when test="orderBy.equals('oldest')">
+                <when test="sort.equals('oldest')">
                     ct.challenge_id asc
                 </when>
-                <when test="orderBy.equals('popular')">
+                <when test="sort.equals('popular')">
                     ct.challenge_like_count desc
                 </when>
-                <when test="orderBy.equals('participants')">
+                <when test="sort.equals('participants')">
                     ct.challenger desc
                 </when>
+                <otherwise>
+                    ct.challenge_id desc
+                </otherwise>
             </choose>
         limit #{index}, 10
     </select>
@@ -218,6 +239,7 @@
         and user_id = #{userId}
         and accept_state = 0
     </select>
+
     <select id="getChallengersByChallengeId" resultMap="challengeApplicationMap">
         select
             cat.user_id,
@@ -226,7 +248,8 @@
             challenge_application_tb cat
             left outer join user_tb ut on(ut.user_id = cat.user_id)
         where
-            cat.challenge_id = #{challengeId}
+            cat.accept_state = 1
+            and cat.challenge_id = #{challengeId}
     </select>
 
     <update id="insertLike" parameterType="com.dogtiger.challus.entity.Challenge">
@@ -250,6 +273,22 @@
         where
             user_id = #{userId}
         and challenge_id = #{challengeId}
+    </update>
+
+    <update id="challengeStop">
+        update challenge_tb
+        set
+            is_deadline = 1
+        where
+            challenge_id = #{challengeId}
+    </update>
+
+    <update id="challengeHidden">
+        update challenge_tb
+        set
+            is_hidden = 1
+        where
+            challenge_id = #{challengeId}
     </update>
 
     <delete id="cancelLike" parameterType="com.dogtiger.challus.entity.Challenge">
@@ -325,4 +364,17 @@
             challenge_tb ct
             left outer join user_tb ut on(ut.user_id = ct.user_id)
     </select>
+
+<!--    <select id="getAdminChallenger" resultType="com.dogtiger.challus.entity.ChallengeApplication">-->
+<!--        select-->
+<!--            cat.user_id,-->
+<!--            ut.nickname-->
+<!--        from-->
+<!--            challenge_application_tb cat-->
+<!--            left outer join user_tb ut on(ut.user_id = cat.user_id)-->
+<!--        where-->
+
+<!--            cat.challenge_id = #{challengeId}-->
+<!--    </select>-->
+
 </mapper>

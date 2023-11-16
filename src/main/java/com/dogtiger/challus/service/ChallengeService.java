@@ -38,10 +38,10 @@ public class ChallengeService {
         paramsMap.put("index", index);
         paramsMap.put("optionName", searchChallengeListReqDto.getOptionName());
         paramsMap.put("searchValue", searchChallengeListReqDto.getSearchValue());
-        paramsMap.put("orderBy", searchChallengeListReqDto.getOrderBy());
+        paramsMap.put("sort", searchChallengeListReqDto.getSort());
         List<Challenge> challenges = challengeMapper.getChallengeList(paramsMap);
 
-        System.out.println(challenges.stream().map(Challenge::toChallengeListDto).collect(Collectors.toList()));
+        System.out.println(challenges);
 
         return challenges.stream().map(Challenge::toChallengeListDto).collect(Collectors.toList());
     }
@@ -95,6 +95,11 @@ public class ChallengeService {
     }
 
     public List<GetChallengersRespDto> getChallengers(int challengeId) {
+        System.out.println(challengeMapper
+                .getChallengersByChallengeId(challengeId)
+                .stream()
+                .map(ChallengeApplication::toChallengersDto)
+                .collect(Collectors.toList()));
         return challengeMapper
                 .getChallengersByChallengeId(challengeId)
                 .stream()
@@ -118,5 +123,13 @@ public class ChallengeService {
 
     public boolean challengeRefusal(ChallengeApplicableReqDto challengeApplicableReqDto) {
         return challengeMapper.challengeRefusal(challengeApplicableReqDto.toChallengeApplicationEntity()) > 0;
+    }
+
+    public boolean challengeStop(int challengeId) {
+        return challengeMapper.challengeStop(challengeId) > 0;
+    }
+
+    public boolean challengeHidden(int challengeId) {
+        return challengeMapper.challengeHidden(challengeId) > 0;
     }
 }
