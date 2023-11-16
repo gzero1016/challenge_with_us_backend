@@ -84,6 +84,7 @@ public class ChallengeController {
 
     @PostMapping("/api/challenge/join/{challengeId}")
     public ResponseEntity<?> challengeApplicable(@PathVariable int challengeId) {
+        System.out.println(challengeId);
         return ResponseEntity.ok(challengeService.challengeApplicable(challengeId));
     }
     @GetMapping("/api/challengers/{challengeId}")

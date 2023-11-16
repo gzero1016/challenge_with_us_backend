@@ -88,6 +88,7 @@ public class ChallengeService {
         return challengeMapper.getChallengeAtmospher(challengeId, userId) > 0;
     }
 
+    @Transactional(rollbackFor = Exception.class)
     public boolean challengeApplicable(int challengeId){
         PrincipalUser principalUser = (PrincipalUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         int userId = principalUser.getUser().getUserId();
