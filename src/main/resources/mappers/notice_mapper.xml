@@ -30,10 +30,9 @@
         <result property="enabled" column="enabled" />
     </resultMap>
 
-    <insert id="saveNotice">
+    <insert id="saveNotice" useGeneratedKeys="true" keyProperty="noticeId">
         insert into notice_tb
         values(0, #{noticeTitle}, #{noticeContent}, #{userId}, now())
-
     </insert>
 
     <select id="getNoticeList"
