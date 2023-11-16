@@ -57,6 +57,12 @@ public class FeedController {
         return ResponseEntity.ok("");
     }
 
+    @DeleteMapping("/api/feed/{feedId}/comment/{commentId}")
+    public ResponseEntity<?> deleteComment(@PathVariable int feedId, @PathVariable int commentId) throws Exception {
+        feedService.deleteComment(feedId, commentId);
+        return ResponseEntity.ok("");
+    }
+
     @GetMapping("/api/feed/{feedId}/comments")
     public ResponseEntity<List<CommentResDto>> getFeedComments(@PathVariable int feedId) {
         return ResponseEntity.ok(feedService.getFeedComments(feedId));

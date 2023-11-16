@@ -95,6 +95,26 @@ public class FeedService {
                 .build());
     }
 
+    public void deleteComment(int feedId, int commentId) throws Exception {
+        PrincipalUser principalUser = (PrincipalUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        int userId = principalUser.getUser().getUserId();
+        Comment targetComment = feedMapper.findCommentByCommentId(commentId);
+
+        if(targetComment == null) {
+            throw new Exception("대상 댓글 존재하지 않음");
+        }
+
+        if(targetComment.getFeedId() != feedId) {
+            throw new Exception("올바르지 않은 요청");
+        }
+
+        if(targetComment.getUserId() != userId) {
+            throw new Exception("다른 사람의 댓글은 지울 수 없음");
+        }
+
+        feedMapper.deleteCommentByCommentId(commentId);
+    }
+
     public CommentResDto getLatestFeedComment(int feedId) {
         Comment comment = feedMapper.getLatestCommentByFeedId(feedId);
 
