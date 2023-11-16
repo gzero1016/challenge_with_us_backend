@@ -1,21 +1,19 @@
 package com.dogtiger.challus.service;
 
-import com.dogtiger.challus.dto.GetFeedCountRespDto;
-import com.dogtiger.challus.dto.GetUserCountRespDto;
 import com.dogtiger.challus.dto.SigninReqDto;
 import com.dogtiger.challus.dto.SignupReqDto;
 import com.dogtiger.challus.entity.User;
 import com.dogtiger.challus.jwt.JwtProvider;
 import com.dogtiger.challus.repository.UserMapper;
 import com.dogtiger.challus.security.PrincipalProvider;
+import com.dogtiger.challus.security.PrincipalUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
