@@ -31,7 +31,8 @@ public class FeedService {
         List<FeedResDto> feedList = new ArrayList<>();
 
         feedMapper.getFeeds(index).forEach(feeds -> {
-            feedList.add(feeds.toFeedResDto());
+            int likeCount = feedMapper.getLikeCountByFeedId(feeds.getFeedId());
+            feedList.add(feeds.toFeedResDto(likeCount));
         });
         System.out.println(feedList);
         return feedList;
