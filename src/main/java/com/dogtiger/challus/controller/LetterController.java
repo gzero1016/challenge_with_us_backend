@@ -32,8 +32,7 @@ public class LetterController {
     }
 
     @PostMapping("/api/challenge/atmosphere/letter")
-    public ResponseEntity<?> challengeAtmosphereLetter(@RequestBody Map<String, LetterReqDto> requestData) {
-        LetterReqDto letterReqDto = requestData.get("data");
+    public ResponseEntity<?> challengeAtmosphereLetter(@RequestBody LetterReqDto letterReqDto) {
         return ResponseEntity.ok(letterService.challengeAtmosphereLetter(letterReqDto));
     }
 

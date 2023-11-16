@@ -71,19 +71,8 @@
         )
     </insert>
 
-    <insert id="challengeApplicable">
-        insert into challenge_application_tb
-        (
-            select
-                0,
-                #{challengeId},
-                #{userId},
-                if(is_applicable = 0, 1, 0)
-            from
-                challenge_tb
-            where
-                challenge_id = #{challengeId}
-        )
+    <insert id="challengeApplicable" statementType="CALLABLE">
+        {call p_insert_challenge_application(#{challengeId}, #{userId})}
     </insert>
 
     <select id="getChallengeByChallengeId" resultMap="challengeMap">
