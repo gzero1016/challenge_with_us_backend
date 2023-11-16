@@ -18,4 +18,6 @@ public class ChallengeListRespDto {
     private String categoryName;
     private String name;
     private int likeCount;
+    private int isDeadline;
+    private int isHidden;
 }

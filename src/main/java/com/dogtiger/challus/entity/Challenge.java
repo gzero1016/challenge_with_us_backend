@@ -34,6 +34,8 @@ public class Challenge {
     private String name;
     private int challengeLikeCount;
     private int challenger;
+    private int isDeadline;
+    private int isHidden;
 
     private ChallengeApplication challengeApplication;
 
@@ -51,6 +53,8 @@ public class Challenge {
                 .name(name)
                 .startDate(startDate.format(DateTimeFormatter.ISO_DATE))
                 .likeCount(challengeLikeCount)
+                .isDeadline(isDeadline)
+                .isHidden(isHidden)
                 .build();
     }
 
