@@ -34,7 +34,7 @@
             'Bronze',
             0,
             #{oauth2Id},
-            #{profileUrl},
+            CASE WHEN #{profileUrl} = '' THEN '' ELSE #{profileUrl} END,
             0,
             now()
         );
