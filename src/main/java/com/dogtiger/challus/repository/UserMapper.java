@@ -17,4 +17,5 @@ public interface UserMapper {
     public int updateIntro(User user);
     public String getIntro(User user);
     public Integer saveUser(User user);
+    public List<Integer> getUserIdAll();
 }

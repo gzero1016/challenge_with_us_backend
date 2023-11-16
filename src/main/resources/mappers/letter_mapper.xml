@@ -51,6 +51,13 @@
         values(0, #{senderUserId}, #{receiverUserId}, "신고가 들어왔습니다.", #{content}, now(), 0, 4, #{targetUrl})
     </insert>
 
+    <insert id="insertLetter">
+        insert into
+            letter_tb
+        values
+            (0, #{senderUserId}, #{receiverUserId}, #{title}, #{content}, now(), 0, 0, #{targetUrl});
+    </insert>
+
     <select id="findLettersByUserId" resultMap="letterMap">
         select
             lt.letter_id,

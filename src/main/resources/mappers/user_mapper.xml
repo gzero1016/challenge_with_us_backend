@@ -131,5 +131,10 @@
             nickname = #{nickname}
     </select>
 
-
+    <select id="getUserIdAll" resultType="java.lang.Integer">
+        select
+            user_id
+        from
+            user_tb
+    </select>
 </mapper>

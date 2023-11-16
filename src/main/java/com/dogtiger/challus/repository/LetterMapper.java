@@ -14,5 +14,5 @@ public interface LetterMapper {
     public int updateLetter(Letter letter);
     public int challengeAtmosphereLetter(Letter letter);
     public int challengeReport(Letter letter);
-
+    public int insertLetter(Letter letter);
 }
