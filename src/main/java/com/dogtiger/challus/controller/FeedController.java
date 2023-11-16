@@ -31,13 +31,9 @@ public class FeedController {
     }
 
     @GetMapping("/api/challenge/certification/feed/{page}")
-    public ResponseEntity<?> getFeed(@PathVariable int page){
-        return ResponseEntity.ok(feedService.getFeeds(page));
-    }
-
-    @GetMapping("/api/feed/{feedId}/like/count")
-    public ResponseEntity<Integer> getFeedLikeCount(@PathVariable int feedId){
-        return ResponseEntity.ok(feedService.getFeedLikeCount(feedId));
+    public ResponseEntity<?> getFeed(@PathVariable int page,
+                                     @RequestParam String sort){
+        return ResponseEntity.ok(feedService.getFeeds(page, sort));
     }
 
     @GetMapping("/api/feed/{feedId}/like")

@@ -11,7 +11,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -29,34 +28,24 @@ public class FeedService {
 
     public List<FeedResDto> getFeedDetails(int page, int challengeId) {
         int index = (page - 1) * 5;
-        List<FeedResDto> feedList = new ArrayList<>();
 
-        feedMapper.getFeedDetails(index, challengeId).forEach(feeds -> {
-            int likeCount = feedMapper.getLikeCountByFeedId(feeds.getFeedId());
-            feedList.add(feeds.toFeedResDto(likeCount));
-        });
-        System.out.println(feedList);
-        return feedList;
+        List<Feed> feedList = feedMapper.getFeedDetails(index, challengeId);
+        return feedList.stream().map(Feed::toFeedResDto).collect(Collectors.toList());
     }
 
-    public List<FeedResDto> getFeeds(int page) {
+    public List<FeedResDto> getFeeds(int page, String sort) {
         int index = (page - 1) * 5;
-        List<FeedResDto> feedList = new ArrayList<>();
 
-        feedMapper.getFeeds(index).forEach(feeds -> {
-            int likeCount = feedMapper.getLikeCountByFeedId(feeds.getFeedId());
-            feedList.add(feeds.toFeedResDto(likeCount));
-        });
-        System.out.println(feedList);
-        return feedList;
+        Map<String, Object> paramsMap = new HashMap<>();
+        paramsMap.put("index", index);
+        paramsMap.put("sort", sort);
+
+        List<Feed> feedList = feedMapper.getFeeds(paramsMap);
+        return feedList.stream().map(Feed::toFeedResDto).collect(Collectors.toList());
     }
 
     public List<CommentResDto> getFeedComments(int feedId) {
         return feedMapper.findCommentsByFeedId(feedId).stream().map(comment -> comment.toCommentResDto()).collect(Collectors.toList());
-    }
-
-    public Integer getFeedLikeCount(int feedId) {
-        return feedMapper.getFeedLikeCountByFeedId(feedId);
     }
 
     public Integer getMyFeedLike(int feedId) {
