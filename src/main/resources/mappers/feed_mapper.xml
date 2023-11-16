@@ -147,6 +147,28 @@
             (0, #{feedId}, #{userId}, #{commentContent}, now());
     </insert>
 
+    <select id="findCommentByCommentId" resultMap="commentMap">
+        select
+            ct.comment_id,
+            ct.feed_id,
+            ct.user_id,
+            ct.comment_content,
+            ct.comment_datetime,
+            ut.nickname userNickname
+        from
+            comment_tb ct
+            left outer join user_tb ut on (ut.user_id = ct.user_id)
+        where
+            ct.comment_id = #{commentId}
+    </select>
+
+    <delete id="deleteCommentByCommentId">
+        delete from
+            comment_tb
+        where
+            comment_id = #{commentId}
+    </delete>
+
     <select id="getLatestCommentByFeedId" resultMap="commentMap">
         select
             ct.comment_id,

@@ -19,6 +19,8 @@ public interface FeedMapper {
     int insertFeedLike(FeedLike feedLike);
     int deleteFeedLike(FeedLike feedLike);
     int insertComment(Comment build);
+    Comment findCommentByCommentId(int commentId);
+    int deleteCommentByCommentId(int commentId);
     List<Comment> findCommentsByFeedId(int feedId);
     Comment getLatestCommentByFeedId(int feedId);
 }
