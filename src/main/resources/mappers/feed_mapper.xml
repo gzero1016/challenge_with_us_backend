@@ -161,7 +161,7 @@
         where
             ct.feed_id = #{feedId}
         order by
-            comment_content desc
+            ct.comment_id desc
         limit 0,1;
     </select>
 
