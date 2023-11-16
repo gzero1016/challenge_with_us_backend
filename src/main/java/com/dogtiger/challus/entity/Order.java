@@ -27,7 +27,7 @@ public class Order {
                 .itemId(itemId)
                 .itemName(StoreItem.getItemNameByItemId(itemId))
                 .itemPrice(itemPrice)
-                .orderTime(orderTime.format(DateTimeFormatter.ofPattern("MM월dd일 HH시mm분")))
+                .orderTime(orderTime.format(DateTimeFormatter.ofPattern("MM월 dd일 HH:mm")))
                 .build();
     }
 }
