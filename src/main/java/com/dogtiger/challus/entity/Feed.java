@@ -28,10 +28,11 @@ public class Feed {
     private LocalDateTime dateTime;
     private String nickname;
     private String profileUrl;
+    private int feedLike;
 
     private User user;
 
-    public FeedResDto toFeedResDto(int likeCount){
+    public FeedResDto toFeedResDto(){
         return FeedResDto
                 .builder()
                 .feedId(feedId)
@@ -47,7 +48,7 @@ public class Feed {
                 .nickname(nickname)
                 .profileUrl(profileUrl)
                 .dateTime(dateTime)
-                .likeCount(likeCount)
+                .likeCount(feedLike)
                 .build();
     }
 }
