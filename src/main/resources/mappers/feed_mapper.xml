@@ -188,6 +188,15 @@
             (0, #{feedId}, #{userId}, #{commentContent}, now());
     </insert>
 
+    <update id="updateComment">
+        update
+            comment_tb
+        set
+            comment_content = #{commentContent}
+        where
+            comment_id = #{commentId};
+    </update>
+
     <select id="findCommentByCommentId" resultMap="commentMap">
         select
             ct.comment_id,

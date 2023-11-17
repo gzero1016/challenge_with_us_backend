@@ -3,6 +3,7 @@ package com.dogtiger.challus.controller;
 import com.dogtiger.challus.dto.CommentResDto;
 import com.dogtiger.challus.dto.CreateCommentReqDto;
 import com.dogtiger.challus.dto.FeedReqDto;
+import com.dogtiger.challus.dto.ModifyCommentReqDto;
 import com.dogtiger.challus.entity.Challenge;
 import com.dogtiger.challus.service.FeedService;
 import lombok.RequiredArgsConstructor;
@@ -56,6 +57,13 @@ public class FeedController {
     @PostMapping("/api/feed/{feedId}/comment")
     public ResponseEntity<?> createComment(@PathVariable int feedId, @RequestBody CreateCommentReqDto createCommentReqDto) {
         feedService.createComment(feedId, createCommentReqDto);
+        return ResponseEntity.ok("");
+    }
+
+    @PutMapping("/api/feed/{feedId}/comment/{commentId}")
+    public ResponseEntity<?> modifyComment(@PathVariable int feedId, @PathVariable int commentId, @RequestBody ModifyCommentReqDto modifyCommentReqDto) throws Exception {
+        System.out.println(modifyCommentReqDto.getCommentContent());
+        feedService.modifyComment(feedId, commentId, modifyCommentReqDto);
         return ResponseEntity.ok("");
     }
 
