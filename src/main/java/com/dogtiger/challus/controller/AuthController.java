@@ -49,19 +49,6 @@ public class AuthController {
 
     @PostMapping("/api/account/checkpassword")
     public ResponseEntity<?> checkPassword(@RequestBody PasswordMatchesReqDto passwordMatchesReqDto) {
-        try {
-            PrincipalUser principalUser = (PrincipalUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-
-            boolean passwordMatches = passwordEncoder.matches(passwordMatchesReqDto.getPassword(), principalUser.getPassword());
-
-            if (passwordMatches) {
-                return ResponseEntity.ok(true);
-            } else {
-                throw new AuthenticationException("비밀번호가 일치하지 않습니다.") {
-                };
-            }
-        } catch (AuthenticationException e) {
-            return ResponseEntity.ok(false);
-        }
+        return ResponseEntity.ok(authService.checkPassword(passwordMatchesReqDto));
     }
 }

@@ -1,5 +1,6 @@
 package com.dogtiger.challus.service;
 
+import com.dogtiger.challus.dto.PasswordMatchesReqDto;
 import com.dogtiger.challus.dto.SigninReqDto;
 import com.dogtiger.challus.dto.SignupReqDto;
 import com.dogtiger.challus.entity.User;
@@ -8,11 +9,15 @@ import com.dogtiger.challus.repository.UserMapper;
 import com.dogtiger.challus.security.PrincipalProvider;
 import com.dogtiger.challus.security.PrincipalUser;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 import java.util.Map;
@@ -44,5 +49,22 @@ public class AuthService {
         for (Map<String, Object> entry : result) {
         }
         return result;
+    }
+
+    public boolean checkPassword(PasswordMatchesReqDto passwordMatchesReqDto) {
+        try {
+            PrincipalUser principalUser = (PrincipalUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+            boolean passwordMatches = passwordEncoder.matches(passwordMatchesReqDto.getPassword(), principalUser.getPassword());
+
+            if (passwordMatches) {
+                return true;
+            } else {
+                throw new AuthenticationException("비밀번호가 일치하지 않습니다.") {
+                };
+            }
+        } catch (AuthenticationException e) {
+            return false;
+        }
     }
 }
