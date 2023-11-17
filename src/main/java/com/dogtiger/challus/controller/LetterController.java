@@ -17,7 +17,6 @@ public class LetterController {
 
     @GetMapping("/api/letters")
     public ResponseEntity<?> getLetters() {
-        System.out.println(letterService.getLetters());
         return ResponseEntity.ok(letterService.getLetters());
     }
 
@@ -38,7 +37,6 @@ public class LetterController {
 
     @PostMapping("/api/challenge/report")
     public ResponseEntity<?> challengeReport(@RequestBody ReportReqDto reportReqDto) {
-        System.out.println(reportReqDto);
         return ResponseEntity.ok(letterService.challengeReport(reportReqDto));
     }
 }
