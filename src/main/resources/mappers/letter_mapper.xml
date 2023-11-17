@@ -79,6 +79,8 @@
             left outer join challenge_tb ct on (ct.challenge_id = cat.challenge_id)
         where
             receiver_user_id = #{userId}
+        order by
+            lt.send_date_time desc;
     </select>
 
     <select id="getLettersCountByUserId" resultType="java.lang.Integer">

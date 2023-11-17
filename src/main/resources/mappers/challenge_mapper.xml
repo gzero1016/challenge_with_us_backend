@@ -163,7 +163,7 @@
                     ct.challenge_id desc
                 </otherwise>
             </choose>
-        limit #{index}, 10
+        limit #{index}, 30
     </select>
 
     <select id="getChallengeCount" resultType="java.lang.Integer">
