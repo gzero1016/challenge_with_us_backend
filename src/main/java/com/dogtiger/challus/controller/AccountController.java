@@ -8,6 +8,7 @@ import com.dogtiger.challus.repository.UserMapper;
 import com.dogtiger.challus.security.PrincipalUser;
 import com.dogtiger.challus.service.AccountService;
 import com.dogtiger.challus.service.AuthService;
+import io.jsonwebtoken.JwtException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -19,18 +20,6 @@ import org.springframework.web.bind.annotation.*;
 public class AccountController {
 
     private final AccountService accountService;
-    private final UserMapper userMapper;
-    private final BCryptPasswordEncoder passwordEncoder;
-
-    @GetMapping("/api/account/principal")
-    public ResponseEntity<?> getPrincipal() {
-        PrincipalUser principalUser = (PrincipalUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-
-        User user = principalUser.getUser();
-
-        PrincipalResDto principalResDto = user.toPrincipalResDto();
-        return ResponseEntity.ok(principalResDto);
-    }
 
     @PutMapping("/api/account/mypage/{userId}")
     public ResponseEntity<?> updateMypageDetail(@PathVariable int userId,

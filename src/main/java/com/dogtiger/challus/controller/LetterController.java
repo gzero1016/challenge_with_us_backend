@@ -17,6 +17,7 @@ public class LetterController {
 
     @GetMapping("/api/letters")
     public ResponseEntity<?> getLetters() {
+        System.out.println("test");
         return ResponseEntity.ok(letterService.getLetters());
     }
 

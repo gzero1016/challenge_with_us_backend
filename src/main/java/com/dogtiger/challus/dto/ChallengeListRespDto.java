@@ -11,7 +11,6 @@ public class ChallengeListRespDto {
     private String challengeName;
     private int layout;
     private String introduction;
-    private String isOpen;
     private String isApplicable;
     private String startDate;
     private String endDate;
