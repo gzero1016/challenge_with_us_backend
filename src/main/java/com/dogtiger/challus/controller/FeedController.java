@@ -1,9 +1,6 @@
 package com.dogtiger.challus.controller;
 
-import com.dogtiger.challus.dto.CommentResDto;
-import com.dogtiger.challus.dto.CreateCommentReqDto;
-import com.dogtiger.challus.dto.FeedReqDto;
-import com.dogtiger.challus.dto.ModifyCommentReqDto;
+import com.dogtiger.challus.dto.*;
 import com.dogtiger.challus.entity.Challenge;
 import com.dogtiger.challus.service.FeedService;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +20,12 @@ public class FeedController {
         feedReqDto.setChallengeId(challengeId);
         System.out.println(feedReqDto);
         return ResponseEntity.ok(feedService.saveFeed(feedReqDto));
+    }
+
+    @PutMapping("/api/challenge/feed/{feedId}")
+    public ResponseEntity<?> updateFeed(@PathVariable int feedId,
+                                  @RequestBody UpdateFeedReqDto updateFeedReqDto) {
+        return ResponseEntity.ok(feedService.updateFeed(feedId, updateFeedReqDto));
     }
 
     @GetMapping("/api/challenge/certification/feed/{page}/{challengeId}")
