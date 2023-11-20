@@ -197,6 +197,17 @@
             comment_id = #{commentId};
     </update>
 
+    <update id="updateFeed">
+        update
+            feed_tb
+        set
+            feed_content = #{feedContent},
+            img = #{img}
+        where
+            feed_id = #{feedId};
+
+    </update>
+
     <select id="findCommentByCommentId" resultMap="commentMap">
         select
             ct.comment_id,

@@ -33,7 +33,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .oauth2Login()
-                .loginPage("http://localhost:3000/auth/signin")
                 .successHandler(oAuth2SuccessHandler)
                 .userInfoEndpoint()
                 .userService(principalUserDetailsService);

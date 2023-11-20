@@ -26,6 +26,13 @@ public class FeedService {
         return feedMapper.saveFeed(feedReqDto.toFeedEntity()) > 0;
     }
 
+    public boolean updateFeed(int feedId, UpdateFeedReqDto updateFeedReqDto) {
+
+        Feed feed = updateFeedReqDto.toUpdateFeedEntity();
+        feed.setFeedId(feedId);
+        return feedMapper.updateFeed(feed) > 0;
+    }
+
     public List<FeedResDto> getFeedDetails(int page, int challengeId) {
         int index = (page - 1) * 5;
 
