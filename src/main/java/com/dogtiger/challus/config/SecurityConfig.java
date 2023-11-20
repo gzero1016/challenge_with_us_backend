@@ -23,17 +23,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.cors();
+        http.cors().and();
         http.csrf().disable();
         http.authorizeRequests()
-                .antMatchers("/api/auth/**", "/api/challenge/**", "/api/challenges/**", "/api/account/**")
+                .antMatchers("/api/auth/**", "/api/challenge/**", "/api/challenges/**", "/api/account/principal")
                 .permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .oauth2Login()
-                .loginPage("http://localhost:3000/auth/signin")
                 .successHandler(oAuth2SuccessHandler)
                 .userInfoEndpoint()
                 .userService(principalUserDetailsService);

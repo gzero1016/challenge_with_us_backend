@@ -23,7 +23,6 @@ public class Challenge {
     private String challengeName;
     private int challengeLayout;
     private String introduction;
-    private String isOpen;
     private String isApplicable;
     private LocalDateTime startDate;
     private LocalDateTime endDate;
@@ -41,7 +40,6 @@ public class Challenge {
                 .challengeId(challengeId)
                 .challengeName(challengeName)
                 .categoryName(categoryName)
-                .isOpen(isOpen)
                 .isApplicable(isApplicable)
                 .userId(userId)
                 .layout(challengeLayout)
@@ -62,7 +60,6 @@ public class Challenge {
                 .challengeName(challengeName)
                 .layout(challengeLayout)
                 .introduction(introduction)
-                .isOpen(isOpen)
                 .isApplicable(isApplicable)
                 .startDate(startDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")))
                 .categoryName(categoryName)

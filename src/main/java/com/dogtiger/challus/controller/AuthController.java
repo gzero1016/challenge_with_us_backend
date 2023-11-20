@@ -2,11 +2,14 @@ package com.dogtiger.challus.controller;
 
 
 import com.dogtiger.challus.dto.PasswordMatchesReqDto;
+import com.dogtiger.challus.dto.PrincipalResDto;
 import com.dogtiger.challus.dto.SigninReqDto;
 import com.dogtiger.challus.dto.SignupReqDto;
+import com.dogtiger.challus.entity.User;
 import com.dogtiger.challus.security.PrincipalUser;
 import com.dogtiger.challus.service.AccountService;
 import com.dogtiger.challus.service.AuthService;
+import io.jsonwebtoken.JwtException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,6 +26,25 @@ public class AuthController {
     private final AccountService accountService;
     private final AuthService authService;
     private final BCryptPasswordEncoder passwordEncoder;
+
+    @GetMapping("/api/auth/principal")
+    public ResponseEntity<?> getPrincipal() {
+
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        System.out.println(principal);
+
+        if(principal == "anonymousUser") {
+            throw new JwtException("사용자 정보가 없습니다.");
+        }
+
+        PrincipalUser principalUser = (PrincipalUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        User user = principalUser.getUser();
+
+        PrincipalResDto principalResDto = user.toPrincipalResDto();
+        return ResponseEntity.ok(principalResDto);
+    }
 
     @GetMapping("/api/auth/duplicate/{email}")
     public ResponseEntity<?> checkEmailDuplicate(@PathVariable String email) {

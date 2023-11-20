@@ -10,7 +10,6 @@ import java.time.LocalDateTime;
 public class ChallengeCreateReqDto {
     private String challengeName;
     private String introduction;
-    private String isOpen;
     private String isApplicable;
     private LocalDateTime startDate;
     private LocalDateTime endDate;
@@ -22,7 +21,6 @@ public class ChallengeCreateReqDto {
         return Challenge.builder()
                 .challengeName(challengeName)
                 .introduction(introduction)
-                .isOpen(isOpen)
                 .isApplicable(isApplicable)
                 .startDate(startDate)
                 .endDate(endDate)
