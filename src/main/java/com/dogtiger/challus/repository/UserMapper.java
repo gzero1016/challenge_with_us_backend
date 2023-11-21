@@ -1,5 +1,6 @@
 package com.dogtiger.challus.repository;
 
+import com.dogtiger.challus.dto.GetAdminUserResDto;
 import com.dogtiger.challus.entity.User;
 import com.dogtiger.challus.entity.ChallengeApplication;
 import org.apache.ibatis.annotations.Mapper;
@@ -21,4 +22,5 @@ public interface UserMapper {
     public List<Map<String, Object>> getMembersCount();
     public List<Integer> getUserIdAll();
     public int checkpassword(String password);
+    public List<User> getIsAdminUser();
 }

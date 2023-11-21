@@ -1,8 +1,7 @@
 package com.dogtiger.challus.service;
 
-import com.dogtiger.challus.dto.PasswordMatchesReqDto;
-import com.dogtiger.challus.dto.SigninReqDto;
-import com.dogtiger.challus.dto.SignupReqDto;
+import com.dogtiger.challus.dto.*;
+import com.dogtiger.challus.entity.Feed;
 import com.dogtiger.challus.entity.User;
 import com.dogtiger.challus.jwt.JwtProvider;
 import com.dogtiger.challus.repository.UserMapper;
@@ -19,8 +18,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -66,5 +68,10 @@ public class AuthService {
         } catch (AuthenticationException e) {
             return false;
         }
+    }
+
+    public List<GetAdminUserResDto> adminListGet() {
+        List<User> adminUserList = userMapper.getIsAdminUser();
+        return adminUserList.stream().map(User::toAdminUserResDto).collect(Collectors.toList());
     }
 }
