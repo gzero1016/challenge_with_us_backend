@@ -34,7 +34,12 @@
             'Bronze',
             0,
             #{oauth2Id},
-            default,
+            <if test="profileUrl != null">
+                #{profileUrl}
+            </if>
+            <if test="profileUrl == null">
+                default
+            </if>,
             0,
             now()
         );
@@ -103,7 +108,7 @@
             email = #{email}
     </select>
 
-    <select id="findUserByOauth2Id" resultType="com.dogtiger.challus.entity.User">
+    <select id="findUserByOauth2Id" resultMap="userMap">
         select
             user_id,
             email,
