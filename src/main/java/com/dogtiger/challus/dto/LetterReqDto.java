@@ -10,6 +10,7 @@ public class LetterReqDto {
     private String title;
     private String content;
     private String targetUrl;
+    private int targetId;
 
     public Letter toLetterEntity() {
         return Letter.builder()
@@ -18,6 +19,7 @@ public class LetterReqDto {
                 .title(title)
                 .content(content)
                 .targetUrl(targetUrl)
+                .targetId(targetId)
                 .build();
     }
 }
