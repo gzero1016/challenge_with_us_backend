@@ -90,6 +90,16 @@
             lt.send_date_time desc;
     </select>
 
+    <select id="getUnreadLettersCountByUserId" resultType="java.lang.Integer">
+        select
+            count(receiver_user_id)
+        from
+            letter_tb
+        where
+            receiver_user_id = #{userId}
+            and is_read = 0;
+    </select>
+
     <select id="getLettersCountByUserId" resultType="java.lang.Integer">
         select
             count(receiver_user_id)
