@@ -75,7 +75,6 @@ public class AuthController {
 
     @GetMapping("/api/admin")
     public ResponseEntity<?> adminListUser() {
-
         return ResponseEntity.ok(authService.adminListGet());
     }
 }
