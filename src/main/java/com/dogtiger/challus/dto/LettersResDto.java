@@ -21,5 +21,6 @@ public class LettersResDto {
     private String targetUrl;
     private int targetId;
     private int challengeId;
+    private int acceptState;
     private String challengeName;
 }

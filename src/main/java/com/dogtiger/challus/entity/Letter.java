@@ -28,6 +28,7 @@ public class Letter {
 
     private String senderNickname;
     private int challengeId;
+    private int acceptState;
     private String challengeName;
 
     private ChallengeApplication challengeApplication;
@@ -47,6 +48,7 @@ public class Letter {
                 .targetUrl(targetUrl)
                 .targetId(targetId)
                 .challengeId(challengeId)
+                .acceptState(acceptState)
                 .challengeName(challengeName)
                 .build();
     }
