@@ -12,6 +12,7 @@ import java.util.Map;
 public interface FeedMapper {
     public int saveFeed(Feed feed);
     public int updateFeed(Feed feed);
+    public Feed getFeed(int feedId);
     public List<Feed> getFeeds(Map<String, Object> paramsMap);
     public List<Feed> getFeedDetails(int index, int challengeId);
     Integer getFeedLikeCountByFeedId(int feedId);
