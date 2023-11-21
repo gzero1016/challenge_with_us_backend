@@ -263,12 +263,7 @@
     </update>
 
     <update id="challengeHidden">
-        update challenge_tb
-        set
-            is_hidden = 1,
-            end_date = now()
-        where
-            challenge_id = #{challengeId}
+        call update_and_delete_challenge_data(#{challengeId});
     </update>
 
     <delete id="cancelLike" parameterType="com.dogtiger.challus.entity.Challenge">

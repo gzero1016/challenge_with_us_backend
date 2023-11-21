@@ -42,8 +42,9 @@ public class AuthService {
                 new UsernamePasswordAuthenticationToken(signinReqDto.getEmail(), signinReqDto.getPassword());
 
         Authentication authentication = principalProvider.authenticate(authenticationToken);
+        String oauth2Id = null;
 
-        return jwtProvider.generateToken(authentication);
+        return jwtProvider.generateToken(authentication, oauth2Id);
     }
 
     public List<Map<String, Object>> getMembersCount() {
