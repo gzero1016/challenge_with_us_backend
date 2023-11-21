@@ -151,5 +151,24 @@
         from
             user_tb
     </select>
+    <select id="getIsAdminUser" resultType="com.dogtiger.challus.dto.GetAdminUserResDto">
+        select
+            user_id,
+            email,
+            name,
+            phone,
+            nickname,
+            password,
+            point,
+            intro,
+            membership,
+            is_admin = 1,
+            oauth2_id,
+            profile_url
+        from
+            user_tb
+        where
+            oauth2_id = #{oauth2Id}
+    </select>
 
 </mapper>

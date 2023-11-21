@@ -1,5 +1,6 @@
 package com.dogtiger.challus.entity;
 
+import com.dogtiger.challus.dto.GetAdminUserResDto;
 import com.dogtiger.challus.dto.GetChallengersRespDto;
 import com.dogtiger.challus.dto.PrincipalResDto;
 import lombok.AllArgsConstructor;
@@ -30,6 +31,23 @@ public class User {
 
     public PrincipalResDto toPrincipalResDto() {
         return PrincipalResDto.builder()
+                .userId(userId)
+                .email(email)
+                .name(name)
+                .phone(phone)
+                .nickname(nickname)
+                .point(point)
+                .intro(intro)
+                .membership(membership)
+                .isAdmin(isAdmin)
+                .oauth2Id(oauth2Id)
+                .profileUrl(profileUrl)
+                .enabled(enabled)
+                .build();
+    }
+
+    public GetAdminUserResDto toAdminUserResDto() {
+        return GetAdminUserResDto.builder()
                 .userId(userId)
                 .email(email)
                 .name(name)

@@ -1,9 +1,6 @@
 package com.dogtiger.challus.service;
 
-import com.dogtiger.challus.dto.NoticeEditReqDto;
-import com.dogtiger.challus.dto.NoticeGetRespDto;
-import com.dogtiger.challus.dto.NoticeListRespDto;
-import com.dogtiger.challus.dto.NoticeWriteReqDto;
+import com.dogtiger.challus.dto.*;
 import com.dogtiger.challus.entity.Letter;
 import com.dogtiger.challus.entity.Notice;
 import com.dogtiger.challus.entity.User;
@@ -55,10 +52,13 @@ public class NoticeService {
         return result;
     }
 
-    public List<NoticeListRespDto> noticeListGet(int page) {
+    public List<NoticeListRespDto> noticeListGet(int page, SearchNoticeListReqDto searchNoticeListReqDto) {
         Map<String, Object> paramsMap = new HashMap<>();
         int index = (page - 1) * 10;
         paramsMap.put("index", index);
+        paramsMap.put("optionName", searchNoticeListReqDto.getOptionName());
+        paramsMap.put("searchValue", searchNoticeListReqDto.getSearchValue());
+        paramsMap.put("sort", searchNoticeListReqDto.getSort());
         List<NoticeListRespDto> noticeListRespDtos = new ArrayList<>();
         noticeMapper.getNoticeList(paramsMap).forEach(notice -> {
             noticeListRespDtos.add(notice.noticeListRespDto());
@@ -67,8 +67,11 @@ public class NoticeService {
         return noticeListRespDtos;
     }
 
-    public Integer getNoticesCount() {
-        return noticeMapper.getNoticesCount();
+    public Integer getNoticesCount(SearchNoticeListReqDto searchNoticeListReqDto) {
+        Map<String, Object> paramsMap = new HashMap<>();
+        paramsMap.put("optionName", searchNoticeListReqDto.getOptionName());
+        paramsMap.put("searchValue", searchNoticeListReqDto.getSearchValue());
+        return noticeMapper.getNoticesCount(paramsMap);
     }
 
        public NoticeGetRespDto getNotice(int noticeId) {

@@ -11,7 +11,7 @@ public interface NoticeMapper {
     public int saveNotice(Notice notice);
     public List<Notice> getNoticeList(Map<String, Object> paramsMap);
     public Notice getNoticeByNoticeId(int noticeId);
-    public Integer getNoticesCount();
+    public Integer getNoticesCount(Map<String, Object> paramsMap);
     public int deleteNotice(int noticeId);
     public int updateNotice(Notice notice);
 
