@@ -15,6 +15,7 @@
         <result property="stopWatch" column="stopwatch" />
         <result property="img" column="img" />
         <result property="dateTime" column="datetime" />
+        <result property="updatetime" column="updatetime" />
         <result property="challengeName" column="challenge_name" />
         <result property="nickname" column="nickname" />
         <result property="profileUrl" column="profile_url" />
@@ -45,7 +46,6 @@
         <result property="challengeLayout" column="challenge_layout" />
         <result property="challengeName" column="challenge_name" />
         <result property="introduction" column="challenge_introduction" />
-        <result property="isOpen" column="is_open" />
         <result property="isApplicable" column="is_applicable" />
         <result property="startDate" column="start_date" />
         <result property="endDate" column="end_date" />
@@ -64,7 +64,7 @@
 
     <insert id="saveFeed" parameterType="com.dogtiger.challus.entity.Feed">
         insert into feed_tb
-        values(0, #{challengeLayout}, #{layout}, #{userId}, #{challengeId}, #{challengeName}, #{categoryName}, #{feedContent}, #{stopWatch}, #{img}, now(), 0)
+        values(0, #{challengeLayout}, #{layout}, #{userId}, #{challengeId}, #{challengeName}, #{categoryName}, #{feedContent}, #{stopWatch}, #{img}, now(), now(), 0)
     </insert>
 
     <select id="getFeeds" resultMap="feedMap" parameterType="hashmap">
@@ -80,6 +80,7 @@
             ft.stopwatch,
             ft.Img,
             ft.datetime,
+            ft.updatetime,
             ut.nickname,
             ut.profile_url,
             ft.feed_like
@@ -90,16 +91,16 @@
         order by
             <choose>
                 <when test="sort.equals('latest')">
-                    ft.datetime desc
+                    ft.updatetime desc
                 </when>
                 <when test="sort.equals('oldest')">
-                    ft.datetime asc
+                    ft.updatetime asc
                 </when>
                 <when test="sort.equals('popular')">
                     ft.feed_like desc
                 </when>
                 <otherwise>
-                    ft.datetime desc
+                    ft.updatetime desc
                 </otherwise>
             </choose>
         limit #{index}, 5
@@ -118,6 +119,7 @@
             ft.stopwatch,
             ft.Img,
             ft.datetime,
+            ft.updatetime,
             ut.nickname,
             ut.profile_url
         from
@@ -127,7 +129,7 @@
         where
             ct.challenge_id = #{challengeId}
         order by
-            ft.datetime desc
+            ft.updatetime desc
         limit #{index}, 5
     </select>
 
