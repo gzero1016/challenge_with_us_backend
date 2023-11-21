@@ -202,8 +202,7 @@
             feed_tb
         set
             feed_content = #{feedContent},
-            img = #{img},
-            datetime = now()
+            img = #{img}
         where
             feed_id = #{feedId};
 
