@@ -29,6 +29,11 @@ public class LetterService {
         return letters;
     }
 
+    public int getUnreadLettersCount() {
+        User user = getCurrentUser();
+        return letterMapper.getUnreadLettersCountByUserId(user.getUserId());
+    }
+
     public int getLettersCount() {
         User user = getCurrentUser();
         return letterMapper.getLettersCountByUserId(user.getUserId());

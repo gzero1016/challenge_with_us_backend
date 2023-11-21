@@ -17,8 +17,12 @@ public class LetterController {
 
     @GetMapping("/api/letters")
     public ResponseEntity<?> getLetters() {
-        System.out.println("test");
         return ResponseEntity.ok(letterService.getLetters());
+    }
+
+    @GetMapping("/api/letters/count/unread")
+    public ResponseEntity<?> getUnreadLettersCount() {
+        return ResponseEntity.ok(letterService.getUnreadLettersCount());
     }
 
     @GetMapping("/api/letters/count")
