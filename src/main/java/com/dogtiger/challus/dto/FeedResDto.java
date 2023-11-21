@@ -22,5 +22,6 @@ public class FeedResDto {
     private String nickname;
     private String profileUrl;
     private LocalDateTime dateTime;
+    private LocalDateTime updatetime;
     private int likeCount;
 }

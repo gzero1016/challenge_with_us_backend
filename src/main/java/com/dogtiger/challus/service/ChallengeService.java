@@ -36,7 +36,7 @@ public class ChallengeService {
     }
 
     public List<ChallengeListRespDto> getChallengeList(int page, SearchChallengeListReqDto searchChallengeListReqDto) {
-        int index = (page - 1) * 10;
+        int index = (page - 1) * 30;
         Map<String, Object> paramsMap = new HashMap<>();
         paramsMap.put("index", index);
         paramsMap.put("optionName", searchChallengeListReqDto.getOptionName());
