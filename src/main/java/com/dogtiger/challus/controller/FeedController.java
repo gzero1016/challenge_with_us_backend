@@ -34,6 +34,11 @@ public class FeedController {
         return ResponseEntity.ok(feedService.getFeed(feedId));
     }
 
+    @DeleteMapping("/api/challenge/feed/{feedId}")
+    public ResponseEntity<?> deleteFeed(@PathVariable int feedId) {
+        return ResponseEntity.ok(feedService.deleteFeed(feedId));
+    }
+
     @GetMapping("/api/challenge/certification/feed/{page}/{challengeId}")
     public ResponseEntity<?> getFeedDetailList(@PathVariable int page,
                                      @PathVariable int challengeId){

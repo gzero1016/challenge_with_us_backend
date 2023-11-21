@@ -232,6 +232,13 @@
             comment_id = #{commentId}
     </delete>
 
+    <delete id="deleteFeed">
+        delete from
+            feed_tb
+        where
+            feed_id = #{feedId}
+    </delete>
+
     <select id="getLatestCommentByFeedId" resultMap="commentMap">
         select
             ct.comment_id,
