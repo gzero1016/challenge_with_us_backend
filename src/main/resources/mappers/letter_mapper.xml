@@ -82,7 +82,10 @@
             left outer join challenge_tb ct on (ct.challenge_id = cat.challenge_id)
         where
             lt.receiver_user_id = #{userId}
-            and cat.user_id = lt.sender_user_id
+            AND (
+                lt.letter_type != 1
+                OR (lt.letter_type = 1 AND cat.user_id = lt.sender_user_id)
+            )
         order by
             lt.send_date_time desc;
     </select>
