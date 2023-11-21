@@ -24,6 +24,7 @@ public class Letter {
     private int isRead;
     private int letterType;
     private String targetUrl;
+    private int targetId;
 
     private String senderNickname;
     private int challengeId;
@@ -44,6 +45,7 @@ public class Letter {
                 .isRead(isRead)
                 .letterType(letterType)
                 .targetUrl(targetUrl)
+                .targetId(targetId)
                 .challengeId(challengeId)
                 .challengeName(challengeName)
                 .build();
