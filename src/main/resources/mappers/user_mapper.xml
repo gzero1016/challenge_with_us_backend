@@ -151,7 +151,7 @@
         from
             user_tb
     </select>
-    <select id="getIsAdminUser" resultType="com.dogtiger.challus.entity.User">
+    <select id="getIsAdminUser" resultMap="userMap">
         select
             user_id,
             email,
