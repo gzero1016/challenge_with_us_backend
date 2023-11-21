@@ -10,7 +10,6 @@
         <result property="challengeLayout" column="challenge_layout" />
         <result property="challengeName" column="challenge_name" />
         <result property="introduction" column="challenge_introduction" />
-        <result property="isOpen" column="is_open" />
         <result property="isApplicable" column="is_applicable" />
         <result property="startDate" column="start_date" />
         <result property="endDate" column="end_date" />
@@ -105,7 +104,6 @@
             ct.user_id,
             ct.challenge_name,
             ct.challenge_introduction,
-            ct.is_open,
             ct.is_applicable,
             ct.start_date,
             ct.end_date,
@@ -314,7 +312,6 @@
             ct.user_id,
             ct.challenge_name,
             ct.challenge_introduction,
-            ct.is_open,
             ct.is_applicable,
             ct.start_date,
             ct.end_date,
@@ -343,7 +340,6 @@
             ct.user_id,
             ct.challenge_name,
             ct.challenge_introduction,
-            ct.is_open,
             ct.is_applicable,
             ct.start_date,
             ct.end_date,
