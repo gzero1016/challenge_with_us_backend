@@ -44,7 +44,7 @@
 
     <insert id="challengeAtmosphereLetter" parameterType="com.dogtiger.challus.entity.Letter">
         insert into letter_tb
-        values(0, #{senderUserId}, #{receiverUserId}, #{title}, #{content}, now(), 0, 1, #{targetUrl}, #{targetId})
+        values(0, #{senderUserId}, #{receiverUserId}, #{title}, #{content}, now(), 0, #{letterType}, #{targetUrl}, #{targetId})
     </insert>
 
     <insert id="challengeReport">
