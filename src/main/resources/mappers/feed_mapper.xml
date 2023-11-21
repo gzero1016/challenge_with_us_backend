@@ -13,7 +13,7 @@
         <result property="categoryName" column="category_name" />
         <result property="feedContent" column="feed_content" />
         <result property="stopWatch" column="stopwatch" />
-        <result property="img" column="Img" />
+        <result property="img" column="img" />
         <result property="dateTime" column="datetime" />
         <result property="challengeName" column="challenge_name" />
         <result property="nickname" column="nickname" />
@@ -202,7 +202,8 @@
             feed_tb
         set
             feed_content = #{feedContent},
-            img = #{img}
+            img = #{img},
+            datetime = now()
         where
             feed_id = #{feedId};
 
@@ -256,6 +257,16 @@
             feed_tb
         group by
             date_format(datetime, '%Y-%m-%d')
+    </select>
+    <select id="getFeed" resultType="com.dogtiger.challus.entity.Feed">
+        select
+            feed_id as feedId,
+            feed_content as feedContent,
+            img
+        from
+            feed_tb
+        where
+            feed_id = #{feedId}
     </select>
 
 </mapper>

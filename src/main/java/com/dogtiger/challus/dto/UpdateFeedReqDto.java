@@ -10,15 +10,14 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class UpdateFeedReqDto {
     private String text;
-    private String image;
+    private String img;
 
 
     public Feed toUpdateFeedEntity() {
-        String modifiedImage = (image != null) ? image.replace("blob:", "") : null;
 
         return Feed.builder()
                 .feedContent(text)
-                .img(modifiedImage)
+                .img(img)
                 .build();
     }
 }

@@ -25,17 +25,23 @@ public class FeedController {
     @PutMapping("/api/challenge/feed/{feedId}")
     public ResponseEntity<?> updateFeed(@PathVariable int feedId,
                                   @RequestBody UpdateFeedReqDto updateFeedReqDto) {
+        System.out.println(updateFeedReqDto);
         return ResponseEntity.ok(feedService.updateFeed(feedId, updateFeedReqDto));
     }
 
+    @GetMapping("/api/challenge/feed/{feedId}")
+    public ResponseEntity<?> getFeed(@PathVariable int feedId) {
+        return ResponseEntity.ok(feedService.getFeed(feedId));
+    }
+
     @GetMapping("/api/challenge/certification/feed/{page}/{challengeId}")
-    public ResponseEntity<?> getFeed(@PathVariable int page,
+    public ResponseEntity<?> getFeedDetailList(@PathVariable int page,
                                      @PathVariable int challengeId){
         return ResponseEntity.ok(feedService.getFeedDetails(page, challengeId));
     }
 
     @GetMapping("/api/challenge/certification/feed/{page}")
-    public ResponseEntity<?> getFeed(@PathVariable int page,
+    public ResponseEntity<?> getFeedList(@PathVariable int page,
                                      @RequestParam String sort){
         return ResponseEntity.ok(feedService.getFeeds(page, sort));
     }
