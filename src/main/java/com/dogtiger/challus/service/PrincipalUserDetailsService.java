@@ -46,7 +46,6 @@ public class PrincipalUserDetailsService implements UserDetailsService, OAuth2Us
         String provider = userRequest.getClientRegistration().getClientName();
 
         Map<String, Object> response = (Map<String, Object>) attributes.get("response");
-        System.out.println(response);
         response.put("provider", provider);
 
         return new DefaultOAuth2User(new ArrayList<>(), response, "id");
