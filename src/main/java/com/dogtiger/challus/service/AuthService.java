@@ -41,10 +41,18 @@ public class AuthService {
         UsernamePasswordAuthenticationToken authenticationToken =
                 new UsernamePasswordAuthenticationToken(signinReqDto.getEmail(), signinReqDto.getPassword());
 
-        Authentication authentication = principalProvider.authenticate(authenticationToken);
-        String oauth2Id = null;
+        try {
+            Authentication authentication = principalProvider.authenticate(authenticationToken);
 
-        return jwtProvider.generateToken(authentication, oauth2Id);
+            if(authentication.isAuthenticated()){
+                String oauth2Id = null;
+                return jwtProvider.generateToken(authentication, oauth2Id);
+            }else {
+                return null;
+            }
+        }catch (AuthenticationException e) {
+            return null;
+        }
     }
 
     public List<Map<String, Object>> getMembersCount() {
