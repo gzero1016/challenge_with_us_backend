@@ -41,7 +41,7 @@ public class NoticeService {
                                 .senderUserId(user.getUserId())
                                 .receiverUserId(receiverUserId)
                                 .title("새로운 공지가 있습니다.")
-                                .content("링크를 통해 확인해주세요.")
+                                .content(notice.getNoticeContent())
                                 .targetUrl("http://localhost:3000/notice/" + notice.getNoticeId())
                                 .targetId(notice.getNoticeId())
                                 .build());
