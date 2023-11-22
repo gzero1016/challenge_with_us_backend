@@ -52,7 +52,6 @@ public class JwtProvider {
     public Authentication getAuthentication(String token) {
         Claims claims = getClaims(token);
 
-        System.out.println("claims: " + claims);
         if(claims == null) {
             return null;
         }
