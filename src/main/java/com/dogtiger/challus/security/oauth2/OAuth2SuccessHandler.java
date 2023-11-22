@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.net.URLEncoder;
+import java.util.Map;
 
 @Component
 @RequiredArgsConstructor
@@ -30,21 +31,34 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
 
         if(user == null) {
             DefaultOAuth2User defaultOAuth2User = (DefaultOAuth2User) authentication.getPrincipal();
-            String name = defaultOAuth2User.getAttribute("name");
-            String email = defaultOAuth2User.getAttribute("email");
-            String picture = defaultOAuth2User.getAttribute("picture");
+            Map<String, Object> attributes = defaultOAuth2User.getAttributes();
 
-            String provider = defaultOAuth2User.getAttribute("provider") == null ? "google" : defaultOAuth2User.getAttribute("provider").toString();
-            String userEmail = defaultOAuth2User.getAttribute("email").toString();
-            //String provider = defaultOAuth2User.getAttributes().get("provider").toString();
+            String name = "";
+            String email = "";
+            String picture = "";
+            String provider = "";
 
-            //회원가입이 안되었을 때 OAuth2 계정 회원가입 페이지로 이동
+            if(defaultOAuth2User.getAttribute("provider") == null) {
+                provider = "google";
+                name = defaultOAuth2User.getAttribute("name");
+                email = defaultOAuth2User.getAttribute("email");
+                picture = defaultOAuth2User.getAttribute("picture");
+                System.out.println(defaultOAuth2User.getAttributes());
+            }else {
+                provider = defaultOAuth2User.getAttribute("provider");
+                name = attributes.get("name").toString();
+                email = attributes.get("email").toString();
+                picture = attributes.get("profile_image").toString();
+
+                }
+
             response.sendRedirect("http://localhost:3000/auth/signup" +
                     "?oauth2Id=" + oauth2Id +
-                    "&provider=" + provider+
+                    "&provider=" + provider +
                     "&name=" + URLEncoder.encode(name, "UTF-8") +
                     "&email=" + URLEncoder.encode(email, "UTF-8") +
                     "&picture=" + URLEncoder.encode(picture, "UTF-8"));
+//                    "&mobile=" + URLEncoder.encode(mobile, "UTF-8"));
             return;
         }
 
