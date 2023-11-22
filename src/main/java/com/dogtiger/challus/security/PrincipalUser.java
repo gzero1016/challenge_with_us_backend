@@ -4,40 +4,15 @@ import com.dogtiger.challus.entity.User;
 import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.oauth2.core.user.OAuth2User;
 
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
 
-public class PrincipalUser implements UserDetails, OAuth2User {
+public class PrincipalUser implements UserDetails {
     @Getter
     private User user;
-    private Map<String, Object> attributes;
-    private String nameAttributeKey;
-
     public PrincipalUser(User user) {
         this.user = user;
-        this.attributes = new HashMap<>();
-        this.nameAttributeKey = "";
     }
-
-    public PrincipalUser(User user, Map<String, Object> attributes, String nameAttributeKey) {
-        this.user = user;
-        this.attributes = attributes;
-        this.nameAttributeKey = nameAttributeKey;
-    }
-
-    @Override
-    public Map<String, Object> getAttributes() {
-        return attributes;
-    }
-
-    @Override
-    public String getName() {
-        return attributes.get(nameAttributeKey).toString();
-    }
-
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return null;
@@ -45,17 +20,11 @@ public class PrincipalUser implements UserDetails, OAuth2User {
 
     @Override
     public String getPassword() {
-        if(user == null) {
-            return null;
-        }
         return user.getPassword();
     }
 
     @Override
     public String getUsername() {
-        if(user == null) {
-            return null;
-        }
         return user.getEmail();
     }
 
@@ -78,5 +47,4 @@ public class PrincipalUser implements UserDetails, OAuth2User {
     public boolean isEnabled() {
         return true;
     }
-
 }

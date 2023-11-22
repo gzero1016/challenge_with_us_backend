@@ -16,7 +16,6 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Map;
 
 @Service
@@ -43,20 +42,13 @@ public class PrincipalUserDetailsService implements UserDetailsService, OAuth2Us
         OAuth2UserService<OAuth2UserRequest, OAuth2User> oAuth2UserService = new DefaultOAuth2UserService();
         OAuth2User oAuth2User = oAuth2UserService.loadUser(userRequest);
 
-        Map<String, Object> attributes = new HashMap<>();
+        Map<String, Object> attributes = oAuth2User.getAttributes();
+        String provider = userRequest.getClientRegistration().getClientName();
 
-        switch (userRequest.getClientRegistration().getClientName()) {
-            case "Naver":
-                Map<String, Object> response = (Map<String, Object>) oAuth2User.getAttributes().get("response");
-                attributes.putAll(response);
-                break;
-            case "Kakao":
-                attributes.putAll(oAuth2User.getAttributes());
-                break;
-        }
+        Map<String, Object> response = (Map<String, Object>) attributes.get("response");
+        System.out.println(response);
+        response.put("provider", provider);
 
-        attributes.put("provider", userRequest.getClientRegistration().getClientName());
-
-        return new PrincipalUser(null, attributes, "id");
+        return new DefaultOAuth2User(new ArrayList<>(), response, "id");
     }
 }
