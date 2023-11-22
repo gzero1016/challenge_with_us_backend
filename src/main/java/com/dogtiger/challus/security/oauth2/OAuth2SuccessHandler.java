@@ -49,7 +49,6 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
                 name = attributes.get("name").toString();
                 email = attributes.get("email").toString();
                 picture = attributes.get("profile_image").toString();
-
             }
 
             response.sendRedirect("http://localhost:3000/auth/signup" +
