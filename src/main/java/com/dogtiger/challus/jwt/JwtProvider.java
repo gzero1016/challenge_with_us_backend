@@ -37,7 +37,7 @@ public class JwtProvider {
                 .setSubject("AccessToken")
                 .setExpiration(date)
                 .claim("email", email)
-                .claim("sub", oauth2Id)
+                .claim("OAuth2Id", oauth2Id)
                 .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
     }
@@ -51,14 +51,17 @@ public class JwtProvider {
 
     public Authentication getAuthentication(String token) {
         Claims claims = getClaims(token);
+
+        System.out.println("claims: " + claims);
         if(claims == null) {
             return null;
         }
 
         String email = claims.get("email").toString();
-        String oauth2Id = claims.get("sub") != null ? claims.get("sub").toString() : null;
+        String oauth2Id = claims.get("OAuth2Id") != null ? claims.get("OAuth2Id").toString() : null;
 
         User user;
+
         if(oauth2Id != null) {
             user = userMapper.findUserByOauth2Id(oauth2Id);
         }else {
