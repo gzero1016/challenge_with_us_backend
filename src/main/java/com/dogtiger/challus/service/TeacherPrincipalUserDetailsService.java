@@ -21,7 +21,7 @@ import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
-public class PrincipalUserDetailsService implements UserDetailsService, OAuth2UserService {
+public class TeacherPrincipalUserDetailsService implements UserDetailsService, OAuth2UserService {
 
     private final UserMapper userMapper;
 

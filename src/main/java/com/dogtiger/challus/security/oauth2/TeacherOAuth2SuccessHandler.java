@@ -5,9 +5,7 @@ import com.dogtiger.challus.jwt.JwtProvider;
 import com.dogtiger.challus.repository.UserMapper;
 import com.dogtiger.challus.security.PrincipalUser;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 
@@ -19,7 +17,7 @@ import java.net.URLEncoder;
 
 @Component
 @RequiredArgsConstructor
-public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
+public class TeacherOAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
     private final UserMapper userMapper;
     private final JwtProvider jwtProvider;
     @Override

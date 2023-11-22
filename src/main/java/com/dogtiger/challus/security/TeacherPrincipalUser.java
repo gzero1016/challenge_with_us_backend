@@ -10,19 +10,19 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-public class PrincipalUser implements UserDetails, OAuth2User {
+public class TeacherPrincipalUser implements UserDetails, OAuth2User {
     @Getter
     private User user;
     private Map<String, Object> attributes;
     private String nameAttributeKey;
 
-    public PrincipalUser(User user) {
+    public TeacherPrincipalUser(User user) {
         this.user = user;
         this.attributes = new HashMap<>();
         this.nameAttributeKey = "";
     }
 
-    public PrincipalUser(User user, Map<String, Object> attributes, String nameAttributeKey) {
+    public TeacherPrincipalUser(User user, Map<String, Object> attributes, String nameAttributeKey) {
         this.user = user;
         this.attributes = attributes;
         this.nameAttributeKey = nameAttributeKey;
