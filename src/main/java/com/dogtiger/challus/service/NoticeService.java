@@ -30,10 +30,6 @@ public class NoticeService {
 
         List<Integer> userIds = userMapper.getUserIdAll();
 
-        System.out.println("???");
-        System.out.println(userIds);
-        System.out.println("???");
-
         userIds.stream().forEach(
                 (receiverUserId) -> {
                     if(user.getUserId() != receiverUserId) {
@@ -74,10 +70,9 @@ public class NoticeService {
         return noticeMapper.getNoticesCount(paramsMap);
     }
 
-       public NoticeGetRespDto getNotice(int noticeId) {
+    public NoticeGetRespDto getNotice(int noticeId) {
 
         NoticeGetRespDto noticeGetRespDto = noticeMapper.getNoticeByNoticeId(noticeId).toNoticeDto();
-        System.out.println(noticeGetRespDto);
         return noticeGetRespDto;
     }
 

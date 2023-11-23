@@ -44,7 +44,6 @@ public class PrincipalUserDetailsService implements UserDetailsService, OAuth2Us
         OAuth2User oAuth2User = oAuth2UserService.loadUser(userRequest);
 
         Map<String, Object> attributes = new HashMap<>();
-      
         switch (userRequest.getClientRegistration().getClientName()) {
             case "Naver":
                 Map<String, Object> response = (Map<String, Object>) oAuth2User.getAttributes().get("response");

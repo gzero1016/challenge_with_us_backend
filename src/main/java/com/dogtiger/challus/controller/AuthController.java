@@ -60,13 +60,11 @@ public class AuthController {
 
     @PostMapping("/api/auth/sign-up")
     public ResponseEntity<?> signUp(@RequestBody SignupReqDto signupReqDto, BindingResult bindingResult) {
-        System.out.println(signupReqDto);
         return ResponseEntity.ok(authService.signup(signupReqDto));
     }
 
     @PostMapping("/api/auth/sign-in")
     public ResponseEntity<?> signIn(@RequestBody SigninReqDto signinReqDto) {
-        System.out.println(signinReqDto);
         return ResponseEntity.ok(authService.signin(signinReqDto));
     }
 

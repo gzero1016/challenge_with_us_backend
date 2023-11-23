@@ -134,7 +134,6 @@ public class ChallengeService {
         List<Map<String, Object>> result = challengeMapper.getAdminChallengersCount();
         for (Map<String, Object> entry : result) {
         }
-        System.out.println(result);
         return result;
     }
 

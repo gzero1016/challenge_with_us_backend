@@ -25,31 +25,26 @@ public class AccountController {
     public ResponseEntity<?> updateMypageDetail(@PathVariable int userId,
                                             @RequestBody UpdateProfileDetailReqDto updateProfileDetailReqDto) {
         updateProfileDetailReqDto.setUserId(userId);
-        System.out.println(updateProfileDetailReqDto);
         return ResponseEntity.ok(accountService.updateMypageDetail(updateProfileDetailReqDto));
     }
 
     @DeleteMapping("/api/account/{userId}")
     public ResponseEntity<?> deleteUser(@PathVariable int userId) {
-        System.out.println(userId);
         return ResponseEntity.ok(accountService.deleteUser(userId));
     }
 
     @GetMapping("/api/account/intro")
     public ResponseEntity<?> getIntro(IntroReqDto introReqDto) {
-        System.out.println(introReqDto);
         return ResponseEntity.ok(accountService.getIntro(introReqDto));
     }
 
     @PostMapping("/api/account/intro")
     public ResponseEntity<?> saveIntro(@RequestBody IntroReqDto introReqDto) {
-        System.out.println(introReqDto);
         return ResponseEntity.ok(accountService.saveIntro(introReqDto));
     }
 
     @PutMapping("/api/account/intro")
     public ResponseEntity<?> UpdateIntro(@RequestBody IntroReqDto introReqDto) {
-        System.out.println(introReqDto);
         return ResponseEntity.ok(accountService.updateIntro(introReqDto));
     }
 

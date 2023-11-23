@@ -18,14 +18,12 @@ public class FeedController {
     public ResponseEntity<?> feed(@PathVariable int challengeId,
                                   @RequestBody FeedReqDto feedReqDto) {
         feedReqDto.setChallengeId(challengeId);
-        System.out.println(feedReqDto);
         return ResponseEntity.ok(feedService.saveFeed(feedReqDto));
     }
 
     @PutMapping("/api/challenge/feed/{feedId}")
     public ResponseEntity<?> updateFeed(@PathVariable int feedId,
                                   @RequestBody UpdateFeedReqDto updateFeedReqDto) {
-        System.out.println(updateFeedReqDto);
         return ResponseEntity.ok(feedService.updateFeed(feedId, updateFeedReqDto));
     }
 
@@ -53,7 +51,6 @@ public class FeedController {
 
     @GetMapping("/api/feed/{feedId}/like")
     public ResponseEntity<Integer> getMyFeedLike(@PathVariable int feedId){
-        System.out.println(feedId);
         return ResponseEntity.ok(feedService.getMyFeedLike(feedId));
     }
 
@@ -77,7 +74,6 @@ public class FeedController {
 
     @PutMapping("/api/feed/{feedId}/comment/{commentId}")
     public ResponseEntity<?> modifyComment(@PathVariable int feedId, @PathVariable int commentId, @RequestBody ModifyCommentReqDto modifyCommentReqDto) throws Exception {
-        System.out.println(modifyCommentReqDto.getCommentContent());
         feedService.modifyComment(feedId, commentId, modifyCommentReqDto);
         return ResponseEntity.ok("");
     }
