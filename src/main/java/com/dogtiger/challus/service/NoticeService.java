@@ -48,26 +48,18 @@ public class NoticeService {
         return result;
     }
 
-    public List<NoticeListRespDto> noticeListGet(int page, SearchNoticeListReqDto searchNoticeListReqDto) {
-        Map<String, Object> paramsMap = new HashMap<>();
+    public List<NoticeListRespDto> noticeListGet(int page) {
         int index = (page - 1) * 10;
-        paramsMap.put("index", index);
-        paramsMap.put("optionName", searchNoticeListReqDto.getOptionName());
-        paramsMap.put("searchValue", searchNoticeListReqDto.getSearchValue());
-        paramsMap.put("sort", searchNoticeListReqDto.getSort());
         List<NoticeListRespDto> noticeListRespDtos = new ArrayList<>();
-        noticeMapper.getNoticeList(paramsMap).forEach(notice -> {
+        noticeMapper.getNoticeList(page, index).forEach(notice -> {
             noticeListRespDtos.add(notice.noticeListRespDto());
         });
 
         return noticeListRespDtos;
     }
 
-    public Integer getNoticesCount(SearchNoticeListReqDto searchNoticeListReqDto) {
-        Map<String, Object> paramsMap = new HashMap<>();
-        paramsMap.put("optionName", searchNoticeListReqDto.getOptionName());
-        paramsMap.put("searchValue", searchNoticeListReqDto.getSearchValue());
-        return noticeMapper.getNoticesCount(paramsMap);
+    public Integer getNoticesCount() {
+        return noticeMapper.getNoticesCount();
     }
 
     public NoticeGetRespDto getNotice(int noticeId) {

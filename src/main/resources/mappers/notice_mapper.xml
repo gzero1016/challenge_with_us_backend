@@ -35,14 +35,12 @@
         values(0, #{noticeTitle}, #{noticeContent}, #{userId}, now())
     </insert>
 
-    <select id="getNoticeList"
-            resultMap="noticeMap"
-            parameterType="hashmap">
+    <select id="getNoticeList" resultMap="noticeMap">
         select
-          nt.notice_id,
-          nt.notice_title,
-          ut.nickname,
-          nt.notice_date
+            nt.notice_id,
+            nt.notice_title,
+            ut.nickname,
+            nt.notice_date
         from
             notice_tb nt
             left outer join user_tb ut on(ut.user_id = nt.user_id)
