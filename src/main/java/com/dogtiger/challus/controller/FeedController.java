@@ -51,19 +51,19 @@ public class FeedController {
         return ResponseEntity.ok(feedService.getFeeds(page, sort));
     }
 
-    @GetMapping("/api/feed/{challengeId}/like")
+    @GetMapping("/api/feed/{feedId}/like")
     public ResponseEntity<Integer> getMyFeedLike(@PathVariable int feedId){
         System.out.println(feedId);
         return ResponseEntity.ok(feedService.getMyFeedLike(feedId));
     }
 
-    @PostMapping("/api/feed/{challengeId}/like")
+    @PostMapping("/api/feed/{feedId}/like")
     public ResponseEntity<?> likeToFeed(@PathVariable int feedId) throws Exception {
         feedService.likeToFeed(feedId);
         return ResponseEntity.ok("");
     }
 
-    @DeleteMapping("/api/feed/{challengeId}/like")
+    @DeleteMapping("/api/feed/{feedId}/like")
     public ResponseEntity<?> cancelLikeToFeed(@PathVariable int feedId) throws Exception {
         feedService.cancelLikeToFeed(feedId);
         return ResponseEntity.ok("");
