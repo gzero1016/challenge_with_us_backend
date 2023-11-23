@@ -29,6 +29,7 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
 
         User user = userMapper.findUserByOauth2Id(oauth2Id);
 
+
         if(user == null) {
             DefaultOAuth2User defaultOAuth2User = (DefaultOAuth2User) authentication.getPrincipal();
             Map<String, Object> attributes = defaultOAuth2User.getAttributes();
