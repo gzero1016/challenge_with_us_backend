@@ -13,4 +13,9 @@ public class CommonAdvice {
     public ResponseEntity<?> handleJwtException(JwtException jwtException) {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(jwtException.getMessage());
     }
+
+    @ExceptionHandler(NullPointerException.class)
+    public ResponseEntity<?> handleNullPointerException(NullPointerException nullPointerException) {
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(nullPointerException.getMessage());
+    }
 }
