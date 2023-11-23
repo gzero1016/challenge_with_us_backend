@@ -67,6 +67,7 @@ public class FeedService {
     public Integer getMyFeedLike(int feedId) {
         PrincipalUser principalUser = (PrincipalUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         int userId = principalUser.getUser().getUserId();
+        System.out.println(feedMapper.findFeedLikeCountByFeedIdAndUserId(feedId, userId));
         return feedMapper.findFeedLikeCountByFeedIdAndUserId(feedId, userId);
     }
 

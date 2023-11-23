@@ -121,7 +121,8 @@
             ft.datetime,
             ft.updatetime,
             ut.nickname,
-            ut.profile_url
+            ut.profile_url,
+            ft.feed_like
         from
             feed_tb ft
             left outer join challenge_tb ct on(ct.challenge_id = ft.challenge_id)
