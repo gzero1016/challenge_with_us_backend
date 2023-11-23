@@ -308,7 +308,8 @@
             left outer join challenge_application_tb cat on(cat.challenge_id = ct.challenge_id)
         where
             cat.accept_state = 1
-        and cat.user_id = #{userId};
+        and cat.user_id = #{userId}
+        and ct.is_deadline = 0;
     </select>
 
     <select id="findReceiverUserId" resultType="int">
@@ -375,5 +376,35 @@
             is_hidden = 1
         group by
             date_format(end_date, '%Y-%m-%d')
+    </select>
+
+    <select id="getChallengeProgress" resultType="int">
+        select
+            count(distinct date(ft.datetime)) as count
+        from
+            challenge_tb ct
+            left outer join feed_tb ft on(ft.challenge_id = ct.challenge_id)
+        where
+            ct.challenge_id = #{challengeId};
+    </select>
+
+    <select id="getApprovedEndChallengesByUserId" resultMap="challengeMap">
+        select
+            ct.challenge_id,
+            ct.user_id,
+            ct.challenge_name,
+            ct.challenge_introduction,
+            ct.is_applicable,
+            ct.start_date,
+            ct.end_date,
+            ct.category_name,
+            ct.challenge_like_count
+        from
+            challenge_tb ct
+            left outer join challenge_application_tb cat on(cat.challenge_id = ct.challenge_id)
+        where
+            cat.accept_state = 1
+            and cat.user_id = #{userId}
+            and ct.is_deadline = 1;
     </select>
 </mapper>

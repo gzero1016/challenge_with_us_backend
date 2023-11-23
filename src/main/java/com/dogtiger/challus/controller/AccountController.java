@@ -52,4 +52,20 @@ public class AccountController {
     public ResponseEntity<?> getMyChallenge() {
         return ResponseEntity.ok(accountService.getMyChallenges());
     }
+
+    @GetMapping("/api/account/myendchallenges")
+    public ResponseEntity<?> getMyEndChallenge() {
+        return ResponseEntity.ok(accountService.getMyEndChallenge());
+    }
+
+    @GetMapping("/api/account/{challengeId}")
+    public ResponseEntity<?> getProgress(@PathVariable int challengeId) {
+        return ResponseEntity.ok(accountService.getProgress(challengeId));
+    }
+
+    @GetMapping("/api/account/{challengeId}/feed")
+    public ResponseEntity<?> getChallengeFeeds(@PathVariable int challengeId) {
+        System.out.println(challengeId);
+        return ResponseEntity.ok(accountService.getChallengeFeeds(challengeId));
+    }
 }

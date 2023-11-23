@@ -130,4 +130,9 @@ public class ChallengeController {
     public ResponseEntity<?> getChallengeDeletedCount() {
         return ResponseEntity.ok(challengeService.getChallengeDeletedCount());
     }
+
+    @GetMapping("/api/challenge/{challengeId}/progress")
+    public ResponseEntity<?> getChallengeProgress(@PathVariable int challengeId) {
+        return ResponseEntity.ok(challengeService.getChallengeProgress(challengeId));
+    }
 }

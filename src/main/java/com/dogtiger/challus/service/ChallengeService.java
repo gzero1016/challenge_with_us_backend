@@ -150,4 +150,9 @@ public class ChallengeService {
         }
         return result;
     }
+
+    public int getChallengeProgress(int challengeId) {
+        System.out.println(challengeMapper.getChallengeProgress(challengeId));
+        return challengeMapper.getChallengeProgress(challengeId);
+    }
 }
