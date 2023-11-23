@@ -4,7 +4,6 @@ package com.dogtiger.challus.controller;
 import com.dogtiger.challus.dto.NoticeEditReqDto;
 import com.dogtiger.challus.dto.NoticeListRespDto;
 import com.dogtiger.challus.dto.NoticeWriteReqDto;
-import com.dogtiger.challus.dto.SearchNoticeListReqDto;
 import com.dogtiger.challus.service.NoticeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -25,15 +24,15 @@ public class NoticeController {
     }
 
     @GetMapping("/api/notices/{page}")
-    public ResponseEntity<?> noticeListGet(@PathVariable int page, SearchNoticeListReqDto searchNoticeListReqDto){
+    public ResponseEntity<?> noticeListGet(@PathVariable int page){
         System.out.println(page);
-        List<NoticeListRespDto> noticeList = noticeService.noticeListGet(page, searchNoticeListReqDto);
+        List<NoticeListRespDto> noticeList = noticeService.noticeListGet(page);
         return ResponseEntity.ok(noticeList);
     }
 
     @GetMapping("/api/notices/count")
-    public ResponseEntity<Integer> getNoticesCount(SearchNoticeListReqDto searchNoticeListReqDto){
-        return ResponseEntity.ok(noticeService.getNoticesCount(searchNoticeListReqDto));
+    public ResponseEntity<Integer> getNoticesCount(){
+        return ResponseEntity.ok(noticeService.getNoticesCount());
     }
 
     @GetMapping("/api/notice/{noticeId}")
