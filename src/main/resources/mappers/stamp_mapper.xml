@@ -41,4 +41,14 @@
         where
             user_id = #{userId};
     </select>
+
+    <select id="getUserCheck" resultType="java.lang.Integer">
+        select
+            count(*)
+        from
+            stamp_tb
+        where
+            user_id = #{userId}
+        and attendance = curdate();
+    </select>
 </mapper>

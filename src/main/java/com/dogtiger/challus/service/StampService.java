@@ -35,4 +35,11 @@ public class StampService {
         System.out.println(stamps);
         return stamps.stream().map(Stamp::toAttendanceDto).collect(Collectors.toList());
     }
+
+    public boolean getUserCheck() {
+        PrincipalUser principalUser = (PrincipalUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        int userId = principalUser.getUser().getUserId();
+
+        return stampMapper.getUserCheck(userId) > 0;
+    }
 }
