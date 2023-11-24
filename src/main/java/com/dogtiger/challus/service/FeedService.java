@@ -2,14 +2,15 @@ package com.dogtiger.challus.service;
 
 
 import com.dogtiger.challus.dto.*;
-import com.dogtiger.challus.entity.Comment;
-import com.dogtiger.challus.entity.Feed;
-import com.dogtiger.challus.entity.FeedLike;
+import com.dogtiger.challus.entity.*;
+import com.dogtiger.challus.repository.ChallengeMapper;
 import com.dogtiger.challus.repository.FeedMapper;
+import com.dogtiger.challus.repository.LetterMapper;
 import com.dogtiger.challus.security.PrincipalUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -18,6 +19,8 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class FeedService {
     private final FeedMapper feedMapper;
+    private final LetterMapper letterMapper;
+    private final ChallengeMapper challengeMapper;
 
     public boolean saveFeed(FeedReqDto feedReqDto) {
         PrincipalUser principalUser = (PrincipalUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -103,6 +106,7 @@ public class FeedService {
         }
     }
 
+    @Transactional(rollbackFor = Exception.class)
     public void createComment(int feedId, CreateCommentReqDto createCommentReqDto) {
         PrincipalUser principalUser = (PrincipalUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         int userId = principalUser.getUser().getUserId();
@@ -110,6 +114,19 @@ public class FeedService {
                 .feedId(feedId)
                 .userId(userId)
                 .commentContent(createCommentReqDto.getCommentContent())
+                .build());
+
+        Feed feed = feedMapper.getFeed(feedId);
+        Challenge challenge = challengeMapper.getChallengeByChallengeId(feed.getChallengeId());
+
+        letterMapper.insertLetter(Letter.builder()
+                .senderUserId(userId)
+                .receiverUserId(feed.getUserId())
+                .letterTitle("댓글작성")
+                .title("작성하신 피드에 댓글이 달렸습니다.")
+                .content(createCommentReqDto.getCommentContent())
+                .targetUrl("http://localhost:3000/challenge/" + challenge.getChallengeId())
+                .targetId(challenge.getChallengeId())
                 .build());
     }
 
