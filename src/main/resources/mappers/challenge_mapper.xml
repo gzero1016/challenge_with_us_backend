@@ -16,8 +16,12 @@
         <result property="categoryName" column="category_name" />
         <result property="challengeLikeCount" column="challenge_like_count" />
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
         <result property="layout" column="challenge_layout" />
 =======
+=======
+        <result property="challengeLayout" column="challenge_layout" />
+>>>>>>> Stashed changes
         <result property="name" column="name" />
         <result property="nickname" column="nickname" />
         <result property="challenger" column="challenger" />
@@ -102,9 +106,18 @@
             ct.end_date,
             ct.category_name,
             ut.name,
+<<<<<<< Updated upstream
             ut.nickname,
             ct.challenge_like_count,
             ct.challenge_layout
+=======
+            ct.challenge_like_count,
+            ct.challenge_layout,
+            ct.challenger,
+            ct.is_deadline,
+            ct.is_hidden,
+            ut.nickname
+>>>>>>> Stashed changes
         from
             challenge_tb ct
             left outer join user_tb ut on(ut.user_id = ct.user_id)

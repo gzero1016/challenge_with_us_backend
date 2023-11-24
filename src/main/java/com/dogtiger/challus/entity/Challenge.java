@@ -70,6 +70,7 @@ public class Challenge {
                 .startDate(startDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")))
                 .endDate(endDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")))
                 .categoryName(categoryName)
+                .nickname(nickname)
                 .name(name)
                 .challengeLikeCount(challengeLikeCount)
                 .build();
