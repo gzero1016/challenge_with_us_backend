@@ -87,6 +87,8 @@ public class Challenge {
                 .challengeName(challengeName)
                 .startDate(startDate)
                 .endDate(endDate)
+                .isHidden(isHidden)
+                .isDeadline(isDeadline)
                 .build();
     }
 }

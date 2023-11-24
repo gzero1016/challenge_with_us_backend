@@ -307,7 +307,9 @@
             ct.start_date,
             ct.end_date,
             ct.category_name,
-            ct.challenge_like_count
+            ct.challenge_like_count,
+            ct.is_deadline,
+            ct.is_hidden
         from
             challenge_tb ct
             left outer join challenge_application_tb cat on(cat.challenge_id = ct.challenge_id)
@@ -338,7 +340,9 @@
             ct.category_name,
             ut.name,
             ct.challenge_like_count,
-            ct.challenge_layout
+            ct.challenge_layout,
+            ct.is_deadline,
+            ct.is_hidden
         from
             challenge_tb ct
             left outer join user_tb ut on(ut.user_id = ct.user_id)
@@ -403,7 +407,9 @@
             ct.start_date,
             ct.end_date,
             ct.category_name,
-            ct.challenge_like_count
+            ct.challenge_like_count,
+            ct.is_hidden,
+            ct.is_deadline
         from
             challenge_tb ct
             left outer join challenge_application_tb cat on(cat.challenge_id = ct.challenge_id)

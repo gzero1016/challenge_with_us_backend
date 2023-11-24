@@ -17,4 +17,6 @@ public class ApprovedChallengesRespDto {
     private String challengeName;
     private LocalDateTime startDate;
     private LocalDateTime endDate;
+    private int isDeadline;
+    private int isHidden;
 }
