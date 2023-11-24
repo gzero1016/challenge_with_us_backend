@@ -10,6 +10,7 @@ import com.dogtiger.challus.repository.ChallengeMapper;
 import com.dogtiger.challus.repository.UserMapper;
 import com.dogtiger.challus.security.PrincipalUser;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,8 +32,25 @@ public class AccountService {
     }
 
     @Transactional(rollbackFor = Exception.class)
-    public boolean deleteUser(int userId) {
-        return userMapper.deleteUser(userId) > 0;
+    public void deleteUser(int targetUserId) {
+        PrincipalUser principalUser = (PrincipalUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        int currentUserId = principalUser.getUser().getUserId();
+
+        if (!hasDeletePermission(targetUserId, currentUserId)) {
+            throw new AccessDeniedException("You do not have permission to delete this user");
+        }
+
+        userMapper.deleteUser(targetUserId);
+    }
+
+    private boolean hasDeletePermission(int targetUserId, int currentUserId) {
+        if(currentUserId == 1 || currentUserId == 2) {
+            return true;
+        }else if(targetUserId == currentUserId){
+            return true;
+        }
+
+        return false;
     }
 
     public boolean checkEmailDuplicate(String email){
