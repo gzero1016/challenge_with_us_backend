@@ -1,19 +1,23 @@
 package com.dogtiger.challus.service;
 
+import com.dogtiger.challus.dto.FeedResDto;
 import com.dogtiger.challus.dto.IntroReqDto;
 import com.dogtiger.challus.dto.UpdateProfileDetailReqDto;
 import com.dogtiger.challus.dto.ApprovedChallengesRespDto;
+import com.dogtiger.challus.entity.Feed;
 import com.dogtiger.challus.jwt.JwtProvider;
 import com.dogtiger.challus.repository.ChallengeMapper;
 import com.dogtiger.challus.repository.UserMapper;
 import com.dogtiger.challus.security.PrincipalUser;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -28,8 +32,25 @@ public class AccountService {
     }
 
     @Transactional(rollbackFor = Exception.class)
-    public boolean deleteUser(int userId) {
-        return userMapper.deleteUser(userId) > 0;
+    public void deleteUser(int targetUserId) {
+        PrincipalUser principalUser = (PrincipalUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        int currentUserId = principalUser.getUser().getUserId();
+
+        if (!hasDeletePermission(targetUserId, currentUserId)) {
+            throw new AccessDeniedException("You do not have permission to delete this user");
+        }
+
+        userMapper.deleteUser(targetUserId);
+    }
+
+    private boolean hasDeletePermission(int targetUserId, int currentUserId) {
+        if(currentUserId == 1 || currentUserId == 2) {
+            return true;
+        }else if(targetUserId == currentUserId){
+            return true;
+        }
+
+        return false;
     }
 
     public boolean checkEmailDuplicate(String email){
@@ -58,6 +79,38 @@ public class AccountService {
             approvedChallengesRespDtos.add(challengesApplication.toApprovedChallengesRespDto());
         });
         return approvedChallengesRespDtos;
+    }
+
+    public List<ApprovedChallengesRespDto> getMyEndChallenge() {
+        PrincipalUser principalUser = (PrincipalUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        int userId = principalUser.getUser().getUserId();
+
+        List<ApprovedChallengesRespDto> approvedChallengesRespDtos = new ArrayList<>();
+
+        challengeMapper.getApprovedEndChallengesByUserId(userId).forEach(challengesApplication -> {
+            approvedChallengesRespDtos.add(challengesApplication.toApprovedChallengesRespDto());
+        });
+        return approvedChallengesRespDtos;
+    }
+
+    public int getProgress(int challengeId) {
+        PrincipalUser principalUser = (PrincipalUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        int userId = principalUser.getUser().getUserId();
+
+        System.out.println(userMapper.getProgress(challengeId, userId));
+
+        return userMapper.getProgress(challengeId, userId);
+    }
+
+    public List<FeedResDto> getChallengeFeeds(int challengeId) {
+        PrincipalUser principalUser = (PrincipalUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        int userId = principalUser.getUser().getUserId();
+
+        List<Feed> feedList = userMapper.getChallengeFeeds(challengeId, userId);
+
+        System.out.println(feedList);
+
+        return feedList.stream().map(Feed::toFeedResDto).collect(Collectors.toList());
     }
 
 }

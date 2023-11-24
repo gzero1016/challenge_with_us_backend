@@ -19,14 +19,17 @@ public class Letter {
     private int senderUserId;
     private int receiverUserId;
     private String title;
+    private String letterTitle;
     private String content;
     private LocalDateTime sendDateTime;
     private int isRead;
     private int letterType;
     private String targetUrl;
+    private int targetId;
 
     private String senderNickname;
     private int challengeId;
+    private int acceptState;
     private String challengeName;
 
     private ChallengeApplication challengeApplication;
@@ -38,13 +41,16 @@ public class Letter {
                 .senderUserId(senderUserId)
                 .senderNickname(senderNickname)
                 .receiverUserId(receiverUserId)
+                .letterTitle(letterTitle)
                 .title(title)
                 .content(content)
                 .sendDateTime(sendDateTime.format(DateTimeFormatter.ofPattern("MM월dd일 HH시mm분")))
                 .isRead(isRead)
                 .letterType(letterType)
                 .targetUrl(targetUrl)
+                .targetId(targetId)
                 .challengeId(challengeId)
+                .acceptState(acceptState)
                 .challengeName(challengeName)
                 .build();
     }

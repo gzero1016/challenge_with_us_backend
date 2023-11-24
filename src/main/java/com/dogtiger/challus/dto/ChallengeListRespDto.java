@@ -11,12 +11,12 @@ public class ChallengeListRespDto {
     private String challengeName;
     private int layout;
     private String introduction;
-    private String isOpen;
     private String isApplicable;
     private String startDate;
     private String endDate;
     private String categoryName;
     private String name;
+    private String nickname;
     private int likeCount;
     private int isDeadline;
     private int isHidden;

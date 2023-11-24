@@ -1,8 +1,6 @@
 package com.dogtiger.challus.controller;
 
-import com.dogtiger.challus.dto.CommentResDto;
-import com.dogtiger.challus.dto.CreateCommentReqDto;
-import com.dogtiger.challus.dto.FeedReqDto;
+import com.dogtiger.challus.dto.*;
 import com.dogtiger.challus.entity.Challenge;
 import com.dogtiger.challus.service.FeedService;
 import lombok.RequiredArgsConstructor;
@@ -20,18 +18,35 @@ public class FeedController {
     public ResponseEntity<?> feed(@PathVariable int challengeId,
                                   @RequestBody FeedReqDto feedReqDto) {
         feedReqDto.setChallengeId(challengeId);
-        System.out.println(feedReqDto);
         return ResponseEntity.ok(feedService.saveFeed(feedReqDto));
     }
 
-    @GetMapping("/api/challenge/certification/feed/{page}")
-    public ResponseEntity<?> getFeed(@PathVariable int page){
-        return ResponseEntity.ok(feedService.getFeeds(page));
+    @PutMapping("/api/challenge/feed/{feedId}")
+    public ResponseEntity<?> updateFeed(@PathVariable int feedId,
+                                  @RequestBody UpdateFeedReqDto updateFeedReqDto) {
+        return ResponseEntity.ok(feedService.updateFeed(feedId, updateFeedReqDto));
     }
 
-    @GetMapping("/api/feed/{feedId}/like/count")
-    public ResponseEntity<Integer> getFeedLikeCount(@PathVariable int feedId){
-        return ResponseEntity.ok(feedService.getFeedLikeCount(feedId));
+    @GetMapping("/api/challenge/feed/{feedId}")
+    public ResponseEntity<?> getFeed(@PathVariable int feedId) {
+        return ResponseEntity.ok(feedService.getFeed(feedId));
+    }
+
+    @DeleteMapping("/api/challenge/feed/{feedId}")
+    public ResponseEntity<?> deleteFeed(@PathVariable int feedId) {
+        return ResponseEntity.ok(feedService.deleteFeed(feedId));
+    }
+
+    @GetMapping("/api/challenge/certification/feed/{page}/{challengeId}")
+    public ResponseEntity<?> getFeedDetailList(@PathVariable int page,
+                                     @PathVariable int challengeId){
+        return ResponseEntity.ok(feedService.getFeedDetails(page, challengeId));
+    }
+
+    @GetMapping("/api/challenge/certification/feed/{page}")
+    public ResponseEntity<?> getFeedList(@PathVariable int page,
+                                     @RequestParam String sort){
+        return ResponseEntity.ok(feedService.getFeeds(page, sort));
     }
 
     @GetMapping("/api/feed/{feedId}/like")
@@ -54,6 +69,12 @@ public class FeedController {
     @PostMapping("/api/feed/{feedId}/comment")
     public ResponseEntity<?> createComment(@PathVariable int feedId, @RequestBody CreateCommentReqDto createCommentReqDto) {
         feedService.createComment(feedId, createCommentReqDto);
+        return ResponseEntity.ok("");
+    }
+
+    @PutMapping("/api/feed/{feedId}/comment/{commentId}")
+    public ResponseEntity<?> modifyComment(@PathVariable int feedId, @PathVariable int commentId, @RequestBody ModifyCommentReqDto modifyCommentReqDto) throws Exception {
+        feedService.modifyComment(feedId, commentId, modifyCommentReqDto);
         return ResponseEntity.ok("");
     }
 

@@ -42,7 +42,6 @@ public class NoticeController {
 
     @DeleteMapping("/api/notice/{noticeId}")
     public ResponseEntity<?> deleteNotice(@PathVariable int noticeId){
-        System.out.println(noticeId);
         return ResponseEntity.ok(noticeService.deleteNotice(noticeId));
     }
 

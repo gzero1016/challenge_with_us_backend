@@ -1,6 +1,7 @@
 package com.dogtiger.challus.filter;
 
 import com.dogtiger.challus.jwt.JwtProvider;
+import io.jsonwebtoken.JwtException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -27,6 +28,7 @@ public class JwtAuthenticationFilter extends GenericFilter {
         if(authentication != null) {
             SecurityContextHolder.getContext().setAuthentication(authentication);
         }
+
         chain.doFilter(request, response);
     }
 }

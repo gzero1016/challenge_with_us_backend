@@ -4,6 +4,25 @@
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.dogtiger.challus.repository.UserMapper">
+    <resultMap id="feedMap" type="com.dogtiger.challus.entity.Feed">
+        <id property="feedId" column="feed_id" />
+        <result property="challengeLayout" column="challenge_layout" />
+        <result property="layout" column="layout" />
+        <result property="userId" column="user_id" />
+        <result property="challengeId" column="challenge_id" />
+        <result property="categoryName" column="category_name" />
+        <result property="feedContent" column="feed_content" />
+        <result property="stopWatch" column="stopwatch" />
+        <result property="img" column="img" />
+        <result property="dateTime" column="datetime" />
+        <result property="updatetime" column="updatetime" />
+        <result property="challengeName" column="challenge_name" />
+        <result property="nickname" column="nickname" />
+        <result property="profileUrl" column="profile_url" />
+        <result property="feedLike" column="feed_like" />
+        <association property="user" resultMap="userMap" />
+    </resultMap>
+
     <resultMap id="userMap" type="com.dogtiger.challus.entity.User">
         <id property="userId" column="user_id" />
         <result property="email" column="email" />
@@ -18,6 +37,8 @@
         <result property="oauth2Id" column="oauth2_id" />
         <result property="profileUrl" column="profile_url" />
         <result property="enabled" column="enabled" />
+        <result property="datetime" column="datetime" />
+        <result property="isResign" column="is_resign" />
     </resultMap>
 
     <insert id="saveUser" parameterType="com.dogtiger.challus.entity.User">
@@ -31,11 +52,18 @@
             #{password},
             0,
             '',
-            '브론즈',
+            'Bronze',
             0,
             #{oauth2Id},
-            #{profileUrl},
-            default
+            <if test="profileUrl != null">
+                #{profileUrl}
+            </if>
+            <if test="profileUrl == null">
+                default
+            </if>,
+            0,
+            now(),
+            0
         );
     </insert>
 
@@ -53,7 +81,10 @@
             #{membership},
             #{isAdmin},
             #{oauth2Id},
-            #{profileUrl}
+            #{profileUrl},
+            0,
+            now(),
+            0
         );
     </insert>
 
@@ -74,12 +105,8 @@
             user_id = #{userId}
     </update>
 
-    <delete id="deleteUser">
-        delete
-        from
-            user_tb
-        where
-            user_id = #{userId}
+    <delete id="deleteUser" statementType="CALLABLE">
+        {call p_delete_user(#{userId})}
     </delete>
 
     <select id="findUserByEmail" resultMap="userMap">
@@ -102,7 +129,7 @@
             email = #{email}
     </select>
 
-    <select id="findUserByOauth2Id" resultType="com.dogtiger.challus.entity.User">
+    <select id="findUserByOauth2Id" resultMap="userMap">
         select
             user_id,
             email,
@@ -143,12 +170,65 @@
             date_format(datetime, '%Y-%m-%d')
     </select>
 
-
     <select id="getUserIdAll" resultType="java.lang.Integer">
         select
             user_id
         from
             user_tb
+    </select>
+
+    <select id="getIsAdminUser" resultMap="userMap">
+        select
+            user_id,
+            email,
+            name,
+            phone,
+            nickname,
+            point,
+            intro,
+            membership,
+            is_admin,
+            oauth2_id,
+            profile_url
+        from
+            user_tb
+        where
+            is_admin = 1
+    </select>
+
+    <select id="getProgress" resultType="int">
+        select
+            count(distinct date(ft.datetime)) as count
+        from
+            challenge_tb ct
+            left outer join feed_tb ft on(ft.challenge_id = ct.challenge_id)
+            left outer join user_tb ut on(ut.user_id = ft.user_id)
+        where
+            ct.challenge_id = #{challengeId}
+        and ut.user_id = #{userId};
+    </select>
+
+    <select id="getChallengeFeeds" resultType="com.dogtiger.challus.entity.Feed" resultMap="feedMap">
+        select
+            ft.feed_id,
+            ft.user_id,
+            ft.challenge_id,
+            ft.category_name,
+            ft.feed_content,
+            ft.stopwatch,
+            ft.img,
+            ut.profile_url,
+            ut.nickname,
+            ft.datetime,
+            ft.feed_like
+        from
+            feed_tb ft
+            left outer join user_tb ut on(ut.user_id = ft.user_id)
+        where
+            ft.challenge_id = #{challengeId}
+            and ut.user_id = #{userId}
+        order by
+            datetime desc;
     </select>
 
 </mapper>

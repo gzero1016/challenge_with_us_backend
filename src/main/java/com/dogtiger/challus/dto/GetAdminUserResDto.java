@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 
 @Builder
 @Data
-public class PrincipalResDto {
+public class GetAdminUserResDto {
     private int userId;
     private String email;
     private String name;

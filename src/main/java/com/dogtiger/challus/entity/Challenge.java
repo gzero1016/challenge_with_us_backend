@@ -23,12 +23,12 @@ public class Challenge {
     private String challengeName;
     private int challengeLayout;
     private String introduction;
-    private String isOpen;
     private String isApplicable;
     private LocalDateTime startDate;
     private LocalDateTime endDate;
     private String categoryName;
     private String name;
+    private String nickname;
     private int challengeLikeCount;
     private int challenger;
     private int isDeadline;
@@ -41,13 +41,13 @@ public class Challenge {
                 .challengeId(challengeId)
                 .challengeName(challengeName)
                 .categoryName(categoryName)
-                .isOpen(isOpen)
                 .isApplicable(isApplicable)
                 .userId(userId)
                 .layout(challengeLayout)
                 .introduction(introduction)
                 .endDate(endDate.format(DateTimeFormatter.ISO_DATE))
                 .name(name)
+                .nickname(nickname)
                 .startDate(startDate.format(DateTimeFormatter.ISO_DATE))
                 .likeCount(challengeLikeCount)
                 .isDeadline(isDeadline)
@@ -62,13 +62,15 @@ public class Challenge {
                 .challengeName(challengeName)
                 .layout(challengeLayout)
                 .introduction(introduction)
-                .isOpen(isOpen)
                 .isApplicable(isApplicable)
                 .startDate(startDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")))
                 .categoryName(categoryName)
+                .nickname(nickname)
                 .name(name)
                 .challengeLikeCount(challengeLikeCount)
                 .challenger(challenger)
+                .isDeadline(isDeadline)
+                .isHidden(isHidden)
                 .build();
 
         if(endDate != null) {
@@ -83,6 +85,10 @@ public class Challenge {
         return ApprovedChallengesRespDto.builder()
                 .challengeId(challengeId)
                 .challengeName(challengeName)
+                .startDate(startDate)
+                .endDate(endDate)
+                .isHidden(isHidden)
+                .isDeadline(isDeadline)
                 .build();
     }
 }

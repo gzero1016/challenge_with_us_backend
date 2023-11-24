@@ -11,7 +11,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -27,24 +26,41 @@ public class FeedService {
         return feedMapper.saveFeed(feedReqDto.toFeedEntity()) > 0;
     }
 
-    public List<FeedResDto> getFeeds(int page) {
-        int index = (page - 1) * 5;
-        List<FeedResDto> feedList = new ArrayList<>();
+    public boolean updateFeed(int feedId, UpdateFeedReqDto updateFeedReqDto) {
 
-        feedMapper.getFeeds(index).forEach(feeds -> {
-            int likeCount = feedMapper.getLikeCountByFeedId(feeds.getFeedId());
-            feedList.add(feeds.toFeedResDto(likeCount));
-        });
-        System.out.println(feedList);
-        return feedList;
+        Feed feed = updateFeedReqDto.toUpdateFeedEntity();
+        feed.setFeedId(feedId);
+        return feedMapper.updateFeed(feed) > 0;
+    }
+
+    public FeedResDto getFeed(int feedId) {
+        return feedMapper.getFeed(feedId).toFeedResDto();
+    }
+
+    public boolean deleteFeed(int feedId) {
+        return feedMapper.deleteFeed(feedId) > 0;
+    }
+
+    public List<FeedResDto> getFeedDetails(int page, int challengeId) {
+        int index = (page - 1) * 5;
+
+        List<Feed> feedList = feedMapper.getFeedDetails(index, challengeId);
+        return feedList.stream().map(Feed::toFeedResDto).collect(Collectors.toList());
+    }
+
+    public List<FeedResDto> getFeeds(int page, String sort) {
+        int index = (page - 1) * 5;
+
+        Map<String, Object> paramsMap = new HashMap<>();
+        paramsMap.put("index", index);
+        paramsMap.put("sort", sort);
+
+        List<Feed> feedList = feedMapper.getFeeds(paramsMap);
+        return feedList.stream().map(Feed::toFeedResDto).collect(Collectors.toList());
     }
 
     public List<CommentResDto> getFeedComments(int feedId) {
         return feedMapper.findCommentsByFeedId(feedId).stream().map(comment -> comment.toCommentResDto()).collect(Collectors.toList());
-    }
-
-    public Integer getFeedLikeCount(int feedId) {
-        return feedMapper.getFeedLikeCountByFeedId(feedId);
     }
 
     public Integer getMyFeedLike(int feedId) {
@@ -95,6 +111,26 @@ public class FeedService {
                 .userId(userId)
                 .commentContent(createCommentReqDto.getCommentContent())
                 .build());
+    }
+
+    public void modifyComment(int feedId, int commentId, ModifyCommentReqDto modifyCommentReqDto) throws Exception {
+        PrincipalUser principalUser = (PrincipalUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        int userId = principalUser.getUser().getUserId();
+        Comment targetComment = feedMapper.findCommentByCommentId(commentId);
+
+        if(targetComment == null) {
+            throw new Exception("대상 댓글 존재하지 않음");
+        }
+
+        if(targetComment.getFeedId() != feedId) {
+            throw new Exception("올바르지 않은 요청");
+        }
+
+        if(targetComment.getUserId() != userId) {
+            throw new Exception("다른 사람의 댓글은 수정할 수 없음");
+        }
+
+        feedMapper.updateComment(modifyCommentReqDto.toComment(targetComment));
     }
 
     public void deleteComment(int feedId, int commentId) throws Exception {

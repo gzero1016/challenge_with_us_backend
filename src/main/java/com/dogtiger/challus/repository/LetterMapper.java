@@ -10,6 +10,7 @@ import java.util.List;
 public interface LetterMapper {
     public List<Letter> findLettersByUserId(int userId);
     public Letter findLetterByLetterId(int letterId);
+    public int getUnreadLettersCountByUserId(int userId);
     public int getLettersCountByUserId(int userId);
     public int updateLetter(Letter letter);
     public int challengeAtmosphereLetter(Letter letter);

@@ -13,11 +13,13 @@
         <result property="categoryName" column="category_name" />
         <result property="feedContent" column="feed_content" />
         <result property="stopWatch" column="stopwatch" />
-        <result property="img" column="Img" />
+        <result property="img" column="img" />
         <result property="dateTime" column="datetime" />
+        <result property="updatetime" column="updatetime" />
         <result property="challengeName" column="challenge_name" />
         <result property="nickname" column="nickname" />
         <result property="profileUrl" column="profile_url" />
+        <result property="feedLike" column="feed_like" />
         <association property="user" resultMap="userMap" />
     </resultMap>
 
@@ -44,7 +46,6 @@
         <result property="challengeLayout" column="challenge_layout" />
         <result property="challengeName" column="challenge_name" />
         <result property="introduction" column="challenge_introduction" />
-        <result property="isOpen" column="is_open" />
         <result property="isApplicable" column="is_applicable" />
         <result property="startDate" column="start_date" />
         <result property="endDate" column="end_date" />
@@ -63,19 +64,10 @@
 
     <insert id="saveFeed" parameterType="com.dogtiger.challus.entity.Feed">
         insert into feed_tb
-        values(0, #{challengeLayout}, #{layout}, #{userId}, #{challengeId}, #{categoryName}, #{feedContent}, #{stopWatch}, #{img}, now())
+        values(0, #{challengeLayout}, #{layout}, #{userId}, #{challengeId}, #{challengeName}, #{categoryName}, #{feedContent}, #{stopWatch}, #{img}, now(), now(), 0)
     </insert>
 
-    <select id="getLikeCountByFeedId" parameterType="integer" resultType="integer">
-        select
-            count(feed_id)
-        from
-            feed_like_tb
-        where
-            feed_id = #{feedId};
-    </select>
-
-    <select id="getFeeds" resultMap="feedMap" parameterType="int">
+    <select id="getFeeds" resultMap="feedMap" parameterType="hashmap">
         select
             ft.feed_id,
             ft.challenge_layout,
@@ -88,14 +80,57 @@
             ft.stopwatch,
             ft.Img,
             ft.datetime,
+            ft.updatetime,
             ut.nickname,
-            ut.profile_url
+            ut.profile_url,
+            ft.feed_like
         from
             feed_tb ft
             left outer join challenge_tb ct on(ct.challenge_id = ft.challenge_id)
             left outer join user_tb ut on(ut.user_id = ft.user_id)
         order by
-            datetime desc
+            <choose>
+                <when test="sort.equals('latest')">
+                    ft.updatetime desc
+                </when>
+                <when test="sort.equals('oldest')">
+                    ft.updatetime asc
+                </when>
+                <when test="sort.equals('popular')">
+                    ft.feed_like desc
+                </when>
+                <otherwise>
+                    ft.updatetime desc
+                </otherwise>
+            </choose>
+        limit #{index}, 5
+    </select>
+
+    <select id="getFeedDetails" resultMap="feedMap" parameterType="int">
+        select
+            ft.feed_id,
+            ft.challenge_layout,
+            ft.layout,
+            ft.user_id,
+            ft.challenge_id,
+            ct.challenge_name,
+            ft.category_name,
+            ft.feed_content,
+            ft.stopwatch,
+            ft.Img,
+            ft.datetime,
+            ft.updatetime,
+            ut.nickname,
+            ut.profile_url,
+            ft.feed_like
+        from
+            feed_tb ft
+            left outer join challenge_tb ct on(ct.challenge_id = ft.challenge_id)
+            left outer join user_tb ut on(ut.user_id = ft.user_id)
+        where
+            ct.challenge_id = #{challengeId}
+        order by
+            ft.updatetime desc
         limit #{index}, 5
     </select>
 
@@ -154,7 +189,28 @@
             comment_tb
         values
             (0, #{feedId}, #{userId}, #{commentContent}, now());
+
     </insert>
+
+    <update id="updateComment">
+        update
+            comment_tb
+        set
+            comment_content = #{commentContent}
+        where
+            comment_id = #{commentId};
+    </update>
+
+    <update id="updateFeed">
+        update
+            feed_tb
+        set
+            feed_content = #{feedContent},
+            img = #{img}
+        where
+            feed_id = #{feedId};
+
+    </update>
 
     <select id="findCommentByCommentId" resultMap="commentMap">
         select
@@ -176,6 +232,13 @@
             comment_tb
         where
             comment_id = #{commentId}
+    </delete>
+
+    <delete id="deleteFeed">
+        delete from
+            feed_tb
+        where
+            feed_id = #{feedId}
     </delete>
 
     <select id="getLatestCommentByFeedId" resultMap="commentMap">
@@ -204,6 +267,16 @@
             feed_tb
         group by
             date_format(datetime, '%Y-%m-%d')
+    </select>
+    <select id="getFeed" resultType="com.dogtiger.challus.entity.Feed">
+        select
+            feed_id as feedId,
+            feed_content as feedContent,
+            img
+        from
+            feed_tb
+        where
+            feed_id = #{feedId}
     </select>
 
 </mapper>

@@ -10,12 +10,15 @@
         <result property="challengeLayout" column="challenge_layout" />
         <result property="challengeName" column="challenge_name" />
         <result property="introduction" column="challenge_introduction" />
-        <result property="isOpen" column="is_open" />
         <result property="isApplicable" column="is_applicable" />
         <result property="startDate" column="start_date" />
         <result property="endDate" column="end_date" />
         <result property="categoryName" column="category_name" />
         <result property="challengeLikeCount" column="challenge_like_count" />
+        <result property="challengeLayout" column="challenge_layout" />
+        <result property="challengeLayout" column="challenge_layout" />
+        <result property="name" column="name" />
+        <result property="nickname" column="nickname" />
         <result property="name" column="name" />
         <result property="challenger" column="challenger" />
         <result property="isDeadline" column="is_deadline" />
@@ -52,19 +55,11 @@
         values (
         0, #{userId}, #{challengeName}, #{challengeLayout}, #{introduction},
         <choose>
-            <when test="isOpen.equals('true')">
-                1
-            </when>
-            <otherwise>
-                0
-            </otherwise>
-        </choose>,
-        <choose>
             <when test="isApplicable.equals('true')">
-                1
+                0
             </when>
             <otherwise>
-                0
+                1
             </otherwise>
         </choose>,
         #{startDate}, #{endDate}, #{categoryName}, 0, 0, 0, 0
@@ -81,12 +76,12 @@
             ct.user_id,
             ct.challenge_name,
             ct.challenge_introduction,
-            ct.is_open,
             ct.is_applicable,
             ct.start_date,
             ct.end_date,
             ct.category_name,
             ut.name,
+            ut.nickname,
             ct.challenge_like_count,
             ct.challenge_layout,
             ct.challenger,
@@ -105,7 +100,6 @@
             ct.user_id,
             ct.challenge_name,
             ct.challenge_introduction,
-            ct.is_open,
             ct.is_applicable,
             ct.start_date,
             ct.end_date,
@@ -123,14 +117,14 @@
         1 = 1
             <choose>
                 <when test="sort.equals('hidden')">
-                    and is_hidden = 1
+                    and ct.is_hidden = 1
                 </when>
                 <when test="sort.equals('stop')">
-                    and is_deadline = 1
+                    and ct.is_deadline = 1
                 </when>
                 <otherwise>
-                    and is_hidden = 0
-                    and is_deadline = 0
+                    and ct.is_hidden = 0
+                    and ct.is_deadline = 0
                 </otherwise>
             </choose>
             <choose>
@@ -163,7 +157,7 @@
                     ct.challenge_id desc
                 </otherwise>
             </choose>
-        limit #{index}, 10
+        limit #{index}, 30
     </select>
 
     <select id="getChallengeCount" resultType="java.lang.Integer">
@@ -273,18 +267,8 @@
             challenge_id = #{challengeId}
     </update>
 
-<<<<<<< Updated upstream
-    <update id="challengeHidden">
-        update challenge_tb
-        set
-            is_hidden = 1,
-            end_date = now()
-        where
-            challenge_id = #{challengeId}
-=======
     <update id="challengeHidden" statementType="CALLABLE">
         call p_update_and_delete_challenge_data(#{challengeId});
->>>>>>> Stashed changes
     </update>
 
     <delete id="cancelLike" parameterType="com.dogtiger.challus.entity.Challenge">
@@ -319,18 +303,20 @@
             ct.user_id,
             ct.challenge_name,
             ct.challenge_introduction,
-            ct.is_open,
             ct.is_applicable,
             ct.start_date,
             ct.end_date,
             ct.category_name,
-            ct.challenge_like_count
+            ct.challenge_like_count,
+            ct.is_deadline,
+            ct.is_hidden
         from
             challenge_tb ct
             left outer join challenge_application_tb cat on(cat.challenge_id = ct.challenge_id)
         where
             cat.accept_state = 1
-        and cat.user_id = #{userId};
+        and cat.user_id = #{userId}
+        and ct.is_deadline = 0;
     </select>
 
     <select id="findReceiverUserId" resultType="int">
@@ -348,14 +334,15 @@
             ct.user_id,
             ct.challenge_name,
             ct.challenge_introduction,
-            ct.is_open,
             ct.is_applicable,
             ct.start_date,
             ct.end_date,
             ct.category_name,
             ut.name,
             ct.challenge_like_count,
-            ct.challenge_layout
+            ct.challenge_layout,
+            ct.is_deadline,
+            ct.is_hidden
         from
             challenge_tb ct
             left outer join user_tb ut on(ut.user_id = ct.user_id)
@@ -398,5 +385,37 @@
             is_hidden = 1
         group by
             date_format(end_date, '%Y-%m-%d')
+    </select>
+
+    <select id="getChallengeProgress" resultType="int">
+        select
+            count(distinct date(ft.datetime)) as count
+        from
+            challenge_tb ct
+            left outer join feed_tb ft on(ft.challenge_id = ct.challenge_id)
+        where
+            ct.challenge_id = #{challengeId};
+    </select>
+
+    <select id="getApprovedEndChallengesByUserId" resultMap="challengeMap">
+        select
+            ct.challenge_id,
+            ct.user_id,
+            ct.challenge_name,
+            ct.challenge_introduction,
+            ct.is_applicable,
+            ct.start_date,
+            ct.end_date,
+            ct.category_name,
+            ct.challenge_like_count,
+            ct.is_hidden,
+            ct.is_deadline
+        from
+            challenge_tb ct
+            left outer join challenge_application_tb cat on(cat.challenge_id = ct.challenge_id)
+        where
+            cat.accept_state = 1
+            and cat.user_id = #{userId}
+            and ct.is_deadline = 1;
     </select>
 </mapper>

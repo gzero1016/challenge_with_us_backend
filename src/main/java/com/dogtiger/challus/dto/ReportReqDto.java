@@ -17,6 +17,7 @@ public class ReportReqDto {
                 .content(content)
                 .senderUserId(senderUserId)
                 .receiverUserId(receiverUserId)
+                .targetId(challengeId)
                 .build();
     }
 }
