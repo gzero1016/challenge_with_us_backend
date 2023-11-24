@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.net.URLEncoder;
+import java.util.Map;
 
 @Component
 @RequiredArgsConstructor
@@ -28,20 +29,34 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
 
         User user = userMapper.findUserByOauth2Id(oauth2Id);
 
+
         if(user == null) {
             DefaultOAuth2User defaultOAuth2User = (DefaultOAuth2User) authentication.getPrincipal();
-            //String provider = defaultOAuth2User.getAttributes().get("provider").toString();
+            Map<String, Object> attributes = defaultOAuth2User.getAttributes();
 
-            //회원가입이 안되었을 때 OAuth2 계정 회원가입 페이지로 이동
+            String provider = "";
+            String picture = "";
+
+            if(defaultOAuth2User.getAttribute("provider") == null) {
+                provider = "google";
+                picture = defaultOAuth2User.getAttribute("picture");
+            }else {
+                provider = defaultOAuth2User.getAttribute("provider");
+                picture = attributes.get("profile_image").toString();
+
+            }
+
             response.sendRedirect("http://localhost:3000/auth/signup" +
-                    "?oauth2Id=" + oauth2Id);
+                    "?oauth2Id=" + oauth2Id +
+                    "&provider=" + provider +
+                    "&picture=" + URLEncoder.encode(picture, "UTF-8"));
             return;
         }
 
         PrincipalUser principalUser = new PrincipalUser(user);
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(principalUser, null, principalUser.getAuthorities());
 
-        String accessToken = jwtProvider.generateToken(authenticationToken);
+        String accessToken = jwtProvider.generateToken(authenticationToken, oauth2Id);
         response.sendRedirect("http://localhost:3000/auth/oauth2/login" +
                 "?token=" + URLEncoder.encode(accessToken, "UTF-8"));
     }

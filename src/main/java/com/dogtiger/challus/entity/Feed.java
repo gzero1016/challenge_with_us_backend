@@ -26,6 +26,7 @@ public class Feed {
     private int stopWatch;
     private String img;
     private LocalDateTime dateTime;
+    private LocalDateTime updatetime;
     private String nickname;
     private String profileUrl;
     private int feedLike;
@@ -48,6 +49,7 @@ public class Feed {
                 .nickname(nickname)
                 .profileUrl(profileUrl)
                 .dateTime(dateTime)
+                .updatetime(updatetime)
                 .likeCount(feedLike)
                 .build();
     }

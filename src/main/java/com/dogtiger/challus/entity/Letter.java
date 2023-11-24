@@ -24,9 +24,11 @@ public class Letter {
     private int isRead;
     private int letterType;
     private String targetUrl;
+    private int targetId;
 
     private String senderNickname;
     private int challengeId;
+    private int acceptState;
     private String challengeName;
 
     private ChallengeApplication challengeApplication;
@@ -44,7 +46,9 @@ public class Letter {
                 .isRead(isRead)
                 .letterType(letterType)
                 .targetUrl(targetUrl)
+                .targetId(targetId)
                 .challengeId(challengeId)
+                .acceptState(acceptState)
                 .challengeName(challengeName)
                 .build();
     }

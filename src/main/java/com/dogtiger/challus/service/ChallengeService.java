@@ -36,15 +36,13 @@ public class ChallengeService {
     }
 
     public List<ChallengeListRespDto> getChallengeList(int page, SearchChallengeListReqDto searchChallengeListReqDto) {
-        int index = (page - 1) * 10;
+        int index = (page - 1) * 30;
         Map<String, Object> paramsMap = new HashMap<>();
         paramsMap.put("index", index);
         paramsMap.put("optionName", searchChallengeListReqDto.getOptionName());
         paramsMap.put("searchValue", searchChallengeListReqDto.getSearchValue());
         paramsMap.put("sort", searchChallengeListReqDto.getSort());
         List<Challenge> challenges = challengeMapper.getChallengeList(paramsMap);
-
-        System.out.println(challenges);
 
         return challenges.stream().map(Challenge::toChallengeListDto).collect(Collectors.toList());
     }
@@ -136,7 +134,6 @@ public class ChallengeService {
         List<Map<String, Object>> result = challengeMapper.getAdminChallengersCount();
         for (Map<String, Object> entry : result) {
         }
-        System.out.println(result);
         return result;
     }
 
@@ -152,5 +149,10 @@ public class ChallengeService {
         for (Map<String, Object> entry : result) {
         }
         return result;
+    }
+
+    public int getChallengeProgress(int challengeId) {
+        System.out.println(challengeMapper.getChallengeProgress(challengeId));
+        return challengeMapper.getChallengeProgress(challengeId);
     }
 }

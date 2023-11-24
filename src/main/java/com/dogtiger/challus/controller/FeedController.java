@@ -18,7 +18,6 @@ public class FeedController {
     public ResponseEntity<?> feed(@PathVariable int challengeId,
                                   @RequestBody FeedReqDto feedReqDto) {
         feedReqDto.setChallengeId(challengeId);
-        System.out.println(feedReqDto);
         return ResponseEntity.ok(feedService.saveFeed(feedReqDto));
     }
 
@@ -28,14 +27,24 @@ public class FeedController {
         return ResponseEntity.ok(feedService.updateFeed(feedId, updateFeedReqDto));
     }
 
+    @GetMapping("/api/challenge/feed/{feedId}")
+    public ResponseEntity<?> getFeed(@PathVariable int feedId) {
+        return ResponseEntity.ok(feedService.getFeed(feedId));
+    }
+
+    @DeleteMapping("/api/challenge/feed/{feedId}")
+    public ResponseEntity<?> deleteFeed(@PathVariable int feedId) {
+        return ResponseEntity.ok(feedService.deleteFeed(feedId));
+    }
+
     @GetMapping("/api/challenge/certification/feed/{page}/{challengeId}")
-    public ResponseEntity<?> getFeed(@PathVariable int page,
+    public ResponseEntity<?> getFeedDetailList(@PathVariable int page,
                                      @PathVariable int challengeId){
         return ResponseEntity.ok(feedService.getFeedDetails(page, challengeId));
     }
 
     @GetMapping("/api/challenge/certification/feed/{page}")
-    public ResponseEntity<?> getFeed(@PathVariable int page,
+    public ResponseEntity<?> getFeedList(@PathVariable int page,
                                      @RequestParam String sort){
         return ResponseEntity.ok(feedService.getFeeds(page, sort));
     }
@@ -65,7 +74,6 @@ public class FeedController {
 
     @PutMapping("/api/feed/{feedId}/comment/{commentId}")
     public ResponseEntity<?> modifyComment(@PathVariable int feedId, @PathVariable int commentId, @RequestBody ModifyCommentReqDto modifyCommentReqDto) throws Exception {
-        System.out.println(modifyCommentReqDto.getCommentContent());
         feedService.modifyComment(feedId, commentId, modifyCommentReqDto);
         return ResponseEntity.ok("");
     }

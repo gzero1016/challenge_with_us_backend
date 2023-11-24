@@ -17,7 +17,6 @@ public class ChallengeController {
 
     @PostMapping("/api/challenge/create")
     public ResponseEntity<?> savechallenge(@RequestBody ChallengeCreateReqDto challengeCreateReqDto){
-        System.out.println(challengeCreateReqDto);
         return ResponseEntity.ok().body(challengeService.saveChallenge(challengeCreateReqDto));
     }
 
@@ -56,14 +55,12 @@ public class ChallengeController {
     @PostMapping("/api/challenge/{challengeId}/like")
     public ResponseEntity<?> insertLike(@PathVariable int challengeId, @RequestBody ChallengeLikeReqDto challengeLikeReqDto) {
         challengeLikeReqDto.setChallengeId(challengeId);
-        System.out.println(challengeLikeReqDto);
         return ResponseEntity.ok(challengeService.insertLike(challengeLikeReqDto));
     }
 
     @DeleteMapping("/api/challenge/{challengeId}/like")
     public ResponseEntity<?> cancelLike(@PathVariable int challengeId, @RequestBody ChallengeLikeReqDto challengeLikeReqDto) {
         challengeLikeReqDto.setChallengeId(challengeId);
-        System.out.println(challengeLikeReqDto);
         return ResponseEntity.ok(challengeService.cancelLike(challengeLikeReqDto));
     }
 
@@ -84,7 +81,6 @@ public class ChallengeController {
 
     @PostMapping("/api/challenge/join/{challengeId}")
     public ResponseEntity<?> challengeApplicable(@PathVariable int challengeId) {
-        System.out.println(challengeId);
         return ResponseEntity.ok(challengeService.challengeApplicable(challengeId));
     }
     @GetMapping("/api/challengers/{challengeId}")
@@ -94,7 +90,6 @@ public class ChallengeController {
 
     @DeleteMapping("/api/challenger/{challengeId}")
     public ResponseEntity<?> deleteChallenger(@PathVariable int challengeId, int userId) {
-        System.out.println(challengeId + ", " + userId);
         return ResponseEntity.ok(challengeService.deleteChallenger(challengeId, userId));
     }
     @PutMapping("/api/challenge/approval")
@@ -134,5 +129,10 @@ public class ChallengeController {
     @GetMapping("/api/admin/challenges/deleted/count")
     public ResponseEntity<?> getChallengeDeletedCount() {
         return ResponseEntity.ok(challengeService.getChallengeDeletedCount());
+    }
+
+    @GetMapping("/api/challenge/{challengeId}/progress")
+    public ResponseEntity<?> getChallengeProgress(@PathVariable int challengeId) {
+        return ResponseEntity.ok(challengeService.getChallengeProgress(challengeId));
     }
 }

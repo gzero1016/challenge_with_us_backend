@@ -33,6 +33,14 @@ public class FeedService {
         return feedMapper.updateFeed(feed) > 0;
     }
 
+    public FeedResDto getFeed(int feedId) {
+        return feedMapper.getFeed(feedId).toFeedResDto();
+    }
+
+    public boolean deleteFeed(int feedId) {
+        return feedMapper.deleteFeed(feedId) > 0;
+    }
+
     public List<FeedResDto> getFeedDetails(int page, int challengeId) {
         int index = (page - 1) * 5;
 

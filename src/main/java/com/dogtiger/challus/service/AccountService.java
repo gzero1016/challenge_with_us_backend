@@ -1,8 +1,10 @@
 package com.dogtiger.challus.service;
 
+import com.dogtiger.challus.dto.FeedResDto;
 import com.dogtiger.challus.dto.IntroReqDto;
 import com.dogtiger.challus.dto.UpdateProfileDetailReqDto;
 import com.dogtiger.challus.dto.ApprovedChallengesRespDto;
+import com.dogtiger.challus.entity.Feed;
 import com.dogtiger.challus.jwt.JwtProvider;
 import com.dogtiger.challus.repository.ChallengeMapper;
 import com.dogtiger.challus.repository.UserMapper;
@@ -14,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -58,6 +61,38 @@ public class AccountService {
             approvedChallengesRespDtos.add(challengesApplication.toApprovedChallengesRespDto());
         });
         return approvedChallengesRespDtos;
+    }
+
+    public List<ApprovedChallengesRespDto> getMyEndChallenge() {
+        PrincipalUser principalUser = (PrincipalUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        int userId = principalUser.getUser().getUserId();
+
+        List<ApprovedChallengesRespDto> approvedChallengesRespDtos = new ArrayList<>();
+
+        challengeMapper.getApprovedEndChallengesByUserId(userId).forEach(challengesApplication -> {
+            approvedChallengesRespDtos.add(challengesApplication.toApprovedChallengesRespDto());
+        });
+        return approvedChallengesRespDtos;
+    }
+
+    public int getProgress(int challengeId) {
+        PrincipalUser principalUser = (PrincipalUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        int userId = principalUser.getUser().getUserId();
+
+        System.out.println(userMapper.getProgress(challengeId, userId));
+
+        return userMapper.getProgress(challengeId, userId);
+    }
+
+    public List<FeedResDto> getChallengeFeeds(int challengeId) {
+        PrincipalUser principalUser = (PrincipalUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        int userId = principalUser.getUser().getUserId();
+
+        List<Feed> feedList = userMapper.getChallengeFeeds(challengeId, userId);
+
+        System.out.println(feedList);
+
+        return feedList.stream().map(Feed::toFeedResDto).collect(Collectors.toList());
     }
 
 }

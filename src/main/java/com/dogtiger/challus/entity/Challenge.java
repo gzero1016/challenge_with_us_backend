@@ -80,6 +80,8 @@ public class Challenge {
         return ApprovedChallengesRespDto.builder()
                 .challengeId(challengeId)
                 .challengeName(challengeName)
+                .startDate(startDate)
+                .endDate(endDate)
                 .build();
     }
 }

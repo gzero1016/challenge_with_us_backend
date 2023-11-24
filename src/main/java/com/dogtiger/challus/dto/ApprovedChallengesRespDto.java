@@ -5,6 +5,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
 @Data
 @Builder
 @AllArgsConstructor
@@ -12,4 +15,6 @@ import lombok.NoArgsConstructor;
 public class ApprovedChallengesRespDto {
     private int challengeId;
     private String challengeName;
+    private LocalDateTime startDate;
+    private LocalDateTime endDate;
 }

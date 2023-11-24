@@ -1,9 +1,6 @@
 package com.dogtiger.challus.service;
 
-import com.dogtiger.challus.dto.NoticeEditReqDto;
-import com.dogtiger.challus.dto.NoticeGetRespDto;
-import com.dogtiger.challus.dto.NoticeListRespDto;
-import com.dogtiger.challus.dto.NoticeWriteReqDto;
+import com.dogtiger.challus.dto.*;
 import com.dogtiger.challus.entity.Letter;
 import com.dogtiger.challus.entity.Notice;
 import com.dogtiger.challus.entity.User;
@@ -33,10 +30,6 @@ public class NoticeService {
 
         List<Integer> userIds = userMapper.getUserIdAll();
 
-        System.out.println("???");
-        System.out.println(userIds);
-        System.out.println("???");
-
         userIds.stream().forEach(
                 (receiverUserId) -> {
                     if(user.getUserId() != receiverUserId) {
@@ -44,8 +37,9 @@ public class NoticeService {
                                 .senderUserId(user.getUserId())
                                 .receiverUserId(receiverUserId)
                                 .title("새로운 공지가 있습니다.")
-                                .content("링크를 통해 확인해주세요.")
+                                .content(notice.getNoticeContent())
                                 .targetUrl("http://localhost:3000/notice/" + notice.getNoticeId())
+                                .targetId(notice.getNoticeId())
                                 .build());
                     }
                 }
@@ -55,11 +49,9 @@ public class NoticeService {
     }
 
     public List<NoticeListRespDto> noticeListGet(int page) {
-        Map<String, Object> paramsMap = new HashMap<>();
         int index = (page - 1) * 10;
-        paramsMap.put("index", index);
         List<NoticeListRespDto> noticeListRespDtos = new ArrayList<>();
-        noticeMapper.getNoticeList(paramsMap).forEach(notice -> {
+        noticeMapper.getNoticeList(page, index).forEach(notice -> {
             noticeListRespDtos.add(notice.noticeListRespDto());
         });
 
@@ -70,10 +62,9 @@ public class NoticeService {
         return noticeMapper.getNoticesCount();
     }
 
-       public NoticeGetRespDto getNotice(int noticeId) {
+    public NoticeGetRespDto getNotice(int noticeId) {
 
         NoticeGetRespDto noticeGetRespDto = noticeMapper.getNoticeByNoticeId(noticeId).toNoticeDto();
-        System.out.println(noticeGetRespDto);
         return noticeGetRespDto;
     }
 

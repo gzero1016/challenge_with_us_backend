@@ -32,7 +32,6 @@ public class StampService {
         int userId = principalUser.getUser().getUserId();
         List<Stamp> stamps = stampMapper.getAttendances(userId);
 
-        System.out.println(stamps);
         return stamps.stream().map(Stamp::toAttendanceDto).collect(Collectors.toList());
     }
 

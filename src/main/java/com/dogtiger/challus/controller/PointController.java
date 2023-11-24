@@ -20,7 +20,6 @@ public class PointController {
 
     @PostMapping("/api/challenge/create/point")
     public ResponseEntity<?> challengeCreatePoint(@RequestBody PointReqDto pointReqDto){
-        System.out.println(pointReqDto);
         return ResponseEntity.ok().body(pointService.usePoint(pointReqDto));
     }
 }
