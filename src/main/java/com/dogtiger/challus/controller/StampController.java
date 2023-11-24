@@ -24,4 +24,9 @@ public class StampController {
     public ResponseEntity<?> getAttendances() {
         return ResponseEntity.ok().body(stampService.getAttendances());
     }
+
+    @GetMapping("/api/stamp")
+    public ResponseEntity<?> getUserCheck() {
+        return ResponseEntity.ok(stampService.getUserCheck());
+    }
 }

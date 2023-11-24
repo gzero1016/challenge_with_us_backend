@@ -13,4 +13,5 @@ import java.util.Map;
 public interface StampMapper {
     public int saveAttendance(Stamp stamp);
     public List<Stamp> getAttendances(int userId);
+    public int getUserCheck(int userId);
 }
