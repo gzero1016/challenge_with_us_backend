@@ -1,11 +1,14 @@
 package com.dogtiger.challus.entity;
 
+import com.dogtiger.challus.dto.FeedResDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Data
 @Builder
@@ -13,17 +16,15 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class Feed {
     private int feedId;
+    private int challengeLayout;
+    private int layout;
     private int userId;
     private int challengeId;
+    private String challengeName;
     private String categoryName;
     private String feedContent;
     private int stopWatch;
     private String img;
-<<<<<<< Updated upstream
-    private LocalDate dateTime;
-    private int challengeLayout;
-    private int layout;
-=======
     private LocalDateTime dateTime;
     private LocalDateTime updatetime;
     private String nickname;
@@ -32,7 +33,7 @@ public class Feed {
 
     private User user;
 
-    public FeedResDto toFeedResDto(){
+    public FeedResDto toFeedResDto() {
         return FeedResDto
                 .builder()
                 .feedId(feedId)
@@ -52,5 +53,4 @@ public class Feed {
                 .likeCount(feedLike)
                 .build();
     }
->>>>>>> Stashed changes
 }

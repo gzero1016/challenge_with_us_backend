@@ -10,6 +10,6 @@ public class WebMvcConfig implements WebMvcConfigurer {
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")// 요청 엔드포인트
                 .allowedMethods("*")// 요청 메소드
-                .allowedOrigins("*");// 요청 서버
+                .allowedOrigins("http://localhost:3000");// 요청 서버
     }
 }

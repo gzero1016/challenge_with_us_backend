@@ -4,9 +4,279 @@
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.dogtiger.challus.repository.FeedMapper">
+    <resultMap id="feedMap" type="com.dogtiger.challus.entity.Feed">
+        <id property="feedId" column="feed_id" />
+        <result property="challengeLayout" column="challenge_layout" />
+        <result property="layout" column="layout" />
+        <result property="userId" column="user_id" />
+        <result property="challengeId" column="challenge_id" />
+        <result property="categoryName" column="category_name" />
+        <result property="feedContent" column="feed_content" />
+        <result property="stopWatch" column="stopwatch" />
+        <result property="img" column="img" />
+        <result property="dateTime" column="datetime" />
+        <result property="updatetime" column="updatetime" />
+        <result property="challengeName" column="challenge_name" />
+        <result property="nickname" column="nickname" />
+        <result property="profileUrl" column="profile_url" />
+        <result property="feedLike" column="feed_like" />
+        <association property="user" resultMap="userMap" />
+    </resultMap>
+
+    <resultMap id="userMap" type="com.dogtiger.challus.entity.User">
+        <id property="userId" column="user_id" />
+        <result property="email" column="email" />
+        <result property="name" column="name" />
+        <result property="phone" column="phone" />
+        <result property="nickname" column="nickname" />
+        <result property="password" column="password" />
+        <result property="point" column="point" />
+        <result property="intro" column="intro" />
+        <result property="membership" column="membership" />
+        <result property="isAdmin" column="is_admin" />
+        <result property="oauth2Id" column="oauth2_id" />
+        <result property="profileUrl" column="profile_url" />
+        <result property="enabled" column="enabled" />
+        <association property="challenge" resultMap="challengeMap" />
+    </resultMap>
+
+    <resultMap id="challengeMap" type="com.dogtiger.challus.entity.Challenge">
+        <id property="challengeId" column="challenge_id" />
+        <result property="userId" column="user_id" />
+        <result property="challengeLayout" column="challenge_layout" />
+        <result property="challengeName" column="challenge_name" />
+        <result property="introduction" column="challenge_introduction" />
+        <result property="isApplicable" column="is_applicable" />
+        <result property="startDate" column="start_date" />
+        <result property="endDate" column="end_date" />
+        <result property="categoryName" column="category_name" />
+        <result property="challengeLikeCount" column="challenge_like_count" />
+    </resultMap>
+
+    <resultMap id="commentMap" type="com.dogtiger.challus.entity.Comment">
+        <id property="commentId" column="comment_id" />
+        <result property="feedId" column="feed_id" />
+        <result property="userId" column="user_id" />
+        <result property="commentContent" column="comment_content" />
+        <result property="commentDatetime" column="comment_datetime" />
+        <result property="userNickname" column="userNickname" />
+    </resultMap>
 
     <insert id="saveFeed" parameterType="com.dogtiger.challus.entity.Feed">
         insert into feed_tb
-        values(0, #{challengeLayout}, #{layout}, #{userId}, #{challengeId}, #{categoryName}, #{feedContent}, #{stopWatch}, #{img}, now())
+        values(0, #{challengeLayout}, #{layout}, #{userId}, #{challengeId}, #{challengeName}, #{categoryName}, #{feedContent}, #{stopWatch}, #{img}, now(), now(), 0)
     </insert>
+
+    <select id="getFeeds" resultMap="feedMap" parameterType="hashmap">
+        select
+            ft.feed_id,
+            ft.challenge_layout,
+            ft.layout,
+            ft.user_id,
+            ft.challenge_id,
+            ct.challenge_name,
+            ft.category_name,
+            ft.feed_content,
+            ft.stopwatch,
+            ft.Img,
+            ft.datetime,
+            ft.updatetime,
+            ut.nickname,
+            ut.profile_url,
+            ft.feed_like
+        from
+            feed_tb ft
+            left outer join challenge_tb ct on(ct.challenge_id = ft.challenge_id)
+            left outer join user_tb ut on(ut.user_id = ft.user_id)
+        order by
+            <choose>
+                <when test="sort.equals('latest')">
+                    ft.updatetime desc
+                </when>
+                <when test="sort.equals('oldest')">
+                    ft.updatetime asc
+                </when>
+                <when test="sort.equals('popular')">
+                    ft.feed_like desc
+                </when>
+                <otherwise>
+                    ft.updatetime desc
+                </otherwise>
+            </choose>
+        limit #{index}, 5
+    </select>
+
+    <select id="getFeedDetails" resultMap="feedMap" parameterType="int">
+        select
+            ft.feed_id,
+            ft.challenge_layout,
+            ft.layout,
+            ft.user_id,
+            ft.challenge_id,
+            ct.challenge_name,
+            ft.category_name,
+            ft.feed_content,
+            ft.stopwatch,
+            ft.Img,
+            ft.datetime,
+            ft.updatetime,
+            ut.nickname,
+            ut.profile_url,
+            ft.feed_like
+        from
+            feed_tb ft
+            left outer join challenge_tb ct on(ct.challenge_id = ft.challenge_id)
+            left outer join user_tb ut on(ut.user_id = ft.user_id)
+        where
+            ct.challenge_id = #{challengeId}
+        order by
+            ft.updatetime desc
+        limit #{index}, 5
+    </select>
+
+    <select id="findCommentsByFeedId" resultMap="commentMap">
+        select
+            ct.comment_id,
+            ct.feed_id,
+            ct.user_id,
+            ct.comment_content,
+            ct.comment_datetime,
+            ut.nickname userNickname
+        from
+            comment_tb ct
+            left outer join user_tb ut on (ut.user_id = ct.user_id)
+        where
+            ct.feed_id = #{feedId}
+        order by comment_datetime desc
+    </select>
+
+    <select id="getFeedLikeCountByFeedId" resultType="java.lang.Integer">
+        select
+            count(*)
+        from
+            feed_like_tb
+        where
+            feed_id = #{feedId}
+    </select>
+
+    <select id="findFeedLikeCountByFeedIdAndUserId" resultType="java.lang.Integer">
+        select
+            count(*)
+        from
+            feed_like_tb
+        where
+            feed_id = #{feedId}
+            and user_id = #{userId}
+    </select>
+
+    <insert id="insertFeedLike">
+        insert into
+            feed_like_tb
+        values
+            (0, #{feedId}, #{userId});
+    </insert>
+
+    <delete id="deleteFeedLike">
+        delete from
+            feed_like_tb
+        where
+            feed_id = #{feedId}
+            and user_id = #{userId}
+    </delete>
+
+    <insert id="insertComment" parameterType="com.dogtiger.challus.entity.Comment">
+        insert into
+            comment_tb
+        values
+            (0, #{feedId}, #{userId}, #{commentContent}, now());
+
+    </insert>
+
+    <update id="updateComment">
+        update
+            comment_tb
+        set
+            comment_content = #{commentContent}
+        where
+            comment_id = #{commentId};
+    </update>
+
+    <update id="updateFeed">
+        update
+            feed_tb
+        set
+            feed_content = #{feedContent},
+            img = #{img}
+        where
+            feed_id = #{feedId};
+
+    </update>
+
+    <select id="findCommentByCommentId" resultMap="commentMap">
+        select
+            ct.comment_id,
+            ct.feed_id,
+            ct.user_id,
+            ct.comment_content,
+            ct.comment_datetime,
+            ut.nickname userNickname
+        from
+            comment_tb ct
+            left outer join user_tb ut on (ut.user_id = ct.user_id)
+        where
+            ct.comment_id = #{commentId}
+    </select>
+
+    <delete id="deleteCommentByCommentId">
+        delete from
+            comment_tb
+        where
+            comment_id = #{commentId}
+    </delete>
+
+    <delete id="deleteFeed">
+        delete from
+            feed_tb
+        where
+            feed_id = #{feedId}
+    </delete>
+
+    <select id="getLatestCommentByFeedId" resultMap="commentMap">
+        select
+            ct.comment_id,
+            ct.feed_id,
+            ct.user_id,
+            ct.comment_content,
+            ct.comment_datetime,
+            ut.nickname userNickname
+        from
+            comment_tb ct
+            left outer join user_tb ut on (ut.user_id = ct.user_id)
+        where
+            ct.feed_id = #{feedId}
+        order by
+            ct.comment_id desc
+        limit 0,1;
+    </select>
+
+    <select id="getFeedsCount" resultType="java.util.Map">
+        select
+            date_format(datetime, '%Y-%m-%d') as date,
+            count(*) as count
+        from
+            feed_tb
+        group by
+            date_format(datetime, '%Y-%m-%d')
+    </select>
+    <select id="getFeed" resultType="com.dogtiger.challus.entity.Feed">
+        select
+            feed_id as feedId,
+            feed_content as feedContent,
+            img
+        from
+            feed_tb
+        where
+            feed_id = #{feedId}
+    </select>
+
 </mapper>

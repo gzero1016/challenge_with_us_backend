@@ -28,7 +28,7 @@ public class JwtProvider {
         this.userMapper = userMapper;
     }
 
-    public String generateToken(Authentication authentication) {
+    public String generateToken(Authentication authentication, String oauth2Id) {
         String email = authentication.getName();
 
         Date date = new Date(new Date().getTime() + (1000 * 60 * 60 * 24));
@@ -37,6 +37,7 @@ public class JwtProvider {
                 .setSubject("AccessToken")
                 .setExpiration(date)
                 .claim("email", email)
+                .claim("OAuth2Id", oauth2Id)
                 .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
     }
@@ -50,11 +51,22 @@ public class JwtProvider {
 
     public Authentication getAuthentication(String token) {
         Claims claims = getClaims(token);
+
         if(claims == null) {
             return null;
         }
 
-        User user = userMapper.findUserByEmail(claims.get("email").toString());
+        String email = claims.get("email").toString();
+        String oauth2Id = claims.get("OAuth2Id") != null ? claims.get("OAuth2Id").toString() : null;
+
+        User user;
+
+        if(oauth2Id != null) {
+            user = userMapper.findUserByOauth2Id(oauth2Id);
+        }else {
+            user = userMapper.findUserByEmail(claims.get("email").toString());
+        }
+
         if(user == null) {
             return null;
         }

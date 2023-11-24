@@ -1,6 +1,7 @@
 package com.dogtiger.challus.filter;
 
 import com.dogtiger.challus.jwt.JwtProvider;
+import io.jsonwebtoken.JwtException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -22,13 +23,12 @@ public class JwtAuthenticationFilter extends GenericFilter {
 
         String bearerToken = httpServletRequest.getHeader("Authorization");
         String token = jwtProvider.removeBearer(bearerToken);
-        System.out.println("token: " + token);
         Authentication authentication = jwtProvider.getAuthentication(token);
 
         if(authentication != null) {
             SecurityContextHolder.getContext().setAuthentication(authentication);
         }
+
         chain.doFilter(request, response);
-        System.out.println("zsdfasdfa");
     }
 }
