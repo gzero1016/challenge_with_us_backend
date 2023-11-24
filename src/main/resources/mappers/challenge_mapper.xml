@@ -7,19 +7,18 @@
     <resultMap id="challengeMap" type="com.dogtiger.challus.entity.Challenge">
         <id property="challengeId" column="challenge_id" />
         <result property="userId" column="user_id" />
+        <result property="challengeLayout" column="challenge_layout" />
         <result property="challengeName" column="challenge_name" />
         <result property="introduction" column="challenge_introduction" />
-        <result property="isOpen" column="is_open" />
         <result property="isApplicable" column="is_applicable" />
         <result property="startDate" column="start_date" />
         <result property="endDate" column="end_date" />
         <result property="categoryName" column="category_name" />
         <result property="challengeLikeCount" column="challenge_like_count" />
-<<<<<<< Updated upstream
         <result property="layout" column="challenge_layout" />
-=======
         <result property="name" column="name" />
         <result property="nickname" column="nickname" />
+        <result property="name" column="name" />
         <result property="challenger" column="challenger" />
         <result property="isDeadline" column="is_deadline" />
         <result property="isHidden" column="is_hidden" />
@@ -48,46 +47,26 @@
         <result property="oauth2Id" column="oauth2_id" />
         <result property="profileUrl" column="profile_url" />
         <result property="enabled" column="enabled" />
->>>>>>> Stashed changes
     </resultMap>
 
     <insert id="saveChallenge" parameterType="com.dogtiger.challus.entity.Challenge">
         insert into challenge_tb
         values (
-        0, #{userId}, #{challengeName}, #{layout}, #{introduction},
-        <choose>
-            <when test="isOpen.equals('true')">
-                1
-            </when>
-            <otherwise>
-                0
-            </otherwise>
-        </choose>,
+        0, #{userId}, #{challengeName}, #{challengeLayout}, #{introduction},
         <choose>
             <when test="isApplicable.equals('true')">
-                1
+                0
             </when>
             <otherwise>
-                0
+                1
             </otherwise>
         </choose>,
-        #{startDate}, #{endDate}, #{categoryName}, #{challengeLikeCount}
+        #{startDate}, #{endDate}, #{categoryName}, 0, 0, 0, 0
         )
     </insert>
 
-    <insert id="challengeApplicable">
-        insert into challenge_application_tb
-        (
-            select
-                0,
-                challenge_id,
-                user_id,
-                if(is_applicable = 0, 1, 0)
-            from
-                challenge_tb
-            where
-                challenge_id = #{challengeId}
-        )
+    <insert id="challengeApplicable" statementType="CALLABLE">
+        {call p_insert_challenge_application(#{challengeId}, #{userId})}
     </insert>
 
     <select id="getChallengeByChallengeId" resultMap="challengeMap">
@@ -96,7 +75,6 @@
             ct.user_id,
             ct.challenge_name,
             ct.challenge_introduction,
-            ct.is_open,
             ct.is_applicable,
             ct.start_date,
             ct.end_date,
@@ -105,11 +83,104 @@
             ut.nickname,
             ct.challenge_like_count,
             ct.challenge_layout
+            ct.challenge_like_count,
+            ct.challenge_layout,
+            ct.challenger,
+            ct.is_deadline,
+            ct.is_hidden
         from
             challenge_tb ct
             left outer join user_tb ut on(ut.user_id = ct.user_id)
         where
             ct.challenge_id = #{challengeId}
+    </select>
+
+    <select id="getChallengeList" resultMap="challengeMap" parameterType="hashmap">
+        select
+            ct.challenge_id,
+            ct.user_id,
+            ct.challenge_name,
+            ct.challenge_introduction,
+            ct.is_applicable,
+            ct.start_date,
+            ct.end_date,
+            ct.category_name,
+            ut.name,
+            ct.challenge_like_count,
+            ct.challenge_layout,
+            ct.challenger,
+            ct.is_deadline,
+            ct.is_hidden
+        from
+            challenge_tb ct
+            left outer join user_tb ut on(ut.user_id = ct.user_id)
+        where
+        1 = 1
+            <choose>
+                <when test="sort.equals('hidden')">
+                    and is_hidden = 1
+                </when>
+                <when test="sort.equals('stop')">
+                    and is_deadline = 1
+                </when>
+                <otherwise>
+                    and is_hidden = 0
+                    and is_deadline = 0
+                </otherwise>
+            </choose>
+            <choose>
+                <when test="optionName.equals('전체')">
+                    and (ct.challenge_name like concat("%", #{searchValue}, "%")
+                    or ct.category_name like concat("%", #{searchValue}, "%"))
+                </when>
+                <when test="optionName.equals('챌린지제목')">
+                    and ct.challenge_name like concat("%", #{searchValue}, "%")
+                </when>
+                <when test="optionName.equals('카테고리이름')">
+                    and ct.category_name like concat("%", #{searchValue}, "%")
+                </when>
+            </choose>
+        order by
+            <choose>
+                <when test="sort.equals('latest')">
+                    ct.challenge_id desc
+                </when>
+                <when test="sort.equals('oldest')">
+                    ct.challenge_id asc
+                </when>
+                <when test="sort.equals('popular')">
+                    ct.challenge_like_count desc
+                </when>
+                <when test="sort.equals('participants')">
+                    ct.challenger desc
+                </when>
+                <otherwise>
+                    ct.challenge_id desc
+                </otherwise>
+            </choose>
+        limit #{index}, 30
+    </select>
+
+    <select id="getChallengeCount" resultType="java.lang.Integer">
+        select
+            count(*)
+        from
+            challenge_tb ct
+            left outer join user_tb ut on(ut.user_id = ct.user_id)
+        where
+            1 = 1
+            <choose>
+                <when test="optionName.equals('전체')">
+                    and ct.challenge_name like concat("%", #{searchValue}, "%")
+                    or ct.category_name like concat("%", #{searchValue}, "%")
+                </when>
+                <when test="optionName.equals('챌린지제목')">
+                    and ct.challenge_name like concat("%", #{searchValue}, "%")
+                </when>
+                <when test="optionName.equals('카테고리이름')">
+                    and ct.category_name like concat("%", #{searchValue}, "%")
+                </when>
+            </choose>
     </select>
 
     <select id="getLikeState" resultType="java.lang.Integer">
@@ -153,9 +224,52 @@
         and accept_state = 0
     </select>
 
+    <select id="getChallengersByChallengeId" resultMap="challengeApplicationMap">
+        select
+            cat.user_id,
+            ut.nickname
+        from
+            challenge_application_tb cat
+            left outer join user_tb ut on(ut.user_id = cat.user_id)
+        where
+            cat.accept_state = 1
+            and cat.challenge_id = #{challengeId}
+    </select>
+
     <update id="insertLike" parameterType="com.dogtiger.challus.entity.Challenge">
         insert into challenge_like_tb
         values(0, #{challengeId}, #{userId})
+    </update>
+
+    <update id="challengeApproval">
+        update challenge_application_tb
+        set
+            accept_state = 1
+        where
+            user_id = #{userId}
+        and challenge_id = #{challengeId}
+    </update>
+
+    <update id="challengeRefusal">
+        update challenge_application_tb
+        set
+            accept_state = 2
+        where
+            user_id = #{userId}
+        and challenge_id = #{challengeId}
+    </update>
+
+    <update id="challengeStop">
+        update challenge_tb
+        set
+            is_deadline = 1,
+            end_date = now()
+        where
+            challenge_id = #{challengeId}
+    </update>
+
+    <update id="challengeHidden">
+        call update_and_delete_challenge_data(#{challengeId});
     </update>
 
     <delete id="cancelLike" parameterType="com.dogtiger.challus.entity.Challenge">
@@ -175,4 +289,128 @@
             challenge_id = #{challengeId}
     </delete>
 
+    <delete id="deleteChallenger">
+        delete
+        from
+            challenge_application_tb
+        where
+            user_id = #{userId}
+        and challenge_id = #{challengeId}
+    </delete>
+
+    <select id="getApprovedChallengesByUserId" resultMap="challengeMap">
+        select
+            ct.challenge_id,
+            ct.user_id,
+            ct.challenge_name,
+            ct.challenge_introduction,
+            ct.is_applicable,
+            ct.start_date,
+            ct.end_date,
+            ct.category_name,
+            ct.challenge_like_count
+        from
+            challenge_tb ct
+            left outer join challenge_application_tb cat on(cat.challenge_id = ct.challenge_id)
+        where
+            cat.accept_state = 1
+        and cat.user_id = #{userId}
+        and ct.is_deadline = 0;
+    </select>
+
+    <select id="findReceiverUserId" resultType="int">
+        select
+            user_id
+        from
+            challenge_tb
+        where
+            challenge_id = #{challengeId}
+    </select>
+
+    <select id="getChallenges" resultMap="challengeMap" parameterType="hashmap">
+        select
+            ct.challenge_id,
+            ct.user_id,
+            ct.challenge_name,
+            ct.challenge_introduction,
+            ct.is_applicable,
+            ct.start_date,
+            ct.end_date,
+            ct.category_name,
+            ut.name,
+            ct.challenge_like_count,
+            ct.challenge_layout
+        from
+            challenge_tb ct
+            left outer join user_tb ut on(ut.user_id = ct.user_id)
+    </select>
+
+    <select id="getAdminChallengersCount" resultType="java.util.Map">
+        select
+            date_format(start_date, '%Y-%m-%d') as date,
+            count(*) as count
+        from
+            challenge_tb
+        where
+            is_deadline = 0
+            and is_hidden = 0
+        group by
+            date_format(start_date, '%Y-%m-%d')
+        order by
+            date asc;
+    </select>
+
+    <select id="getChallengeCompletedCount" resultType="java.util.Map">
+        select
+            date_format(end_date, '%Y-%m-%d') as date,
+            count(*) as count
+        from
+            challenge_tb
+        where
+            is_deadline = 1
+        group by
+            date_format(end_date, '%Y-%m-%d')
+    </select>
+
+    <select id="getChallengeDeletedCount" resultType="java.util.Map">
+        select
+            date_format(end_date, '%Y-%m-%d') as date,
+            count(*) as count
+        from
+            challenge_tb
+        where
+            is_hidden = 1
+        group by
+            date_format(end_date, '%Y-%m-%d')
+    </select>
+
+    <select id="getChallengeProgress" resultType="int">
+        select
+            count(distinct date(ft.datetime)) as count
+        from
+            challenge_tb ct
+            left outer join feed_tb ft on(ft.challenge_id = ct.challenge_id)
+        where
+            ct.challenge_id = #{challengeId};
+    </select>
+
+    <select id="getApprovedEndChallengesByUserId" resultMap="challengeMap">
+        select
+            ct.challenge_id,
+            ct.user_id,
+            ct.challenge_name,
+            ct.challenge_introduction,
+            ct.is_applicable,
+            ct.start_date,
+            ct.end_date,
+            ct.category_name,
+            ct.challenge_like_count
+        from
+            challenge_tb ct
+            left outer join challenge_application_tb cat on(cat.challenge_id = ct.challenge_id)
+        where
+            cat.accept_state = 1
+            and cat.user_id = #{userId}
+            and ct.is_deadline = 1;
+    </select>
 </mapper>

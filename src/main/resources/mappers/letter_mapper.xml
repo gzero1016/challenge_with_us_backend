@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.dogtiger.challus.repository.LetterMapper">
+    <resultMap id="letterMap" type="com.dogtiger.challus.entity.Letter">
+        <id property="letterId" column="letter_id" />
+        <result property="senderUserId" column="sender_user_id" />
+        <result property="receiverUserId" column="receiver_user_id" />
+        <result property="title" column="title" />
+        <result property="content" column="content" />
+        <result property="sendDateTime" column="send_date_time" />
+        <result property="isRead" column="is_read" />
+        <result property="letterType" column="letter_type" />
+        <result property="targetUrl" column="target_url" />
+        <result property="targetId" column="target_id" />
+        <result property="senderNickname" column="nickname" />
+        <result property="challengeId" column="challenge_id" />
+        <result property="acceptState" column="accept_state" />
+        <result property="challengeName" column="challenge_name" />
+        <association property="challengeApplication" resultMap="challengeApplicationMap" />
+        <association property="challenge" resultMap="challengeMap" />
+    </resultMap>
+
+    <resultMap id="challengeApplicationMap" type="com.dogtiger.challus.entity.ChallengeApplication">
+        <id property="challengeApplicationId" column="challenge_application_id" />
+        <result property="challengeId" column="challenge_id" />
+        <result property="userId" column="user_id" />
+        <result property="acceptState" column="accept_state" />
+    </resultMap>
+
+    <resultMap id="challengeMap" type="com.dogtiger.challus.entity.Challenge">
+        <id property="challengeId" column="challenge_id" />
+        <result property="userId" column="user_id" />
+        <result property="challengeName" column="challenge_name" />
+        <result property="introduction" column="challenge_introduction" />
+        <result property="isApplicable" column="is_applicable" />
+        <result property="startDate" column="start_date" />
+        <result property="endDate" column="end_date" />
+        <result property="categoryName" column="category_name" />
+        <result property="challengeLikeCount" column="challenge_like_count" />
+    </resultMap>
+
+    <insert id="challengeAtmosphereLetter" parameterType="com.dogtiger.challus.entity.Letter">
+        insert into letter_tb
+        values(0, #{senderUserId}, #{receiverUserId}, #{title}, #{content}, now(), 0, #{letterType}, #{targetUrl}, #{targetId})
+    </insert>
+
+    <insert id="challengeReport">
+        insert into letter_tb
+        values(0, #{senderUserId}, #{receiverUserId}, "신고가 들어왔습니다.", #{content}, now(), 0, 4, #{targetUrl}, #{targetId})
+    </insert>
+
+    <insert id="insertLetter">
+        insert into
+            letter_tb
+        values
+            (0, #{senderUserId}, #{receiverUserId}, #{title}, #{content}, now(), 0, 0, #{targetUrl}, #{targetId});
+    </insert>
+
+    <select id="findLettersByUserId" resultMap="letterMap">
+        select
+            lt.letter_id,
+            lt.sender_user_id,
+            lt.receiver_user_id,
+            lt.title,
+            lt.content,
+            lt.send_date_time,
+            lt.is_read,
+            lt.letter_type,
+            lt.target_url,
+            lt.target_id,
+            ut.nickname,
+            cat.challenge_id,
+            cat.accept_state,
+            ct.challenge_name
+        from
+            letter_tb lt
+            left outer join user_tb ut on (ut.user_id = lt.sender_user_id)
+            left outer join challenge_application_tb cat on (cat.challenge_id = lt.target_id)
+            left outer join challenge_tb ct on (ct.challenge_id = cat.challenge_id)
+        where
+            lt.receiver_user_id = #{userId}
+            AND (
+                lt.letter_type != 1
+                OR (lt.letter_type = 1 AND cat.user_id = lt.sender_user_id)
+            )
+        order by
+            lt.send_date_time desc;
+    </select>
+
+    <select id="getUnreadLettersCountByUserId" resultType="java.lang.Integer">
+        select
+            count(receiver_user_id)
+        from
+            letter_tb
+        where
+            receiver_user_id = #{userId}
+            and is_read = 0;
+    </select>
+
+    <select id="getLettersCountByUserId" resultType="java.lang.Integer">
+        select
+            count(receiver_user_id)
+        from
+            letter_tb
+        where
+            receiver_user_id = #{userId}
+    </select>
+
+    <select id="findLetterByLetterId" resultMap="letterMap">
+        select
+            letter_id,
+            sender_user_id,
+            receiver_user_id,
+            title,
+            content,
+            send_date_time,
+            is_read,
+            letter_type,
+            target_url,
+            target_id
+        from
+            letter_tb
+        where
+            letter_id = #{letterId}
+    </select>
+
+    <update id="updateLetter" parameterType="com.dogtiger.challus.entity.Letter">
+        update letter_tb
+        set
+            sender_user_id = #{senderUserId},
+            receiver_user_id = #{receiverUserId},
+            title = #{title},
+            content = #{content},
+            send_date_time = #{sendDateTime},
+            is_read = #{isRead},
+            letter_type = #{letterType},
+            target_url = #{targetUrl},
+            target_id = #{targetId}
+        where
+            letter_id = #{letterId}
+    </update>
+</mapper>

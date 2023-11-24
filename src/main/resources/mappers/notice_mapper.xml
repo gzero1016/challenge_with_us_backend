@@ -30,26 +30,64 @@
         <result property="enabled" column="enabled" />
     </resultMap>
 
-    <insert id="saveNotice">
+    <insert id="saveNotice" useGeneratedKeys="true" keyProperty="noticeId">
         insert into notice_tb
         values(0, #{noticeTitle}, #{noticeContent}, #{userId}, now())
-
     </insert>
-    <select id="getNoticeList"
-            resultMap="noticeMap"
-            parameterType="hashmap">
+
+    <select id="getNoticeList" resultMap="noticeMap">
         select
-          nt.notice_id,
-          nt.notice_title,
-          ut.nickname,
-          nt.notice_date
+            nt.notice_id,
+            nt.notice_title,
+            ut.nickname,
+            nt.notice_date
         from
             notice_tb nt
             left outer join user_tb ut on(ut.user_id = nt.user_id)
         where
             1=1
         order by
-            notice_id
-            limit #{index}, 10
+            notice_id desc
+            limit #{index}, 13
     </select>
+
+    <select id="getNoticesCount" resultType="java.lang.Integer">
+        select
+            count(*)
+        from
+            notice_tb;
+    </select>
+
+    <select id="getNoticeByNoticeId" resultMap="noticeMap">
+        select
+            nt.notice_id,
+            nt.notice_title,
+            nt.notice_content,
+            ut.nickname,
+            nt.notice_date
+        from
+            notice_tb nt
+            left outer join user_tb ut on(ut.user_id = nt.user_id)
+        where
+            nt.notice_id = #{noticeId}
+
+    </select>
+
+    <delete id="deleteNotice" parameterType="hashmap">
+        delete
+        from
+            notice_tb
+        where
+            notice_id = #{noticeId}
+    </delete>
+    <update id="updateNotice">
+        update notice_tb
+        set
+            notice_title = #{noticeTitle},
+            notice_content = #{noticeContent}
+        where
+            notice_id = #{noticeId}
+
+    </update>
+
 </mapper>

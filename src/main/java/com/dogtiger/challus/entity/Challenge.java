@@ -1,6 +1,6 @@
 package com.dogtiger.challus.entity;
 
-import com.dogtiger.challus.dto.GetChallengeRespDto;
+import com.dogtiger.challus.dto.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -8,8 +8,10 @@ import lombok.NoArgsConstructor;
 
 import javax.swing.text.DateFormatter;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
+import java.util.Date;
 
 @Builder
 @Data
@@ -19,22 +21,18 @@ public class Challenge {
     private int challengeId;
     private int userId;
     private String challengeName;
-    private int layout;
+    private int challengeLayout;
     private String introduction;
-    private String isOpen;
     private String isApplicable;
-    private LocalDate startDate;
-    private LocalDate endDate;
+    private LocalDateTime startDate;
+    private LocalDateTime endDate;
     private String categoryName;
     private String name;
     private String nickname;
     private int challengeLikeCount;
-<<<<<<< Updated upstream
-=======
     private int challenger;
     private int isDeadline;
     private int isHidden;
-
 
     private ChallengeApplication challengeApplication;
 
@@ -56,23 +54,36 @@ public class Challenge {
                 .isHidden(isHidden)
                 .build();
     }
->>>>>>> Stashed changes
 
     public GetChallengeRespDto toChallengeDto() {
-        return GetChallengeRespDto.builder()
+        GetChallengeRespDto getChallengeRespDto = GetChallengeRespDto.builder()
                 .challengeId(challengeId)
                 .userId(userId)
                 .challengeName(challengeName)
-                .layout(layout)
+                .layout(challengeLayout)
                 .introduction(introduction)
-                .isOpen(isOpen)
                 .isApplicable(isApplicable)
                 .startDate(startDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")))
-                .endDate(endDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")))
                 .categoryName(categoryName)
                 .name(name)
                 .challengeLikeCount(challengeLikeCount)
+                .challenger(challenger)
                 .build();
+
+        if(endDate != null) {
+            getChallengeRespDto.setEndDate(endDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+        }else {
+            endDate = null;
+        }
+        return getChallengeRespDto;
     }
 
+    public ApprovedChallengesRespDto toApprovedChallengesRespDto() {
+        return ApprovedChallengesRespDto.builder()
+                .challengeId(challengeId)
+                .challengeName(challengeName)
+                .startDate(startDate)
+                .endDate(endDate)
+                .build();
+    }
 }
