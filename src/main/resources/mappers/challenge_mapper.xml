@@ -15,7 +15,40 @@
         <result property="endDate" column="end_date" />
         <result property="categoryName" column="category_name" />
         <result property="challengeLikeCount" column="challenge_like_count" />
+<<<<<<< Updated upstream
         <result property="layout" column="challenge_layout" />
+=======
+        <result property="name" column="name" />
+        <result property="nickname" column="nickname" />
+        <result property="challenger" column="challenger" />
+        <result property="isDeadline" column="is_deadline" />
+        <result property="isHidden" column="is_hidden" />
+        <association property="challengeApplication" resultMap="challengeApplicationMap" />
+    </resultMap>
+
+    <resultMap id="challengeApplicationMap" type="com.dogtiger.challus.entity.ChallengeApplication">
+        <id property="challengeApplicationId" column="challenge_application_id" />
+        <result property="challengeId" column="challenge_id" />
+        <result property="userId" column="user_id" />
+        <result property="acceptState" column="accept_state" />
+        <association property="user" resultMap="userMap" />
+    </resultMap>
+
+    <resultMap id="userMap" type="com.dogtiger.challus.entity.User">
+        <id property="userId" column="user_id" />
+        <result property="email" column="email" />
+        <result property="name" column="name" />
+        <result property="phone" column="phone" />
+        <result property="nickname" column="nickname" />
+        <result property="password" column="password" />
+        <result property="point" column="point" />
+        <result property="intro" column="intro" />
+        <result property="membership" column="membership" />
+        <result property="isAdmin" column="is_admin" />
+        <result property="oauth2Id" column="oauth2_id" />
+        <result property="profileUrl" column="profile_url" />
+        <result property="enabled" column="enabled" />
+>>>>>>> Stashed changes
     </resultMap>
 
     <insert id="saveChallenge" parameterType="com.dogtiger.challus.entity.Challenge">
@@ -69,6 +102,7 @@
             ct.end_date,
             ct.category_name,
             ut.name,
+            ut.nickname,
             ct.challenge_like_count,
             ct.challenge_layout
         from

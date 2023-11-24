@@ -27,7 +27,36 @@ public class Challenge {
     private LocalDate endDate;
     private String categoryName;
     private String name;
+    private String nickname;
     private int challengeLikeCount;
+<<<<<<< Updated upstream
+=======
+    private int challenger;
+    private int isDeadline;
+    private int isHidden;
+
+
+    private ChallengeApplication challengeApplication;
+
+    public ChallengeListRespDto toChallengeListDto() {
+        return ChallengeListRespDto.builder()
+                .challengeId(challengeId)
+                .challengeName(challengeName)
+                .categoryName(categoryName)
+                .isApplicable(isApplicable)
+                .userId(userId)
+                .layout(challengeLayout)
+                .introduction(introduction)
+                .endDate(endDate.format(DateTimeFormatter.ISO_DATE))
+                .name(name)
+                .nickname(nickname)
+                .startDate(startDate.format(DateTimeFormatter.ISO_DATE))
+                .likeCount(challengeLikeCount)
+                .isDeadline(isDeadline)
+                .isHidden(isHidden)
+                .build();
+    }
+>>>>>>> Stashed changes
 
     public GetChallengeRespDto toChallengeDto() {
         return GetChallengeRespDto.builder()
