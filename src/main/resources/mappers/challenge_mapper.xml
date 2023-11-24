@@ -15,6 +15,9 @@
         <result property="endDate" column="end_date" />
         <result property="categoryName" column="category_name" />
         <result property="challengeLikeCount" column="challenge_like_count" />
+        <result property="layout" column="challenge_layout" />
+        <result property="name" column="name" />
+        <result property="nickname" column="nickname" />
         <result property="name" column="name" />
         <result property="challenger" column="challenger" />
         <result property="isDeadline" column="is_deadline" />
@@ -77,6 +80,9 @@
             ct.end_date,
             ct.category_name,
             ut.name,
+            ut.nickname,
+            ct.challenge_like_count,
+            ct.challenge_layout
             ct.challenge_like_count,
             ct.challenge_layout,
             ct.challenger,

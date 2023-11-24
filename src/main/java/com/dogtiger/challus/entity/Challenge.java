@@ -28,6 +28,7 @@ public class Challenge {
     private LocalDateTime endDate;
     private String categoryName;
     private String name;
+    private String nickname;
     private int challengeLikeCount;
     private int challenger;
     private int isDeadline;
@@ -46,6 +47,7 @@ public class Challenge {
                 .introduction(introduction)
                 .endDate(endDate.format(DateTimeFormatter.ISO_DATE))
                 .name(name)
+                .nickname(nickname)
                 .startDate(startDate.format(DateTimeFormatter.ISO_DATE))
                 .likeCount(challengeLikeCount)
                 .isDeadline(isDeadline)

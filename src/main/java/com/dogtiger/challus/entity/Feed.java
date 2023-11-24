@@ -25,6 +25,9 @@ public class Feed {
     private String feedContent;
     private int stopWatch;
     private String img;
+    private LocalDate dateTime;
+    private int challengeLayout;
+    private int layout;
     private LocalDateTime dateTime;
     private LocalDateTime updatetime;
     private String nickname;
