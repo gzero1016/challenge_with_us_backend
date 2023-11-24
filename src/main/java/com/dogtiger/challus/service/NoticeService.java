@@ -49,7 +49,7 @@ public class NoticeService {
     }
 
     public List<NoticeListRespDto> noticeListGet(int page) {
-        int index = (page - 1) * 10;
+        int index = (page - 1) * 13;
         List<NoticeListRespDto> noticeListRespDtos = new ArrayList<>();
         noticeMapper.getNoticeList(page, index).forEach(notice -> {
             noticeListRespDtos.add(notice.noticeListRespDto());
