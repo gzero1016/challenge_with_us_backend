@@ -5,15 +5,18 @@ import com.dogtiger.challus.entity.Challenge;
 import com.dogtiger.challus.entity.ChallengeApplication;
 import com.dogtiger.challus.entity.Letter;
 import com.dogtiger.challus.entity.User;
+import com.dogtiger.challus.exception.InvalidDateRangeException;
 import com.dogtiger.challus.repository.ChallengeMapper;
 import com.dogtiger.challus.security.PrincipalUser;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cglib.core.Local;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
@@ -27,7 +30,18 @@ import java.util.stream.Collectors;
 public class ChallengeService {
     private final ChallengeMapper challengeMapper;
 
-    public boolean saveChallenge(ChallengeCreateReqDto challengeCreateReqDto) {
+    public boolean saveChallenge(ChallengeCreateReqDto challengeCreateReqDto) throws InvalidDateRangeException {
+        LocalDate startDate = challengeCreateReqDto.getStartDate().toLocalDate();
+        LocalDate endDate = challengeCreateReqDto.getEndDate().toLocalDate();
+
+        if (startDate.compareTo(endDate) > 0) {
+            throw new InvalidDateRangeException("시작 날짜가 마감 날짜보다 미래 시점에 있습니다.");
+        }
+
+        if (startDate.compareTo(LocalDate.now()) < 0) {
+            throw new InvalidDateRangeException("시작 날짜가 현재보다 과거 시점에 있습니다.");
+        }
+
         return challengeMapper.saveChallenge(challengeCreateReqDto.toChallengeEntity()) > 0;
     }
 

@@ -1,6 +1,7 @@
 package com.dogtiger.challus.controller;
 
 import com.dogtiger.challus.dto.*;
+import com.dogtiger.challus.exception.InvalidDateRangeException;
 import com.dogtiger.challus.security.PrincipalUser;
 import com.dogtiger.challus.service.ChallengeService;
 import lombok.RequiredArgsConstructor;
@@ -16,7 +17,7 @@ public class ChallengeController {
     private final ChallengeService challengeService;
 
     @PostMapping("/api/challenge/create")
-    public ResponseEntity<?> savechallenge(@RequestBody ChallengeCreateReqDto challengeCreateReqDto){
+    public ResponseEntity<?> savechallenge(@RequestBody ChallengeCreateReqDto challengeCreateReqDto) throws InvalidDateRangeException {
         return ResponseEntity.ok().body(challengeService.saveChallenge(challengeCreateReqDto));
     }
 
