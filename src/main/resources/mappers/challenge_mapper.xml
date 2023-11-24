@@ -70,6 +70,10 @@
         {call p_insert_challenge_application(#{challengeId}, #{userId})}
     </insert>
 
+    <insert id="saveFeedPoint" statementType="CALLABLE">
+        {call p_insert_point(#{challengeUserId}, #{userId})}
+    </insert>
+
     <select id="getChallengeByChallengeId" resultMap="challengeMap">
         select
             ct.challenge_id,

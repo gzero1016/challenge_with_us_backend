@@ -97,8 +97,6 @@ public class AccountService {
         PrincipalUser principalUser = (PrincipalUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         int userId = principalUser.getUser().getUserId();
 
-        System.out.println(userMapper.getProgress(challengeId, userId));
-
         return userMapper.getProgress(challengeId, userId);
     }
 
@@ -107,8 +105,6 @@ public class AccountService {
         int userId = principalUser.getUser().getUserId();
 
         List<Feed> feedList = userMapper.getChallengeFeeds(challengeId, userId);
-
-        System.out.println(feedList);
 
         return feedList.stream().map(Feed::toFeedResDto).collect(Collectors.toList());
     }

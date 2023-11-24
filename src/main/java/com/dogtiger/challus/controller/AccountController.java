@@ -66,7 +66,6 @@ public class AccountController {
 
     @GetMapping("/api/account/{challengeId}/feed")
     public ResponseEntity<?> getChallengeFeeds(@PathVariable int challengeId) {
-        System.out.println(challengeId);
         return ResponseEntity.ok(accountService.getChallengeFeeds(challengeId));
     }
 }
