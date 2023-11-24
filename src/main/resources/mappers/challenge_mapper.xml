@@ -117,14 +117,14 @@
         1 = 1
             <choose>
                 <when test="sort.equals('hidden')">
-                    and is_hidden = 1
+                    and ct.is_hidden = 1
                 </when>
                 <when test="sort.equals('stop')">
-                    and is_deadline = 1
+                    and ct.is_deadline = 1
                 </when>
                 <otherwise>
-                    and is_hidden = 0
-                    and is_deadline = 0
+                    and ct.is_hidden = 0
+                    and ct.is_deadline = 0
                 </otherwise>
             </choose>
             <choose>

@@ -30,6 +30,8 @@ public class ChallengeController {
     public ResponseEntity<?> getChallengeList(
             @PathVariable int page,
             SearchChallengeListReqDto searchChallengeListReqDto) {
+
+        System.out.println(searchChallengeListReqDto);
         return ResponseEntity.ok(challengeService.getChallengeList(page, searchChallengeListReqDto));
     }
 

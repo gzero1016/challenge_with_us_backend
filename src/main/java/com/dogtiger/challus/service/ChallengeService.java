@@ -58,6 +58,8 @@ public class ChallengeService {
         paramsMap.put("sort", searchChallengeListReqDto.getSort());
         List<Challenge> challenges = challengeMapper.getChallengeList(paramsMap);
 
+        System.out.println(challenges);
+
         return challenges.stream().map(Challenge::toChallengeListDto).collect(Collectors.toList());
     }
 
