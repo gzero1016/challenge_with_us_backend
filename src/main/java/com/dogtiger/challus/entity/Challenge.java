@@ -69,6 +69,8 @@ public class Challenge {
                 .name(name)
                 .challengeLikeCount(challengeLikeCount)
                 .challenger(challenger)
+                .isDeadline(isDeadline)
+                .isHidden(isHidden)
                 .build();
 
         if(endDate != null) {
