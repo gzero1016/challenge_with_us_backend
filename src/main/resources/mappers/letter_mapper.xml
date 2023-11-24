@@ -9,6 +9,7 @@
         <result property="senderUserId" column="sender_user_id" />
         <result property="receiverUserId" column="receiver_user_id" />
         <result property="title" column="title" />
+        <result property="letterTitle" column="letter_title" />
         <result property="content" column="content" />
         <result property="sendDateTime" column="send_date_time" />
         <result property="isRead" column="is_read" />
@@ -44,19 +45,19 @@
 
     <insert id="challengeAtmosphereLetter" parameterType="com.dogtiger.challus.entity.Letter">
         insert into letter_tb
-        values(0, #{senderUserId}, #{receiverUserId}, #{title}, #{content}, now(), 0, #{letterType}, #{targetUrl}, #{targetId})
+        values(0, #{senderUserId}, #{receiverUserId}, #{letterTitle}, #{title}, #{content}, now(), 0, #{letterType}, #{targetUrl}, #{targetId})
     </insert>
 
     <insert id="challengeReport">
         insert into letter_tb
-        values(0, #{senderUserId}, #{receiverUserId}, "신고가 들어왔습니다.", #{content}, now(), 0, 4, #{targetUrl}, #{targetId})
+        values(0, #{senderUserId}, #{receiverUserId}, "신고가 들어왔습니다.", #{title}, #{content}, now(), 0, 4, #{targetUrl}, #{targetId})
     </insert>
 
     <insert id="insertLetter">
         insert into
             letter_tb
         values
-            (0, #{senderUserId}, #{receiverUserId}, #{title}, #{content}, now(), 0, 0, #{targetUrl}, #{targetId});
+            (0, #{senderUserId}, #{receiverUserId}, #{letterTitle}, #{title}, #{content}, now(), 0, 0, #{targetUrl}, #{targetId});
     </insert>
 
     <select id="findLettersByUserId" resultMap="letterMap">
@@ -64,6 +65,7 @@
             lt.letter_id,
             lt.sender_user_id,
             lt.receiver_user_id,
+            lt.letter_title,
             lt.title,
             lt.content,
             lt.send_date_time,
@@ -114,6 +116,7 @@
             letter_id,
             sender_user_id,
             receiver_user_id,
+            letter_title,
             title,
             content,
             send_date_time,
@@ -132,6 +135,7 @@
         set
             sender_user_id = #{senderUserId},
             receiver_user_id = #{receiverUserId},
+            letter_title = #{letterTitle}
             title = #{title},
             content = #{content},
             send_date_time = #{sendDateTime},

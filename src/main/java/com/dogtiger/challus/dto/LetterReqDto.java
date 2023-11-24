@@ -13,6 +13,7 @@ import lombok.NoArgsConstructor;
 public class LetterReqDto {
     private int senderUserId;
     private int receiverUserId;
+    private String letterTitle;
     private String title;
     private String content;
     private String targetUrl;
@@ -22,15 +23,16 @@ public class LetterReqDto {
         Letter letter = Letter.builder()
                 .senderUserId(senderUserId)
                 .receiverUserId(receiverUserId)
+                .letterTitle(letterTitle)
                 .title(title)
                 .content(content)
                 .targetUrl(targetUrl)
                 .targetId(targetId)
                 .build();
-        if(letter.getTitle().equals("챌린지 승인 완료")) {
+        if(letter.getLetterTitle().equals("챌린지 승인 완료")) {
             letter.setLetterType(3);
 
-        }else if(letter.getTitle().equals("챌린지 승인 거부")){
+        }else if(letter.getLetterTitle().equals("챌린지 승인 거부")){
             letter.setLetterType(4);
 
         }

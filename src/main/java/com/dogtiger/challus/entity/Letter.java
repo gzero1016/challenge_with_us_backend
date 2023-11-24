@@ -19,6 +19,7 @@ public class Letter {
     private int senderUserId;
     private int receiverUserId;
     private String title;
+    private String letterTitle;
     private String content;
     private LocalDateTime sendDateTime;
     private int isRead;
@@ -40,6 +41,7 @@ public class Letter {
                 .senderUserId(senderUserId)
                 .senderNickname(senderNickname)
                 .receiverUserId(receiverUserId)
+                .letterTitle(letterTitle)
                 .title(title)
                 .content(content)
                 .sendDateTime(sendDateTime.format(DateTimeFormatter.ofPattern("MM월dd일 HH시mm분")))
