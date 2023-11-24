@@ -20,4 +20,6 @@ public class GetChallengeRespDto {
     private String nickname;
     private int challengeLikeCount;
     private int challenger;
+    private int isDeadline;
+    private int isHidden;
 }
