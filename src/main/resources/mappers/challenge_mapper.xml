@@ -267,8 +267,8 @@
             challenge_id = #{challengeId}
     </update>
 
-    <update id="challengeHidden">
-        call update_and_delete_challenge_data(#{challengeId});
+    <update id="challengeHidden" statementType="CALLABLE">
+        call p_update_and_delete_challenge_data(#{challengeId});
     </update>
 
     <delete id="cancelLike" parameterType="com.dogtiger.challus.entity.Challenge">
