@@ -72,6 +72,7 @@ public class FeedService {
         return feedMapper.findFeedLikeCountByFeedIdAndUserId(feedId, userId);
     }
 
+    @Transactional(rollbackFor = Exception.class)
     public void likeToFeed(int feedId) throws Exception {
         PrincipalUser principalUser = (PrincipalUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         int userId = principalUser.getUser().getUserId();
@@ -82,6 +83,19 @@ public class FeedService {
         int result = feedMapper.insertFeedLike(FeedLike.builder()
                 .feedId(feedId)
                 .userId(userId)
+                .build());
+
+        Feed feed = feedMapper.getFeed(feedId);
+        Challenge challenge = challengeMapper.getChallengeByChallengeId(feed.getChallengeId());
+
+        letterMapper.insertLetter(Letter.builder()
+                .senderUserId(userId)
+                .receiverUserId(feed.getUserId())
+                .letterTitle("좋아요")
+                .title("작성하신 피드에 좋아요가 달렸습니다.")
+                .content(challenge.getChallengeName() + " 챌린지에 작성한 피드입니다.")
+                .targetUrl("http://localhost:3000/challenge/" + challenge.getChallengeId())
+                .targetId(challenge.getChallengeId())
                 .build());
 
         if(result == 0) {
