@@ -58,8 +58,6 @@ public class ChallengeService {
         paramsMap.put("sort", searchChallengeListReqDto.getSort());
         List<Challenge> challenges = challengeMapper.getChallengeList(paramsMap);
 
-        System.out.println(challenges);
-
         return challenges.stream().map(Challenge::toChallengeListDto).collect(Collectors.toList());
     }
 
@@ -168,7 +166,13 @@ public class ChallengeService {
     }
 
     public int getChallengeProgress(int challengeId) {
-        System.out.println(challengeMapper.getChallengeProgress(challengeId));
         return challengeMapper.getChallengeProgress(challengeId);
+    }
+
+    public boolean saveFeedPoint(int challengeUserId) {
+        PrincipalUser principalUser = (PrincipalUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        int userId = principalUser.getUser().getUserId();
+
+        return challengeMapper.saveFeedPoint(userId, challengeUserId) > 0;
     }
 }

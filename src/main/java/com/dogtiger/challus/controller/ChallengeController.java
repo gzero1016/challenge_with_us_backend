@@ -139,4 +139,10 @@ public class ChallengeController {
     public ResponseEntity<?> getChallengeProgress(@PathVariable int challengeId) {
         return ResponseEntity.ok(challengeService.getChallengeProgress(challengeId));
     }
+
+    @PostMapping("/api/challenge/feed/{challengeUserId}/point")
+    public ResponseEntity<?> saveFeedPoint(@PathVariable int challengeUserId) {
+        System.out.println(challengeUserId);
+        return ResponseEntity.ok(challengeService.saveFeedPoint(challengeUserId));
+    }
 }
