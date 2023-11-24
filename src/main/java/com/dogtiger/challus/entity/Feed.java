@@ -25,9 +25,6 @@ public class Feed {
     private String feedContent;
     private int stopWatch;
     private String img;
-    private LocalDate dateTime;
-    private int challengeLayout;
-    private int layout;
     private LocalDateTime dateTime;
     private LocalDateTime updatetime;
     private String nickname;
@@ -36,7 +33,7 @@ public class Feed {
 
     private User user;
 
-    public FeedResDto toFeedResDto(){
+    public FeedResDto toFeedResDto() {
         return FeedResDto
                 .builder()
                 .feedId(feedId)

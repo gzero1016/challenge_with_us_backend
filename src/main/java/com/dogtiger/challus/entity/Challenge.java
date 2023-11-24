@@ -65,6 +65,7 @@ public class Challenge {
                 .isApplicable(isApplicable)
                 .startDate(startDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")))
                 .categoryName(categoryName)
+                .nickname(nickname)
                 .name(name)
                 .challengeLikeCount(challengeLikeCount)
                 .challenger(challenger)
