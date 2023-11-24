@@ -4,6 +4,8 @@ package com.dogtiger.challus.dto;
 import lombok.Builder;
 import lombok.Data;
 
+import java.time.LocalDateTime;
+
 @Builder
 @Data
 public class GetAdminUserResDto {
@@ -19,4 +21,6 @@ public class GetAdminUserResDto {
     private String oauth2Id;
     private String profileUrl;
     private int enabled;
+    private LocalDateTime datetime;
+    private int isResign;
 }

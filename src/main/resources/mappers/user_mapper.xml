@@ -37,6 +37,8 @@
         <result property="oauth2Id" column="oauth2_id" />
         <result property="profileUrl" column="profile_url" />
         <result property="enabled" column="enabled" />
+        <result property="datetime" column="datetime" />
+        <result property="isResign" column="is_resign" />
     </resultMap>
 
     <insert id="saveUser" parameterType="com.dogtiger.challus.entity.User">
@@ -60,7 +62,8 @@
                 default
             </if>,
             0,
-            now()
+            now(),
+            0
         );
     </insert>
 
@@ -78,7 +81,10 @@
             #{membership},
             #{isAdmin},
             #{oauth2Id},
-            #{profileUrl}
+            #{profileUrl},
+            0,
+            now(),
+            0
         );
     </insert>
 
@@ -99,12 +105,8 @@
             user_id = #{userId}
     </update>
 
-    <delete id="deleteUser">
-        delete
-        from
-            user_tb
-        where
-            user_id = #{userId}
+    <delete id="deleteUser" statementType="CALLABLE">
+        {call p_delete_user(#{userId})}
     </delete>
 
     <select id="findUserByEmail" resultMap="userMap">

@@ -30,7 +30,8 @@ public class AccountController {
 
     @DeleteMapping("/api/account/{userId}")
     public ResponseEntity<?> deleteUser(@PathVariable int userId) {
-        return ResponseEntity.ok(accountService.deleteUser(userId));
+        accountService.deleteUser(userId);
+        return ResponseEntity.ok("회원 삭제 성공");
     }
 
     @GetMapping("/api/account/intro")

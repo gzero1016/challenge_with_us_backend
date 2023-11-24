@@ -8,6 +8,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
 @Builder
 @Data
 @NoArgsConstructor
@@ -26,6 +29,8 @@ public class User {
     private String oauth2Id;
     private String profileUrl;
     private int enabled;
+    private LocalDateTime datetime;
+    private int isResign;
 
     private Challenge challenge;
 
@@ -43,6 +48,8 @@ public class User {
                 .oauth2Id(oauth2Id)
                 .profileUrl(profileUrl)
                 .enabled(enabled)
+                .datetime(datetime)
+                .isResign(isResign)
                 .build();
     }
 
@@ -60,6 +67,8 @@ public class User {
                 .oauth2Id(oauth2Id)
                 .profileUrl(profileUrl)
                 .enabled(enabled)
+                .datetime(datetime)
+                .isResign(isResign)
                 .build();
     }
 }

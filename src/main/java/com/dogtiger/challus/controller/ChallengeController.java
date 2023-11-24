@@ -18,6 +18,7 @@ public class ChallengeController {
 
     @PostMapping("/api/challenge/create")
     public ResponseEntity<?> savechallenge(@RequestBody ChallengeCreateReqDto challengeCreateReqDto) throws InvalidDateRangeException {
+
         return ResponseEntity.ok().body(challengeService.saveChallenge(challengeCreateReqDto));
     }
 
