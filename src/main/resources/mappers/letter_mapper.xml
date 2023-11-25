@@ -135,7 +135,7 @@
         set
             sender_user_id = #{senderUserId},
             receiver_user_id = #{receiverUserId},
-            letter_title = #{letterTitle}
+            letter_title = #{letterTitle},
             title = #{title},
             content = #{content},
             send_date_time = #{sendDateTime},
