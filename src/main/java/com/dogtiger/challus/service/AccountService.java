@@ -58,6 +58,10 @@ public class AccountService {
     }
 
     public boolean updateIntro(IntroReqDto introReqDto) {
+        PrincipalUser principalUser = (PrincipalUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        int userId = principalUser.getUser().getUserId();
+        introReqDto.setUserId(userId);
+
         return userMapper.updateIntro(introReqDto.toUserEntity()) > 0;
     }
 
