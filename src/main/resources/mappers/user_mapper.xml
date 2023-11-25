@@ -93,7 +93,7 @@
         set
             intro = #{intro}
         where
-            nickname = #{nickname}
+            user_id = #{userId}
     </update>
 
     <update id="updateMypageDetail" parameterType="com.dogtiger.challus.entity.User">

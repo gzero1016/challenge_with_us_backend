@@ -74,6 +74,7 @@ public class FeedController {
 
     @PutMapping("/api/feed/{feedId}/comment/{commentId}")
     public ResponseEntity<?> modifyComment(@PathVariable int feedId, @PathVariable int commentId, @RequestBody ModifyCommentReqDto modifyCommentReqDto) throws Exception {
+        System.out.println(modifyCommentReqDto);
         feedService.modifyComment(feedId, commentId, modifyCommentReqDto);
         return ResponseEntity.ok("");
     }

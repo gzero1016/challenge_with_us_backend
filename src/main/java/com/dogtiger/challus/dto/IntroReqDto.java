@@ -6,11 +6,11 @@ import lombok.Data;
 @Data
 public class IntroReqDto {
     private String intro;
-    private String nickname;
+    private int userId;
 
     public User toUserEntity() {
         return User.builder()
-                .nickname(nickname)
+                .userId(userId)
                 .intro(intro)
                 .build();
     }
