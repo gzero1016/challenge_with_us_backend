@@ -268,11 +268,22 @@
         group by
             date_format(datetime, '%Y-%m-%d')
     </select>
+
     <select id="getFeed" resultType="com.dogtiger.challus.entity.Feed">
         select
             feed_id as feedId,
+            challenge_layout challengeLayout,
+            layout,
+            user_id as userId,
+            challenge_id as challengeId,
+            challenge_name as challengeName,
+            category_name as categoryName,
             feed_content as feedContent,
-            img
+            stopwatch,
+            img,
+            datetime,
+            updatetime,
+            feed_like as feedLike
         from
             feed_tb
         where
