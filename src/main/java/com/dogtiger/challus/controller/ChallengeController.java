@@ -42,12 +42,6 @@ public class ChallengeController {
         return ResponseEntity.ok(challengeService.getPopularChallenge(getPopularChallengeReqDto));
     }
 
-    @GetMapping("/api/challenges/count")
-    public ResponseEntity<?> getChallengeCount(
-            SearchChallengeListReqDto searchChallengeListReqDto) {
-        return ResponseEntity.ok(challengeService.getChallengeCount(searchChallengeListReqDto));
-    }
-
     @GetMapping("/api/challenge/{challengeId}/like")
     public ResponseEntity<?> getLikeState(@PathVariable int challengeId) {
         return ResponseEntity.ok(challengeService.getLikeState(challengeId));

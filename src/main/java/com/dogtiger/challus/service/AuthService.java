@@ -62,22 +62,6 @@ public class AuthService {
         return result;
     }
 
-    public boolean checkPassword(PasswordMatchesReqDto passwordMatchesReqDto) {
-        try {
-            PrincipalUser principalUser = (PrincipalUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-
-            boolean passwordMatches = passwordEncoder.matches(passwordMatchesReqDto.getPassword(), principalUser.getPassword());
-
-            if (passwordMatches) {
-                return true;
-            } else {
-                throw new AuthenticationException("비밀번호가 일치하지 않습니다.") {
-                };
-            }
-        } catch (AuthenticationException e) {
-            return false;
-        }
-    }
 
     public List<GetAdminUserResDto> adminListGet() {
         List<User> adminUserList = userMapper.getIsAdminUser();

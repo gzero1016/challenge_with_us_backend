@@ -22,7 +22,6 @@ public interface UserMapper {
     public Integer saveUser(User user);
     public List<Map<String, Object>> getMembersCount();
     public List<Integer> getUserIdAll();
-    public int checkpassword(String password);
     public List<User> getIsAdminUser();
     public int getProgress(int challengeId, int userId);
     public List<Feed> getChallengeFeeds (int challengeId, int userId);
