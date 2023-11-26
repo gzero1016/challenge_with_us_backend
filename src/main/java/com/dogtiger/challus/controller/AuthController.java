@@ -73,11 +73,6 @@ public class AuthController {
         return ResponseEntity.ok(authService.getMembersCount());
     }
 
-    @PostMapping("/api/account/checkpassword")
-    public ResponseEntity<?> checkPassword(@RequestBody PasswordMatchesReqDto passwordMatchesReqDto) {
-        return ResponseEntity.ok(authService.checkPassword(passwordMatchesReqDto));
-    }
-
     @GetMapping("/api/admin")
     public ResponseEntity<?> adminListUser() {
         return ResponseEntity.ok(authService.adminListGet());
