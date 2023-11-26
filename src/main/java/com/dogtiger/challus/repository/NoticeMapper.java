@@ -9,7 +9,7 @@ import java.util.Map;
 @Mapper
 public interface NoticeMapper {
     public int saveNotice(Notice notice);
-    public List<Notice> getNoticeList(int page, int index);
+    public List<Notice> getNoticeList(int page, int index, int pageSize);
     public Notice getNoticeByNoticeId(int noticeId);
     public Integer getNoticesCount();
     public int deleteNotice(int noticeId);

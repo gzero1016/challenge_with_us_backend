@@ -24,9 +24,8 @@ public class NoticeController {
     }
 
     @GetMapping("/api/notices/{page}")
-    public ResponseEntity<?> noticeListGet(@PathVariable int page){
-        System.out.println(page);
-        List<NoticeListRespDto> noticeList = noticeService.noticeListGet(page);
+    public ResponseEntity<?> noticeListGet(@PathVariable int page, @RequestParam int pageSize){
+        List<NoticeListRespDto> noticeList = noticeService.noticeListGet(page, pageSize);
         return ResponseEntity.ok(noticeList);
     }
 
