@@ -1,5 +1,6 @@
 package com.dogtiger.challus.repository;
 
+import com.dogtiger.challus.dto.GetPopularChallengeReqDto;
 import com.dogtiger.challus.entity.*;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -13,6 +14,7 @@ public interface ChallengeMapper {
     public Challenge getChallengeByChallengeId(int challengeId);
     public List<Challenge> getChallenges();
     public List<Challenge> getChallengeList(Map<String, Object> paramsMap);
+    public Challenge getPopularChallenge(GetPopularChallengeReqDto getPopularChallengeReqDto);
     public int getChallengeCount(Map<String, Object> paramsMap);
     public int getLikeState(int challengeId);
     public int getUserLikeState(Challenge challenge);
