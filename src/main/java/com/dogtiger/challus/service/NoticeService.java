@@ -49,10 +49,13 @@ public class NoticeService {
         return result;
     }
 
-    public List<NoticeListRespDto> noticeListGet(int page) {
-        int index = (page - 1) * 13;
+    public List<NoticeListRespDto> noticeListGet(int page, int pageSize) {
+        if(pageSize < 0) {
+            throw new IllegalArgumentException("올바르지 않은 페이지 크기 입니다.");
+        }
+        int index = (page - 1) * pageSize;
         List<NoticeListRespDto> noticeListRespDtos = new ArrayList<>();
-        noticeMapper.getNoticeList(page, index).forEach(notice -> {
+        noticeMapper.getNoticeList(page, index, pageSize).forEach(notice -> {
             noticeListRespDtos.add(notice.noticeListRespDto());
         });
 

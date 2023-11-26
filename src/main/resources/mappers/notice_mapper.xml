@@ -48,7 +48,7 @@
             1=1
         order by
             notice_id desc
-            limit #{index}, 13
+            limit #{index}, #{pageSize}
     </select>
 
     <select id="getNoticesCount" resultType="java.lang.Integer">
