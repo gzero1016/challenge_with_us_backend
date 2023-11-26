@@ -15,6 +15,7 @@ public interface ChallengeMapper {
     public List<Challenge> getChallenges();
     public List<Challenge> getChallengeList(Map<String, Object> paramsMap);
     public Challenge getPopularChallenge(GetPopularChallengeReqDto getPopularChallengeReqDto);
+    public int getChallengeCount(Map<String, Object> paramsMap);
     public int getLikeState(int challengeId);
     public int getUserLikeState(Challenge challenge);
     public int insertLike(Challenge challenge);
