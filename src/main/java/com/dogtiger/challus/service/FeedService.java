@@ -200,4 +200,8 @@ public class FeedService {
         }
         return result;
     }
+
+    public FeedResDto getBestFeed() {
+        return feedMapper.getBestFeed().toFeedResDto();
+    }
 }

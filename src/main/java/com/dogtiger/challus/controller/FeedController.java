@@ -99,4 +99,10 @@ public class FeedController {
     public ResponseEntity<?> getFeedCount() {
         return ResponseEntity.ok(feedService.getMembersCount());
     }
+
+    @GetMapping("/api/feed/best")
+    public ResponseEntity<FeedResDto> getBestFeed() {
+        System.out.println(feedService.getBestFeed().toString());
+        return ResponseEntity.ok(feedService.getBestFeed());
+    }
 }
