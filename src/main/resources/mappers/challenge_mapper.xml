@@ -230,7 +230,8 @@
     <select id="getChallengersByChallengeId" resultMap="challengeApplicationMap">
         select
             cat.user_id,
-            ut.nickname
+            ut.nickname,
+            ut.profile_url
         from
             challenge_application_tb cat
             left outer join user_tb ut on(ut.user_id = cat.user_id)
