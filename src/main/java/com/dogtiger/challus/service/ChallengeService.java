@@ -61,6 +61,12 @@ public class ChallengeService {
         return challenges.stream().map(Challenge::toChallengeListDto).collect(Collectors.toList());
     }
 
+    public GetChallengeRespDto getPopularChallenge(GetPopularChallengeReqDto getPopularChallengeReqDto) {
+        Challenge challenge = challengeMapper.getPopularChallenge(getPopularChallengeReqDto);
+        return challenge.toChallengeDto();
+    }
+
+
     public int getChallengeCount(SearchChallengeListReqDto searchChallengeListReqDto) {
         Map<String, Object> paramsMap = new HashMap<>();
         paramsMap.put("optionName", searchChallengeListReqDto.getOptionName());

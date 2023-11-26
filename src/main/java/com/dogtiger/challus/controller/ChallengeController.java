@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -23,17 +24,22 @@ public class ChallengeController {
     }
 
     @GetMapping("/api/challenge/{challengeId}")
-    public ResponseEntity<?> getChallenge(@PathVariable int challengeId) {
+    public ResponseEntity<GetChallengeRespDto> getChallenge(@PathVariable int challengeId) {
         return ResponseEntity.ok(challengeService.getChallenge(challengeId));
     }
 
     @GetMapping("/api/challenges/{page}")
-    public ResponseEntity<?> getChallengeList(
+    public ResponseEntity<List<ChallengeListRespDto>> getChallengeList(
             @PathVariable int page,
             SearchChallengeListReqDto searchChallengeListReqDto) {
 
-        System.out.println(searchChallengeListReqDto);
         return ResponseEntity.ok(challengeService.getChallengeList(page, searchChallengeListReqDto));
+    }
+
+    @GetMapping("/api/challenges/popular")
+    public ResponseEntity<GetChallengeRespDto> getPopularChallenge(@RequestParam String year, @RequestParam String month, @RequestParam String date) {
+        GetPopularChallengeReqDto getPopularChallengeReqDto = GetPopularChallengeReqDto.builder().year(year == "" ? null : year).month(month == "" ? null : month).date(date == "" ? null : date).build();
+        return ResponseEntity.ok(challengeService.getPopularChallenge(getPopularChallengeReqDto));
     }
 
     @GetMapping("/api/challenges/count")

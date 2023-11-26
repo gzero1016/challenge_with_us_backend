@@ -164,6 +164,80 @@
         limit #{index}, 30
     </select>
 
+    <select id="getPopularChallenge" resultMap="challengeMap">
+        SELECT
+            ct.challenge_id,
+            ct.user_id,
+            ct.challenge_name,
+            ct.challenge_introduction,
+            ct.is_applicable,
+            ct.start_date,
+            ct.end_date,
+            ct.category_name,
+            ut.name,
+            ct.challenge_like_count,
+            ct.challenge_layout,
+            ct.challenger,
+            ct.is_deadline,
+            ct.is_hidden
+        FROM
+            challenge_tb ct
+            LEFT OUTER JOIN user_tb ut ON (ut.user_id = ct.user_id)
+        WHERE
+            1 = 1
+            AND (
+                (ct.is_hidden = 0 AND ct.is_deadline = 0)
+            )
+        AND (
+        (
+            #{year} IS NULL
+            )
+            OR (
+                #{year} IS NOT NULL
+                AND #{month} IS NULL
+                AND #{date} IS NULL
+                AND ct.start_date = (
+                    SELECT start_date
+                    FROM challenge_tb
+                    WHERE YEAR(start_date) = #{year}
+                    ORDER BY challenge_like_count DESC, start_date DESC
+                    LIMIT 1
+                )
+            )
+            OR (
+                #{year} IS NOT NULL
+                AND #{month} IS NOT NULL
+                AND #{date} IS NULL
+                AND ct.start_date = (
+                    SELECT start_date
+                    FROM challenge_tb
+                    WHERE YEAR(start_date) = #{year}
+                    AND MONTH(start_date) = #{month}
+                    ORDER BY challenge_like_count DESC, start_date DESC
+                    LIMIT 1
+                )
+            )
+            OR (
+                #{year} IS NOT NULL
+                AND #{month} IS NOT NULL
+                AND #{date} IS NOT NULL
+                AND ct.start_date = (
+                    SELECT start_date
+                    FROM challenge_tb
+                    WHERE YEAR(start_date) = #{year}
+                    AND MONTH(start_date) = #{month}
+                    AND DAY(start_date) = #{date}
+                    ORDER BY challenge_like_count DESC, start_date DESC
+                    LIMIT 1
+                )
+            )
+        )
+        ORDER BY
+            ct.challenge_like_count DESC,
+            ct.start_date DESC
+        LIMIT 1;
+    </select>
+
     <select id="getChallengeCount" resultType="java.lang.Integer">
         select
             count(*)
