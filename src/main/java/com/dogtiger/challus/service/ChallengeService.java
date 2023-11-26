@@ -66,6 +66,15 @@ public class ChallengeService {
         return challenge.toChallengeDto();
     }
 
+
+    public int getChallengeCount(SearchChallengeListReqDto searchChallengeListReqDto) {
+        Map<String, Object> paramsMap = new HashMap<>();
+        paramsMap.put("optionName", searchChallengeListReqDto.getOptionName());
+        paramsMap.put("searchValue", searchChallengeListReqDto.getSearchValue());
+
+        return challengeMapper.getChallengeCount(paramsMap);
+    }
+
     public int getLikeState (int challengeId) {
         return challengeMapper.getLikeState(challengeId);
     }
@@ -139,6 +148,13 @@ public class ChallengeService {
 
     public boolean challengeHidden(int challengeId) {
         return challengeMapper.challengeHidden(challengeId) > 0;
+    }
+
+    public List<Map<String, Object>> getChallengesCount() {
+        List<Map<String, Object>> result = challengeMapper.getAdminChallengersCount();
+        for (Map<String, Object> entry : result) {
+        }
+        return result;
     }
 
     public List<Map<String, Object>> getChallengeCompletedCount() {
