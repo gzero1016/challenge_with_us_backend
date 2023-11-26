@@ -24,6 +24,7 @@ public class ChallengeApplication {
         return GetChallengersRespDto.builder()
                 .userId(userId)
                 .nickname(user.getNickname())
+                .profileUrl(user.getProfileUrl())
                 .build();
     }
 }

@@ -9,6 +9,7 @@ import lombok.Data;
 public class GetChallengersRespDto {
     private int userId;
     private String nickname;
+    private String profileUrl;
 
     public User toUserEntity() {
         return User.builder()

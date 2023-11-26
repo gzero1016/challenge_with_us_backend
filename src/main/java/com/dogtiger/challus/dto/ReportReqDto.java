@@ -6,6 +6,7 @@ import lombok.Data;
 @Data
 public class ReportReqDto {
     private int senderUserId;
+    private String title;
     private int receiverUserId;
     private int feedId;
     private int challengeId;
@@ -17,6 +18,7 @@ public class ReportReqDto {
                 .content(content)
                 .senderUserId(senderUserId)
                 .receiverUserId(receiverUserId)
+                .title(title)
                 .targetId(challengeId)
                 .build();
     }
