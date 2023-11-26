@@ -290,4 +290,30 @@
             feed_id = #{feedId}
     </select>
 
+    <select id="getBestFeed" resultType="com.dogtiger.challus.entity.Feed" resultMap="feedMap">
+        select
+            ft.feed_id,
+            ft.challenge_layout,
+            ft.layout,
+            ft.user_id,
+            ft.challenge_id,
+            ct.challenge_name,
+            ft.category_name,
+            ft.feed_content,
+            ft.stopwatch,
+            ft.Img,
+            ft.datetime,
+            ft.updatetime,
+            ut.nickname,
+            ut.profile_url,
+            ft.feed_like
+        from
+            feed_tb ft
+            left outer join challenge_tb ct on(ct.challenge_id = ft.challenge_id)
+            left outer join user_tb ut on(ut.user_id = ft.user_id)
+        order by
+            ft.feed_like desc
+        limit 1;
+    </select>
+
 </mapper>
