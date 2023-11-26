@@ -70,7 +70,6 @@
             left outer join user_tb ut on(ut.user_id = nt.user_id)
         where
             nt.notice_id = #{noticeId}
-
     </select>
 
     <delete id="deleteNotice" parameterType="hashmap">
@@ -80,6 +79,7 @@
         where
             notice_id = #{noticeId}
     </delete>
+
     <update id="updateNotice">
         update notice_tb
         set
@@ -87,7 +87,6 @@
             notice_content = #{noticeContent}
         where
             notice_id = #{noticeId}
-
     </update>
 
 </mapper>
