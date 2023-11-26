@@ -11,6 +11,7 @@ public class ReportReqDto {
     private int feedId;
     private int challengeId;
     private String content;
+    private String targetUrl;
 
     public Letter toLetterEntity() {
         return Letter.builder()
@@ -20,6 +21,7 @@ public class ReportReqDto {
                 .receiverUserId(receiverUserId)
                 .title(title)
                 .targetId(challengeId)
+                .targetUrl(targetUrl)
                 .build();
     }
 }
