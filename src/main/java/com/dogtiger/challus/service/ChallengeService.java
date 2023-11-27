@@ -123,6 +123,7 @@ public class ChallengeService {
     @Transactional(rollbackFor = Exception.class)
     public boolean challengeApplicable(int challengeId){
         int userId = getUserId();
+        System.out.println(userId);
         return challengeMapper.challengeApplicable(challengeId, userId) > 0;
     }
 
