@@ -62,7 +62,7 @@
                 1
             </otherwise>
         </choose>,
-        #{startDate}, #{endDate}, #{categoryName}, 0, 0, 0, 0
+        #{startDate}, #{endDate}, #{categoryName}, 0, 0, 0, 1
         )
     </insert>
 
@@ -302,7 +302,7 @@
     </select>
 
     <select id="getChallengersByChallengeId" resultMap="challengeApplicationMap">
-        select
+        select distinct
             cat.user_id,
             ut.nickname,
             ut.profile_url
