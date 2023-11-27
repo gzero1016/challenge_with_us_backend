@@ -4,6 +4,8 @@ import com.dogtiger.challus.dto.*;
 import com.dogtiger.challus.exception.InvalidDateRangeException;
 import com.dogtiger.challus.security.PrincipalUser;
 import com.dogtiger.challus.service.ChallengeService;
+import com.dogtiger.challus.service.FeedService;
+import com.dogtiger.challus.service.LetterService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -16,11 +18,14 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class ChallengeController {
     private final ChallengeService challengeService;
+    private final FeedService feedService;
+    private final LetterService letterService;
 
     @PostMapping("/api/challenge/create")
-    public ResponseEntity<?> savechallenge(@RequestBody ChallengeCreateReqDto challengeCreateReqDto) throws InvalidDateRangeException {
+    public ResponseEntity<?> savechallenge(@RequestBody ChallengeCreateReqDto challengeCreateReqDto) throws Exception {
 
         return ResponseEntity.ok().body(challengeService.saveChallenge(challengeCreateReqDto));
+
     }
 
     @GetMapping("/api/challenge/{challengeId}")
@@ -120,21 +125,6 @@ public class ChallengeController {
         return ResponseEntity.ok(challengeService.challengeHidden(challengeId));
     }
 
-    @GetMapping("/api/admin/challengers/count")
-    public ResponseEntity<?> getChallengesCount() {
-        return ResponseEntity.ok(challengeService.getChallengesCount());
-    }
-
-    @GetMapping("/api/admin/challenges/completed/count")
-    public ResponseEntity<?> getChallengeCompletedCount() {
-        return ResponseEntity.ok(challengeService.getChallengeCompletedCount());
-    }
-
-    @GetMapping("/api/admin/challenges/deleted/count")
-    public ResponseEntity<?> getChallengeDeletedCount() {
-        return ResponseEntity.ok(challengeService.getChallengeDeletedCount());
-    }
-
     @GetMapping("/api/challenge/{challengeId}/progress")
     public ResponseEntity<?> getChallengeProgress(@PathVariable int challengeId) {
         return ResponseEntity.ok(challengeService.getChallengeProgress(challengeId));
@@ -144,5 +134,50 @@ public class ChallengeController {
     public ResponseEntity<?> saveFeedPoint(@PathVariable int challengeUserId) {
         System.out.println(challengeUserId);
         return ResponseEntity.ok(challengeService.saveFeedPoint(challengeUserId));
+    }
+
+    @PostMapping("/api/challenge/feed/{challengeId}")
+    public ResponseEntity<?> feed(@PathVariable int challengeId,
+                                  @RequestBody FeedReqDto feedReqDto) {
+        feedReqDto.setChallengeId(challengeId);
+        return ResponseEntity.ok(feedService.saveFeed(feedReqDto));
+    }
+
+    @PutMapping("/api/challenge/feed/{feedId}")
+    public ResponseEntity<?> updateFeed(@PathVariable int feedId,
+                                        @RequestBody UpdateFeedReqDto updateFeedReqDto) {
+        return ResponseEntity.ok(feedService.updateFeed(feedId, updateFeedReqDto));
+    }
+
+    @GetMapping("/api/challenge/feed/{feedId}")
+    public ResponseEntity<?> getFeed(@PathVariable int feedId) {
+        return ResponseEntity.ok(feedService.getFeed(feedId));
+    }
+
+    @DeleteMapping("/api/challenge/feed/{feedId}")
+    public ResponseEntity<?> deleteFeed(@PathVariable int feedId) {
+        return ResponseEntity.ok(feedService.deleteFeed(feedId));
+    }
+
+    @GetMapping("/api/challenge/certification/feed/{page}/{challengeId}")
+    public ResponseEntity<?> getFeedDetailList(@PathVariable int page,
+                                               @PathVariable int challengeId){
+        return ResponseEntity.ok(feedService.getFeedDetails(page, challengeId));
+    }
+
+    @GetMapping("/api/challenge/certification/feed/{page}")
+    public ResponseEntity<?> getFeedList(@PathVariable int page,
+                                         @RequestParam String sort){
+        return ResponseEntity.ok(feedService.getFeeds(page, sort));
+    }
+
+    @PostMapping("/api/challenge/atmosphere/letter")
+    public ResponseEntity<?> challengeAtmosphereLetter(@RequestBody LetterReqDto letterReqDto) {
+        return ResponseEntity.ok(letterService.challengeAtmosphereLetter(letterReqDto));
+    }
+
+    @PostMapping("/api/challenge/report")
+    public ResponseEntity<?> challengeReport(@RequestBody ReportReqDto reportReqDto) {
+        return ResponseEntity.ok(letterService.challengeReport(reportReqDto));
     }
 }

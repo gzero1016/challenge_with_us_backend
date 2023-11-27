@@ -14,7 +14,4 @@ public class PointService {
         return pointMapper.savePoint(pointReqDto.toPointEntity()) > 0;
     }
 
-    public boolean usePoint(PointReqDto pointReqDto) {
-        return pointMapper.usePoint(pointReqDto.toPointEntity()) > 0;
-    }
 }

@@ -68,13 +68,4 @@ public class AuthController {
         return ResponseEntity.ok(authService.signin(signinReqDto));
     }
 
-    @GetMapping("/api/admin/members/count")
-    public ResponseEntity<?> getUserCount() {
-        return ResponseEntity.ok(authService.getMembersCount());
-    }
-
-    @GetMapping("/api/admin")
-    public ResponseEntity<?> adminListUser() {
-        return ResponseEntity.ok(authService.adminListGet());
-    }
 }

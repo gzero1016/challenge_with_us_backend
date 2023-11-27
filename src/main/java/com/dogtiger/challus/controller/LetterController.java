@@ -35,13 +35,4 @@ public class LetterController {
         return ResponseEntity.ok(letterService.changeReadStatus(letterId));
     }
 
-    @PostMapping("/api/challenge/atmosphere/letter")
-    public ResponseEntity<?> challengeAtmosphereLetter(@RequestBody LetterReqDto letterReqDto) {
-        return ResponseEntity.ok(letterService.challengeAtmosphereLetter(letterReqDto));
-    }
-
-    @PostMapping("/api/challenge/report")
-    public ResponseEntity<?> challengeReport(@RequestBody ReportReqDto reportReqDto) {
-        return ResponseEntity.ok(letterService.challengeReport(reportReqDto));
-    }
 }

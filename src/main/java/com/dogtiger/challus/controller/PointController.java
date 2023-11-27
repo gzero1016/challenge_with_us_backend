@@ -17,9 +17,4 @@ public class PointController {
     public ResponseEntity<?> savepoint(@RequestBody PointReqDto pointReqDto) {
         return ResponseEntity.ok(pointService.savepoint(pointReqDto));
     }
-
-    @PostMapping("/api/challenge/create/point")
-    public ResponseEntity<?> challengeCreatePoint(@RequestBody PointReqDto pointReqDto){
-        return ResponseEntity.ok().body(pointService.usePoint(pointReqDto));
-    }
 }
