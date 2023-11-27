@@ -22,9 +22,15 @@ public class FeedService {
     private final LetterMapper letterMapper;
     private final ChallengeMapper challengeMapper;
 
-    public boolean saveFeed(FeedReqDto feedReqDto) {
+    private int getUserId() {
         PrincipalUser principalUser = (PrincipalUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         int userId = principalUser.getUser().getUserId();
+
+        return userId;
+    }
+
+    public boolean saveFeed(FeedReqDto feedReqDto) {
+        int userId = getUserId();
         feedReqDto.setUserId(userId);
         return feedMapper.saveFeed(feedReqDto.toFeedEntity()) > 0;
     }
@@ -67,15 +73,13 @@ public class FeedService {
     }
 
     public Integer getMyFeedLike(int feedId) {
-        PrincipalUser principalUser = (PrincipalUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        int userId = principalUser.getUser().getUserId();
+        int userId = getUserId();
         return feedMapper.findFeedLikeCountByFeedIdAndUserId(feedId, userId);
     }
 
     @Transactional(rollbackFor = Exception.class)
     public void likeToFeed(int feedId) throws Exception {
-        PrincipalUser principalUser = (PrincipalUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        int userId = principalUser.getUser().getUserId();
+        int userId = getUserId();
         if(feedMapper.findFeedLikeCountByFeedIdAndUserId(feedId, userId) > 0) {
             throw new Exception("이미 좋아요 상태 입니다");
         }
@@ -104,8 +108,7 @@ public class FeedService {
     }
 
     public void cancelLikeToFeed(int feedId) throws Exception {
-        PrincipalUser principalUser = (PrincipalUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        int userId = principalUser.getUser().getUserId();
+        int userId = getUserId();
         if(feedMapper.findFeedLikeCountByFeedIdAndUserId(feedId, userId) == 0) {
             throw new Exception("이미 좋아요 취소 상태 입니다");
         }
@@ -122,8 +125,7 @@ public class FeedService {
 
     @Transactional(rollbackFor = Exception.class)
     public void createComment(int feedId, CreateCommentReqDto createCommentReqDto) {
-        PrincipalUser principalUser = (PrincipalUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        int userId = principalUser.getUser().getUserId();
+        int userId = getUserId();
         feedMapper.insertComment(Comment.builder()
                 .feedId(feedId)
                 .userId(userId)
@@ -145,8 +147,7 @@ public class FeedService {
     }
 
     public void modifyComment(int feedId, int commentId, ModifyCommentReqDto modifyCommentReqDto) throws Exception {
-        PrincipalUser principalUser = (PrincipalUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        int userId = principalUser.getUser().getUserId();
+        int userId = getUserId();
         Comment targetComment = feedMapper.findCommentByCommentId(commentId);
 
         if(targetComment == null) {
@@ -165,8 +166,7 @@ public class FeedService {
     }
 
     public void deleteComment(int feedId, int commentId) throws Exception {
-        PrincipalUser principalUser = (PrincipalUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        int userId = principalUser.getUser().getUserId();
+        int userId = getUserId();
         Comment targetComment = feedMapper.findCommentByCommentId(commentId);
 
         if(targetComment == null) {

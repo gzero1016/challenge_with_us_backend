@@ -23,6 +23,12 @@ public class LetterService {
     private final LetterMapper letterMapper;
     private final ChallengeMapper challengeMapper;
 
+    private User getCurrentUser() {
+        PrincipalUser principalUser = (PrincipalUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User user = principalUser.getUser();
+        return user;
+    }
+
     public List<LettersResDto> getLetters() {
         List<LettersResDto> letters = null;
         letters = letterMapper.findLettersByUserId(getCurrentUser().getUserId()).stream().map(Letter::toLettersResDto).collect(Collectors.toList());
@@ -55,19 +61,12 @@ public class LetterService {
         return true;
     }
 
-    private User getCurrentUser(){
-        PrincipalUser principalUser = (PrincipalUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        User user = principalUser.getUser();
-        return user;
-    }
-
     public boolean challengeAtmosphereLetter(LetterReqDto letterReqDto) {
         return letterMapper.challengeAtmosphereLetter(letterReqDto.toLetterEntity()) > 0;
     }
 
     public boolean challengeReport(ReportReqDto reportReqDto) {
-        PrincipalUser principalUser = (PrincipalUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        User user = principalUser.getUser();
+        User user = getCurrentUser();
 
         reportReqDto.setSenderUserId(user.getUserId());
         reportReqDto.setReceiverUserId(challengeMapper.findReceiverUserId(reportReqDto.getChallengeId()));

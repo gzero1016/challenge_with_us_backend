@@ -19,25 +19,29 @@ public class StampService {
 
     private final StampMapper stampMapper;
 
-    public boolean saveAttendance(AttendanceReqDto attendanceReqDto) {
+    private int getUserId() {
         PrincipalUser principalUser = (PrincipalUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         int userId = principalUser.getUser().getUserId();
+
+        return userId;
+    }
+
+    public boolean saveAttendance(AttendanceReqDto attendanceReqDto) {
+        int userId = getUserId();
         attendanceReqDto.setUserId(userId);
 
         return stampMapper.saveAttendance(attendanceReqDto.toStamp()) > 0;
     }
 
     public List<AttendanceReqDto> getAttendances() {
-        PrincipalUser principalUser = (PrincipalUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        int userId = principalUser.getUser().getUserId();
+        int userId = getUserId();
         List<Stamp> stamps = stampMapper.getAttendances(userId);
 
         return stamps.stream().map(Stamp::toAttendanceDto).collect(Collectors.toList());
     }
 
     public boolean getUserCheck() {
-        PrincipalUser principalUser = (PrincipalUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        int userId = principalUser.getUser().getUserId();
+        int userId = getUserId();
 
         return stampMapper.getUserCheck(userId) > 0;
     }
