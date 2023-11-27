@@ -80,11 +80,15 @@ public class ChallengeService {
     }
 
     public Boolean getUserLikeState (ChallengeLikeReqDto challengeLikeReqDto){
+
         return challengeMapper.getUserLikeState(challengeLikeReqDto.toChallengeEntity()) > 0;
     }
 
     @Transactional(rollbackFor = Exception.class)
     public boolean insertLike (ChallengeLikeReqDto challengeLikeReqDto){
+        if(challengeMapper.getUserLikeState(challengeLikeReqDto.toChallengeEntity()) > 0) {
+            throw new IllegalStateException("이미 좋아요를 누르셨습니다.");
+        }
         return challengeMapper.insertLike(challengeLikeReqDto.toChallengeEntity()) > 0;
     }
 

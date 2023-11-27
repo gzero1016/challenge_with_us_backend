@@ -15,4 +15,9 @@ public class ChallengeAdvice {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(invalidDateRangeException.getMessage());
     }
 
+    @ExceptionHandler(IllegalStateException.class)
+    public ResponseEntity<?> handleIllegalStateException(IllegalStateException illegalStateException) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(illegalStateException.getMessage());
+    }
+
 }
