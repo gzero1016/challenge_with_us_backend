@@ -25,7 +25,13 @@ public class AccountService {
 
     private final UserMapper userMapper;
     private final ChallengeMapper challengeMapper;
-    private final JwtProvider jwtProvider;
+
+    private int getUserId() {
+        PrincipalUser principalUser = (PrincipalUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        int userId = principalUser.getUser().getUserId();
+
+        return userId;
+    }
 
     public boolean updateMypageDetail(UpdateProfileDetailReqDto updateProfileDetailReqDto) {
         return userMapper.updateMypageDetail(updateProfileDetailReqDto.toUserEntity()) > 0;
@@ -33,8 +39,7 @@ public class AccountService {
 
     @Transactional(rollbackFor = Exception.class)
     public void deleteUser(int targetUserId) {
-        PrincipalUser principalUser = (PrincipalUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        int currentUserId = principalUser.getUser().getUserId();
+        int currentUserId = getUserId();
 
         if (!hasDeletePermission(targetUserId, currentUserId)) {
             throw new AccessDeniedException("You do not have permission to delete this user");
@@ -58,8 +63,7 @@ public class AccountService {
     }
 
     public boolean updateIntro(IntroReqDto introReqDto) {
-        PrincipalUser principalUser = (PrincipalUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        int userId = principalUser.getUser().getUserId();
+        int userId = getUserId();
         introReqDto.setUserId(userId);
 
         return userMapper.updateIntro(introReqDto.toUserEntity()) > 0;
@@ -74,8 +78,7 @@ public class AccountService {
     }
 
     public List<ApprovedChallengesRespDto> getMyChallenges() {
-        PrincipalUser principalUser = (PrincipalUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        int userId = principalUser.getUser().getUserId();
+        int userId = getUserId();
 
         List<ApprovedChallengesRespDto> approvedChallengesRespDtos = new ArrayList<>();
 
@@ -86,8 +89,7 @@ public class AccountService {
     }
 
     public List<ApprovedChallengesRespDto> getMyEndChallenge() {
-        PrincipalUser principalUser = (PrincipalUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        int userId = principalUser.getUser().getUserId();
+        int userId = getUserId();
 
         List<ApprovedChallengesRespDto> approvedChallengesRespDtos = new ArrayList<>();
 
@@ -98,19 +100,16 @@ public class AccountService {
     }
 
     public int getProgress(int challengeId) {
-        PrincipalUser principalUser = (PrincipalUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        int userId = principalUser.getUser().getUserId();
+        int userId = getUserId();
 
         return userMapper.getProgress(challengeId, userId);
     }
 
     public List<FeedResDto> getChallengeFeeds(int challengeId) {
-        PrincipalUser principalUser = (PrincipalUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        int userId = principalUser.getUser().getUserId();
+        int userId = getUserId();
 
         List<Feed> feedList = userMapper.getChallengeFeeds(challengeId, userId);
 
         return feedList.stream().map(Feed::toFeedResDto).collect(Collectors.toList());
     }
-
 }

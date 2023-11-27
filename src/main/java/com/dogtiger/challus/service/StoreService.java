@@ -29,6 +29,12 @@ public class StoreService {
     private final PointMapper pointMapper;
     private final LetterMapper letterMapper;
 
+    private User getCurrentUser() {
+        PrincipalUser principalUser = (PrincipalUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User user = principalUser.getUser();
+        return user;
+    }
+
     public List<ItemsResDto> getItems() {
         List<ItemsResDto> items = new ArrayList<>();
         Arrays.stream(StoreItem.values()).forEach((item) -> {
@@ -46,8 +52,7 @@ public class StoreService {
 
     @Transactional(rollbackFor = Exception.class)
     public void purchaseItem(Integer itemId) {
-        PrincipalUser principalUser = (PrincipalUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        User user = principalUser.getUser();
+        User user = getCurrentUser();
         Integer itemPrice = StoreItem.getItemPriceByItemId(itemId);
 
         if(user.getPoint() < itemPrice) {

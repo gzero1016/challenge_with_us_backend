@@ -7,6 +7,7 @@ import com.dogtiger.challus.entity.User;
 import com.dogtiger.challus.repository.LetterMapper;
 import com.dogtiger.challus.repository.NoticeMapper;
 import com.dogtiger.challus.repository.UserMapper;
+import com.dogtiger.challus.security.PrincipalUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -21,20 +22,26 @@ public class NoticeService {
     private final UserMapper userMapper;
     private final LetterMapper letterMapper;
 
+    private int getUserId() {
+        PrincipalUser principalUser = (PrincipalUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        int userId = principalUser.getUser().getUserId();
+
+        return userId;
+    }
+
     @Transactional(rollbackFor = Exception.class)
     public boolean saveNotice(NoticeWriteReqDto noticewriteReqDto) {
-        String email = SecurityContextHolder.getContext().getAuthentication().getName();
-        User user = userMapper.findUserByEmail(email);
-        Notice notice = noticewriteReqDto.toNoticeEntity(user.getUserId());
+        int userId = getUserId();
+        Notice notice = noticewriteReqDto.toNoticeEntity(userId);
         boolean result = noticeMapper.saveNotice(notice) > 0;
 
         List<Integer> userIds = userMapper.getUserIdAll();
 
         userIds.stream().forEach(
                 (receiverUserId) -> {
-                    if(user.getUserId() != receiverUserId) {
+                    if(userId != receiverUserId) {
                         letterMapper.insertLetter(Letter.builder()
-                                .senderUserId(user.getUserId())
+                                .senderUserId(userId)
                                 .receiverUserId(receiverUserId)
                                 .letterTitle("공지")
                                 .title(notice.getNoticeTitle())
@@ -77,9 +84,9 @@ public class NoticeService {
     }
 
     public boolean editNotice(int noticeId, NoticeEditReqDto noticeEditReqDto) {
-        String email = SecurityContextHolder.getContext().getAuthentication().getName();
-        User user = userMapper.findUserByEmail(email);
-        Notice notice = noticeEditReqDto.toNoticeEntity(user.getUserId());
+
+        int userId = getUserId();
+        Notice notice = noticeEditReqDto.toNoticeEntity(userId);
         notice.setNoticeId(noticeId);
         return noticeMapper.updateNotice(notice) > 0;
     }

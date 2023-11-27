@@ -26,12 +26,18 @@ public class ChallengeService {
     private final ChallengeMapper challengeMapper;
     private final PointMapper pointMapper;
 
+    private int getUserId() {
+        PrincipalUser principalUser = (PrincipalUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        int userId = principalUser.getUser().getUserId();
+
+        return userId;
+    }
+
     @Transactional(rollbackFor = Exception.class)
     public boolean saveChallenge(ChallengeCreateReqDto challengeCreateReqDto) throws Exception {
         LocalDate startDate = challengeCreateReqDto.getStartDate().toLocalDate();
         LocalDate endDate = challengeCreateReqDto.getEndDate().toLocalDate();
-        PrincipalUser principalUser = (PrincipalUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        int userId = principalUser.getUser().getUserId();
+        int userId = getUserId();
 
         if (startDate.compareTo(endDate) > 0) {
             throw new InvalidDateRangeException("시작 날짜가 마감 날짜보다 미래 시점에 있습니다.");
@@ -105,21 +111,18 @@ public class ChallengeService {
     }
 
     public boolean getChallengeStatus(int challengeId){
-        PrincipalUser principalUser = (PrincipalUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        int userId = principalUser.getUser().getUserId();
+        int userId = getUserId();
         return challengeMapper.getChallengeStatus(challengeId, userId) > 0;
     }
 
     public boolean getChallengeAtmospher(int challengeId){
-        PrincipalUser principalUser = (PrincipalUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        int userId = principalUser.getUser().getUserId();
+        int userId = getUserId();
         return challengeMapper.getChallengeAtmospher(challengeId, userId) > 0;
     }
 
     @Transactional(rollbackFor = Exception.class)
     public boolean challengeApplicable(int challengeId){
-        PrincipalUser principalUser = (PrincipalUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        int userId = principalUser.getUser().getUserId();
+        int userId = getUserId();
         return challengeMapper.challengeApplicable(challengeId, userId) > 0;
     }
 
@@ -133,8 +136,7 @@ public class ChallengeService {
 
     @Transactional(rollbackFor = Exception.class)
     public boolean deleteChallenger (int challengeId, int userId){
-        PrincipalUser principalUser = (PrincipalUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        int myUserId = principalUser.getUser().getUserId();
+        int myUserId = getUserId();
         if(myUserId == challengeMapper.getChallengeByChallengeId(challengeId).getUserId()) {
             return challengeMapper.deleteChallenger(challengeId, userId) > 0;
         }
@@ -183,8 +185,7 @@ public class ChallengeService {
     }
 
     public boolean saveFeedPoint(int challengeUserId) {
-        PrincipalUser principalUser = (PrincipalUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        int userId = principalUser.getUser().getUserId();
+        int userId = getUserId();
 
         return challengeMapper.saveFeedPoint(userId, challengeUserId) > 0;
     }
