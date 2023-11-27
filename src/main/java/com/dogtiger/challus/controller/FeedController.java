@@ -14,41 +14,6 @@ import java.util.List;
 public class FeedController {
     private final FeedService feedService;
 
-    @PostMapping("/api/challenge/feed/{challengeId}")
-    public ResponseEntity<?> feed(@PathVariable int challengeId,
-                                  @RequestBody FeedReqDto feedReqDto) {
-        feedReqDto.setChallengeId(challengeId);
-        return ResponseEntity.ok(feedService.saveFeed(feedReqDto));
-    }
-
-    @PutMapping("/api/challenge/feed/{feedId}")
-    public ResponseEntity<?> updateFeed(@PathVariable int feedId,
-                                  @RequestBody UpdateFeedReqDto updateFeedReqDto) {
-        return ResponseEntity.ok(feedService.updateFeed(feedId, updateFeedReqDto));
-    }
-
-    @GetMapping("/api/challenge/feed/{feedId}")
-    public ResponseEntity<?> getFeed(@PathVariable int feedId) {
-        return ResponseEntity.ok(feedService.getFeed(feedId));
-    }
-
-    @DeleteMapping("/api/challenge/feed/{feedId}")
-    public ResponseEntity<?> deleteFeed(@PathVariable int feedId) {
-        return ResponseEntity.ok(feedService.deleteFeed(feedId));
-    }
-
-    @GetMapping("/api/challenge/certification/feed/{page}/{challengeId}")
-    public ResponseEntity<?> getFeedDetailList(@PathVariable int page,
-                                     @PathVariable int challengeId){
-        return ResponseEntity.ok(feedService.getFeedDetails(page, challengeId));
-    }
-
-    @GetMapping("/api/challenge/certification/feed/{page}")
-    public ResponseEntity<?> getFeedList(@PathVariable int page,
-                                     @RequestParam String sort){
-        return ResponseEntity.ok(feedService.getFeeds(page, sort));
-    }
-
     @GetMapping("/api/feed/{feedId}/like")
     public ResponseEntity<Integer> getMyFeedLike(@PathVariable int feedId){
         return ResponseEntity.ok(feedService.getMyFeedLike(feedId));
@@ -93,11 +58,6 @@ public class FeedController {
     @GetMapping("/api/feed/{feedId}/comment/latest")
     public ResponseEntity<CommentResDto> getLatestFeedComment(@PathVariable int feedId) {
         return ResponseEntity.ok(feedService.getLatestFeedComment(feedId));
-    }
-
-    @GetMapping("/api/admin/feed/count")
-    public ResponseEntity<?> getFeedCount() {
-        return ResponseEntity.ok(feedService.getMembersCount());
     }
 
     @GetMapping("/api/feed/best")
