@@ -74,7 +74,7 @@ public class StoreService {
                 .senderUserId(1)
                 .receiverUserId(user.getUserId())
                 .letterTitle("상점구매")
-                .title("구매하신 상품 정보를 보내드립니다.")
+                .title("상품 정보를 보내드립니다.")
                 .content("상품명 : " + StoreItem.getItemNameByItemId(itemId))
                 .targetUrl("https://firebasestorage.googleapis.com/v0/b/challengewithus-1ffef.appspot.com/o/files%2F%E1%84%8F%E1%85%B2%E1%84%8B%E1%85%A1%E1%86%AF.jpeg?alt=media&token=1ac08a81-3154-4004-a1e3-a9337d7e97da")
                 .targetId(itemId)
