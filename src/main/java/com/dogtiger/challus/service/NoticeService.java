@@ -46,6 +46,7 @@ public class NoticeService {
                                 .letterTitle("공지")
                                 .title(notice.getNoticeTitle())
                                 .content(notice.getNoticeContent())
+                                .letterType(0)
                                 .targetUrl("http://localhost:3000/notice/" + notice.getNoticeId())
                                 .targetId(notice.getNoticeId())
                                 .build());

@@ -45,19 +45,19 @@
 
     <insert id="challengeAtmosphereLetter" parameterType="com.dogtiger.challus.entity.Letter">
         insert into letter_tb
-        values(0, #{senderUserId}, #{receiverUserId}, #{letterTitle}, #{title}, #{content}, now(), 0, #{letterType}, #{targetUrl}, #{targetId})
+        values(0, #{senderUserId}, #{receiverUserId}, #{letterTitle}, #{title}, #{content}, now(), 0, 1, #{targetUrl}, #{targetId})
     </insert>
 
     <insert id="challengeReport">
         insert into letter_tb
-        values(0, #{senderUserId}, #{receiverUserId}, "신고 접수", #{title}, #{content}, now(), 0, 4, #{targetUrl}, #{targetId})
+        values(0, #{senderUserId}, #{receiverUserId}, "신고 접수", #{title}, #{content}, now(), 0, 2, #{targetUrl}, #{targetId})
     </insert>
 
     <insert id="insertLetter">
         insert into
             letter_tb
         values
-            (0, #{senderUserId}, #{receiverUserId}, #{letterTitle}, #{title}, #{content}, now(), 0, 0, #{targetUrl}, #{targetId});
+            (0, #{senderUserId}, #{receiverUserId}, #{letterTitle}, #{title}, #{content}, now(), 0, #{letterType}, #{targetUrl}, #{targetId});
     </insert>
 
     <select id="findLettersByUserId" resultMap="letterMap">
