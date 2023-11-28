@@ -2,8 +2,11 @@ package com.dogtiger.challus.service;
 
 import com.dogtiger.challus.dto.*;
 import com.dogtiger.challus.entity.Feed;
+import com.dogtiger.challus.entity.Letter;
 import com.dogtiger.challus.entity.User;
+import com.dogtiger.challus.enums.StoreItem;
 import com.dogtiger.challus.jwt.JwtProvider;
+import com.dogtiger.challus.repository.LetterMapper;
 import com.dogtiger.challus.repository.UserMapper;
 import com.dogtiger.challus.security.PrincipalProvider;
 import com.dogtiger.challus.security.PrincipalUser;
@@ -15,6 +18,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -31,10 +35,26 @@ public class AuthService {
     private final BCryptPasswordEncoder passwordEncoder;
     private final PrincipalProvider principalProvider;
     private final JwtProvider jwtProvider;
+    private final LetterMapper letterMapper;
 
+    @Transactional(rollbackFor = Exception.class)
     public boolean signup(SignupReqDto signupReqDto) {
         User user = signupReqDto.toUserEntity(passwordEncoder);
-        return userMapper.saveUser(user) > 0;
+
+        boolean result = userMapper.saveUser(user) > 0;
+
+        letterMapper.insertLetter(Letter.builder()
+                .senderUserId(1)
+                .receiverUserId(user.getUserId())
+                .letterTitle("인사")
+                .title("새로운 도전자여 환영한다")
+                .content("챌어스 이용 방법을 필독해주세요")
+                .letterType(8)
+                .targetUrl("http://localhost:3000/notice/3")
+                .targetId(3)
+                .build());
+
+        return result;
     }
 
     public String signin(SigninReqDto signinReqDto) {
