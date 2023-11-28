@@ -29,12 +29,12 @@ public class LetterReqDto {
                 .targetUrl(targetUrl)
                 .targetId(targetId)
                 .build();
+
         if(letter.getLetterTitle().equals("챌린지 승인 완료")) {
             letter.setLetterType(3);
 
         }else if(letter.getLetterTitle().equals("챌린지 승인 거부")){
             letter.setLetterType(4);
-
         }
 
         return letter;

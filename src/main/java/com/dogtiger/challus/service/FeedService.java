@@ -98,6 +98,7 @@ public class FeedService {
                 .letterTitle("좋아요")
                 .title("피드에 좋아요가 달렸습니다.")
                 .content(challenge.getChallengeName() + " 챌린지에 작성한 피드입니다.")
+                .letterType(5)
                 .targetUrl("http://localhost:3000/challenge/" + challenge.getChallengeId())
                 .targetId(challenge.getChallengeId())
                 .build());
@@ -141,6 +142,7 @@ public class FeedService {
                 .letterTitle("댓글작성")
                 .title("피드에 댓글이 달렸습니다.")
                 .content(createCommentReqDto.getCommentContent())
+                .letterType(6)
                 .targetUrl("http://localhost:3000/challenge/" + challenge.getChallengeId())
                 .targetId(challenge.getChallengeId())
                 .build());
