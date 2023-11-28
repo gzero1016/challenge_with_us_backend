@@ -41,7 +41,7 @@
         <result property="isResign" column="is_resign" />
     </resultMap>
 
-    <insert id="saveUser" parameterType="com.dogtiger.challus.entity.User">
+    <insert id="saveUser" parameterType="com.dogtiger.challus.entity.User" useGeneratedKeys="true" keyProperty="userId">
         insert into user_tb
         values(
             0,
