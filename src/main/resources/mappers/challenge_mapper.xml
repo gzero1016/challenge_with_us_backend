@@ -146,10 +146,10 @@
         order by
             <choose>
                 <when test="sort.equals('latest')">
-                    ct.challenge_id desc
+                    ct.start_date desc
                 </when>
                 <when test="sort.equals('oldest')">
-                    ct.challenge_id asc
+                    ct.start_date asc
                 </when>
                 <when test="sort.equals('popular')">
                     ct.challenge_like_count desc
@@ -158,7 +158,7 @@
                     ct.challenger desc
                 </when>
                 <otherwise>
-                    ct.challenge_id desc
+                    ct.start_date desc
                 </otherwise>
             </choose>
         limit #{index}, 30
@@ -395,7 +395,8 @@
         where
             cat.accept_state = 1
         and cat.user_id = #{userId}
-        and ct.is_deadline = 0;
+        and ct.is_deadline = 0
+        and ct.is_hidden = 0;
     </select>
 
     <select id="findReceiverUserId" resultType="int">

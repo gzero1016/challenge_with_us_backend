@@ -32,6 +32,7 @@ public class LetterService {
     public List<LettersResDto> getLetters() {
         List<LettersResDto> letters = null;
         letters = letterMapper.findLettersByUserId(getCurrentUser().getUserId()).stream().map(Letter::toLettersResDto).collect(Collectors.toList());
+        System.out.println(letters);
         return letters;
     }
 
