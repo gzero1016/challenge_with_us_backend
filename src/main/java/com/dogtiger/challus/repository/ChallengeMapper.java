@@ -38,4 +38,5 @@ public interface ChallengeMapper {
     public List<Map<String, Object>> getChallengeDeletedCount();
     public int getChallengeProgress(int challengeId);
     public int saveFeedPoint(int userId, int challengeUserId);
+    public void processDeadLine();
 }

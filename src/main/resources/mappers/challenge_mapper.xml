@@ -74,6 +74,10 @@
         {call p_insert_point(#{challengeUserId}, #{userId})}
     </insert>
 
+    <insert id="processDeadLine" statementType="CALLABLE">
+        {call p_process_deadline()}
+    </insert>
+
     <select id="getChallengeByChallengeId" resultMap="challengeMap">
         select
             ct.challenge_id,
